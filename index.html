@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog CAS DF - Conselho de Assistência Social do Distrito Federal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1e3a8a;
+            font-size: 1.2rem;
+        }
+
+        .site-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .site-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            width: 250px;
+            outline: none;
+        }
+
+        .search-box button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .login-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #1e3a8a;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: white;
+            color: #1e3a8a;
+        }
+
+        /* Main Content */
+        main {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Posts Area */
+        .posts-area {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.3rem 0.8rem;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .posts-container {
+            padding: 1rem;
+        }
+
+        .post-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .post-category {
+            background: #3b82f6;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        .post-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #1e3a8a;
+        }
+
+        .post-excerpt {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-widget {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .widget-header {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            padding: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .widget-content {
+            padding: 1rem;
+        }
+
+        .calendar {
+            text-align: center;
+        }
+
+        .calendar-month {
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 0.5rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-day {
+            padding: 0.3rem;
+            font-size: 0.8rem;
+            border-radius: 3px;
+        }
+
+        .calendar-day.header {
+            font-weight: bold;
+            background: #f3f4f6;
+        }
+
+        .calendar-day.event {
+            background: #dc2626;
+            color: white;
+            cursor: pointer;
+        }
+
+        .event-list {
+            list-style: none;
+        }
+
+        .event-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.8rem;
+        }
+
+        .event-date {
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .download-list {
+            list-style: none;
+        }
+
+        .download-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .download-link {
+            color: #1e3a8a;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        .download-icon {
+            background: #3b82f6;
+            color: white;
+            padding: 0.2rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .newsletter-form input {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .newsletter-form button:hover {
+            background: #1e40af;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section li {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: #3b82f6;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .search-box input {
+                width: 200px;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .filters {
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Modal for posts */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .close-modal:hover {
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo-area">
+                    <div class="logo">CAS</div>
+                    <div>
+                        <div class="site-title">Blog CAS DF</div>
+                        <div class="site-subtitle">Conselho de Assistência Social do Distrito Federal</div>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar no blog..." id="searchInput">
+                        <button onclick="performSearch()">🔍</button>
+                    </div>
+                    <a href="#" class="login-btn" onclick="showLogin()">Acesso Restrito</a>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" class="active" onclick="showSection('home')">Início</a></li>
+                    <li><a href="#" onclick="showSection('about')">Sobre o CAS/DF</a></li>
+                    <li><a href="#" onclick="showSection('meetings')">Reuniões</a></li>
+                    <li><a href="#" onclick="showSection('resolutions')">Resoluções</a></li>
+                    <li><a href="#" onclick="showSection('notices')">Editais</a></li>
+                    <li><a href="#" onclick="showSection('events')">Eventos</a></li>
+                    <li><a href="#" onclick="showSection('contact')">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <section class="posts-area">
+                <div class="section-header">
+                    <h2>Últimas Notícias e Atualizações</h2>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" onclick="filterPosts('all')">Todos</button>
+                    <button class="filter-btn" onclick="filterPosts('noticias')">Notícias</button>
+                    <button class="filter-btn" onclick="filterPosts('reunioes')">Reuniões</button>
+                    <button class="filter-btn" onclick="filterPosts('resolucoes')">Resoluções</button>
+                    <button class="filter-btn" onclick="filterPosts('editais')">Editais</button>
+                    <button class="filter-btn" onclick="filterPosts('eventos')">Eventos</button>
+                </div>
+                <div class="posts-container" id="postsContainer">
+                    <!-- Posts serão carregados aqui via JavaScript -->
+                </div>
+            </section>
+
+            <aside class="sidebar">
+                <!-- Calendário -->
+                <div class="sidebar-widget">
+                    <div class="widget-header">📅 Próximos Eventos</div>
+                    <div class="widget-content">
+                        <div class="calendar">
+                            <div class="calendar-month">Junho 2025</div>
+                            <div class="calendar-grid">
+                                <div class="calendar-day header">D</div>
+                                <div class="calendar-day header">S</div>
+                                <div class="calendar-day header">T</div>
+                                <div class="calendar-day header">Q</div>
+                                <div class="calendar-day header">Q</div>
+                                <div class="calendar-day header">S</div>
+                                <div class="calendar-day header">S</div>
+                                <div class="calendar-day">1</div>
+                                <div class="calendar-day">2</div>
+                                <div class="calendar-day">3</div>
+                                <div class="calendar-day">4</div>
+                                <div class="calendar-day">5</div>
+                                <div class="calendar-day">6</div>
+                                <div class="calendar-day">7</div>
+                                <div class="calendar-day">8</div>
+                                <div class="calendar-day">9</div>
+                                <div class="calendar-day">10</div>
+                                <div class="calendar-day">11</div>
+                                <div class="calendar-day">12</div>
+                                <div class="calendar-day">13</div>
+                                <div class="calendar-day">14</div>
+                                <div class="calendar-day">15</div>
+                                <div class="calendar-day">16</div>
+                                <div class="calendar-day">17</div>
+                                <div class="calendar-day">18</div>
+                                <div class="calendar-day">19</div>
+                                <div class="calendar-day">20</div>
+                                <div class="calendar-day">21</div>
+                                <div class="calendar-day">22</div>
+                                <div class="calendar-day event" title="Reunião Ordinária">23</div>
+                                <div class="calendar-day">24</div>
+                                <div class="calendar-day event" title="Reunião de Comissões">25</div>
+                                <div class="calendar-day">26</div>
+                                <div class="calendar-day">27</div>
+                                <div class="calendar-day">28</div>
+                                <div class="calendar-day">29</div>
+                                <div class="calendar-day">30</div>
+                            </div>
+                        </div>
+                        <ul class="event-list">
+                            <li class="event-item">
+                                <div class="event-date">23/06</div>
+                                <div>Reunião Ordinária - 14h</div>
+                            </li>
+                            <li class="event-item">
+                                <div class="event-date">25/06</div>
+                                <div>Reunião de Comissões - 9h</div>
+                            </li>
+                            <li class="event-item">
+                                <div class="event-date">30/06</div>
+                                <div>Prazo para inscrições</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Downloads -->
+                <div class="sidebar-widget">
+                    <div class="widget-header">📁 Downloads</div>
+                    <div class="widget-content">
+                        <ul class="download-list">
+                            <li class="download-item">
+                                <a href="#" class="download-link">Ata da 340ª Reunião</a>
+                                <span class="download-icon">PDF</span>
+                            </li>
+                            <li class="download-item">
+                                <a href="#" class="download-link">Resolução nº 72/2025</a>
+                                <span class="download-icon">PDF</span>
+                            </li>
+                            <li class="download-item">
+                                <a href="#" class="download-link">Calendário Anual 2025</a>
+                                <span class="download-icon">PDF</span>
+                            </li>
+                            <li class="download-item">
+                                <a href="#" class="download-link">Manual de Procedimentos</a>
+                                <span class="download-icon">PDF</span>
+                            </li>
+                            <li class="download-item">
+                                <a href="#" class="download-link">Formulário de Inscrição</a>
+                                <span class="download-icon">DOC</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="sidebar-widget">
+                    <div class="widget-header">📧 Newsletter</div>
+                    <div class="widget-content">
+                        <p style="font-size: 0.8rem; margin-bottom: 1rem;">Receba as últimas atualizações do CAS/DF em seu email:</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Seu email" required>
+                            <button type="submit">Inscrever-se</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Links Úteis -->
+                <div class="sidebar-widget">
+                    <div class="widget-header">🔗 Links Úteis</div>
+                    <div class="widget-content">
+                        <ul style="list-style: none;">
+                            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #1e3a8a; text-decoration: none; font-size: 0.8rem;">SEDES - DF</a></li>
+                            <li style="margin-bottom: 0.5rem;"><a href="https://www.blogcnas.com" target="_blank" style="color: #1e3a8a; text-decoration: none; font-size: 0.8rem;">Blog CNAS</a></li>
+                            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #1e3a8a; text-decoration: none; font-size: 0.8rem;">Portal da Transparência</a></li>
+                            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #1e3a8a; text-decoration: none; font-size: 0.8rem;">Legislação SUAS</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Modal para posts -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CAS/DF</h3>
+                    <p>O Conselho de Assistência Social do Distrito Federal (CAS/DF) é um órgão colegiado de caráter permanente e deliberativo, vinculado à SEDES/DF.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <p>📍 Endereço: SEPN 511, Bloco C, Ed. Bittar IV, 4º andar - Asa Norte, Brasília/DF</p>
+                    <p>📞 Telefone: (61) 2017-4260</p>
+                    <p>📧 Email: cas.df@sedes.df.gov.br</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#">Sobre o CAS/DF</a></li>
+                        <li><a href="#">Reuniões</a></li>
+                        <li><a href="#">Resoluções</a></li>
+                        <li><a href="#">Editais</a></li>
+                        <li><a href="#">Entidades Inscritas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Governo do DF</h3>
+                    <ul>
+                        <li><a href="#">Portal GDF</a></li>
+                        <li><a href="#">SEDES</a></li>
+                        <li><a href="#">Ouvidoria</a></li>
+                        <li><a href="#">Transparência</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CAS/DF - Conselho de Assistência Social do Distrito Federal. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dados de exemplo para os posts
+        const posts = [
+            {
+                id: 1,
+                title: "CAS/DF realiza 340ª Reunião Ordinária",
+                category: "reunioes",
+                date: "2025-06-20",
+                excerpt: "A 340ª Reunião Ordinária do CAS/DF discutiu importantes questões sobre o Sistema Único de Assistência Social no Distrito Federal, incluindo a avaliação de novas entidades candidatas à inscrição.",
+                content: "A reunião contou com a participação de todos os conselheiros e abordou temas cruciais para o fortalecimento da assistência social no DF. Entre os principais pontos discutidos estavam a análise de pedidos de inscrição de novas entidades e a revisão dos critérios de avaliação..."
+            },
+            {
+                id: 2,
+                title: "Resolução nº 72/2025 - Novos critérios para inscrição de entidades",
+                category: "resolucoes",
+                date: "2025-06-18",
+                excerpt: "Aprovada nova resolução que estabelece critérios atualizados para inscrição e renovação de entidades de assistência social no Distrito Federal.",
+                content: "A Resolução nº 72/2025 moderniza os procedimentos e critérios para inscrição de entidades de assistência social, buscando maior transparência e eficiência no processo..."
+            },
+            {
+                id: 3,
+                title: "Edital de Convocação - Conferência Distrital de Assistência Social",
+                category: "editais",
+                date: "2025-06-15",
+                excerpt: "Publicado edital para a realização da próxima Conferência Distrital de Assistência Social, com tema '25 anos do SUAS: Inovação e Participação Social'.",
+                content: "A Conferência será realizada nos dias 15 e 16 de agosto de 2025, no Centro de Convenções Ulysses Guimarães. As inscrições estarão abertas a partir do dia 1º de julho..."
+            },
+            {
+                id: 4,
+                title: "CAS/DF manifesta apoio às trabalhadoras e trabalhadores do SUAS",
+                category: "noticias",
+                date: "2025-06-12",
+                excerpt: "O Conselho emitiu nota de apoio aos profissionais da assistência social do DF, reconhecendo a importância do trabalho desenvolvido durante a pandemia.",
+                content: "Em reunião extraordinária, o CAS/DF aprovou por unanimidade uma moção de apoio aos trabalhadores do SUAS no Distrito Federal, destacando o trabalho essencial desenvolvido..."
+            },
+            {
+                id: 5,
+                title: "Workshop sobre Gestão de Benefícios Eventuais",
+                category: "eventos",
+                date: "2025-06-10",
+                excerpt: "Realizado workshop para capacitação de gestores sobre a implementação e gestão de benefícios eventuais no âmbito do SUAS.",
+                content: "O evento contou com a participação de mais de 50 gestores e técnicos da assistência social, abordando aspectos práticos e normativos dos benefícios eventuais..."
+            }
+        ];
+
+        // Função para renderizar os posts
+        function renderPosts(postsToRender = posts) {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+
+            postsToRender.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post-card';
+                postElement.onclick = () => openPost(post);
+                
+                postElement.innerHTML = `
+                    <div class="post-meta">
+                        <span class="post-category">${getCategoryName(post.category)}</span>
+                        <span>${formatDate(post.date)}</span>
+                    </div>
+                    <div class="post-title">${post.title}</div>
+                    <div class="post-excerpt">${post.excerpt}</div>
+                `;
+                
+                container.appendChild(postElement);
+            });
+        }
+
+        // Função para obter nome da categoria
+        function getCategoryName(category) {
+            const categories = {
+                'noticias': 'Notícias',
+                'reunioes': 'Reuniões',
+                'resolucoes': 'Resoluções',
+                'editais': 'Editais',
+                'eventos': 'Eventos'
+            };
+            return categories[category] || 'Geral';
+        }
+
+        // Função para formatar data
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        // Função para filtrar posts
+        function filterPosts(category) {
+            // Atualizar botões ativos
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filtrar posts
+            const filteredPosts = category === 'all' 
+                ? posts 
+                : posts.filter(post => post.category === category);
+            
+            renderPosts(filteredPosts);
+        }
+
+        // Função para buscar posts
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchTerm) {
+                renderPosts();
+                return;
+            }
+
+            const filteredPosts = posts.filter(post => 
+                post.title.toLowerCase().includes(searchTerm) ||
+                post.excerpt.toLowerCase().includes(searchTerm) ||
+                post.content.toLowerCase().includes(searchTerm)
+            );
+            
+            renderPosts(filteredPosts);
+        }
+
+        // Função para abrir post no modal
+        function openPost(post) {
+            document.getElementById('modalTitle').textContent = post.title;
+            document.getElementById('modalContent').innerHTML = `
+                <div class="post-meta" style="margin-bottom: 1rem;">
+                    <span class="post-category">${getCategoryName(post.category)}</span>
+                    <span style="margin-left: 1rem;">${formatDate(post.date)}</span>
+                </div>
+                <div style="line-height: 1.8; font-size: 1rem;">
+                    ${post.content}
+                </div>
+                <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                    <strong>Compartilhar:</strong>
+                    <div style="margin-top: 0.5rem;">
+                        <button onclick="sharePost('${post.title}')" style="background: #1e3a8a; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 5px; margin-right: 0.5rem; cursor: pointer;">Facebook</button>
+                        <button onclick="sharePost('${post.title}')" style="background: #1da1f2; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 5px; margin-right: 0.5rem; cursor: pointer;">Twitter</button>
+                        <button onclick="sharePost('${post.title}')" style="background: #25d366; color: white; border: none; padding: 0.3rem 0.8rem; border-radius: 5px; cursor: pointer;">WhatsApp</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('postModal').style.display = 'block';
+        }
+
+        // Função para fechar modal
+        function closeModal() {
+            document.getElementById('postModal').style.display = 'none';
+        }
+
+        // Função para compartilhar post
+        function sharePost(title) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback para copiar URL
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copiado para a área de transferência!');
+            }
+        }
+
+        // Função para mostrar login
+        function showLogin() {
+            const password = prompt('Digite a senha de acesso:');
+            if (password === 'casdf2025') {
+                alert('Acesso liberado! Funcionalidade de administração será implementada.');
+                // Aqui seria implementada a área administrativa
+            } else if (password !== null) {
+                alert('Senha incorreta!');
+            }
+        }
+
+        // Função para mostrar diferentes seções
+        function showSection(section) {
+            // Atualizar navegação
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Simular carregamento de diferentes seções
+            const container = document.getElementById('postsContainer');
+            
+            switch(section) {
+                case 'about':
+                    container.innerHTML = `
+                        <div style="padding: 2rem; text-align: center;">
+                            <h2 style="color: #1e3a8a; margin-bottom: 1rem;">Sobre o CAS/DF</h2>
+                            <p style="line-height: 1.8; margin-bottom: 1rem;">
+                                O Conselho de Assistência Social do Distrito Federal (CAS/DF) é um órgão colegiado de caráter permanente e deliberativo, 
+                                vinculado à Secretaria de Estado de Desenvolvimento Social (SEDES/DF).
+                            </p>
+                            <p style="line-height: 1.8; margin-bottom: 1rem;">
+                                Criado pela Lei nº 1.109, de 26 de setembro de 1996, o CAS/DF tem por finalidade deliberar sobre a política de assistência social 
+                                no Distrito Federal, nos termos da Lei Orgânica da Assistência Social (LOAS) - Lei Federal nº 8.742/93.
+                            </p>
+                            <h3 style="color: #1e3a8a; margin: 2rem 0 1rem 0;">Competências</h3>
+                            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                                <li style="margin-bottom: 0.5rem;">Deliberar sobre a política de assistência social no DF</li>
+                                <li style="margin-bottom: 0.5rem;">Aprovar o plano de assistência social</li>
+                                <li style="margin-bottom: 0.5rem;">Inscrever e fiscalizar entidades de assistência social</li>
+                                <li style="margin-bottom: 0.5rem;">Acompanhar a execução da política de assistência social</li>
+                            </ul>
+                        </div>
+                    `;
+                    break;
+                case 'meetings':
+                    const meetingPosts = posts.filter(post => post.category === 'reunioes');
+                    renderPosts(meetingPosts);
+                    break;
+                case 'resolutions':
+                    const resolutionPosts = posts.filter(post => post.category === 'resolucoes');
+                    renderPosts(resolutionPosts);
+                    break;
+                case 'notices':
+                    const noticePosts = posts.filter(post => post.category === 'editais');
+                    renderPosts(noticePosts);
+                    break;
+                case 'events':
+                    const eventPosts = posts.filter(post => post.category === 'eventos');
+                    renderPosts(eventPosts);
+                    break;
+                case 'contact':
+                    container.innerHTML = `
+                        <div style="padding: 2rem;">
+                            <h2 style="color: #1e3a8a; margin-bottom: 1rem; text-align: center;">Contato</h2>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 800px; margin: 0 auto;">
+                                <div>
+                                    <h3 style="color: #dc2626; margin-bottom: 1rem;">Informações de Contato</h3>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Endereço:</strong></p>
+                                    <p style="margin-bottom: 1rem;">SEPN 511, Bloco C, Ed. Bittar IV, 4º andar<br>Asa Norte, Brasília/DF<br>CEP: 70750-543</p>
+                                    
+                                    <p style="margin-bottom: 0.5rem;"><strong>Telefone:</strong></p>
+                                    <p style="margin-bottom: 1rem;">(61) 2017-4260</p>
+                                    
+                                    <p style="margin-bottom: 0.5rem;"><strong>Email:</strong></p>
+                                    <p style="margin-bottom: 1rem;">cas.df@sedes.df.gov.br</p>
+                                    
+                                    <p style="margin-bottom: 0.5rem;"><strong>Horário de Funcionamento:</strong></p>
+                                    <p>Segunda a Sexta: 8h às 18h</p>
+                                </div>
+                                <div>
+                                    <h3 style="color: #dc2626; margin-bottom: 1rem;">Envie uma Mensagem</h3>
+                                    <form style="display: flex; flex-direction: column; gap: 1rem;">
+                                        <input type="text" placeholder="Nome completo" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 5px;">
+                                        <input type="email" placeholder="Email" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 5px;">
+                                        <input type="text" placeholder="Assunto" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 5px;">
+                                        <textarea placeholder="Mensagem" rows="4" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 5px; resize: vertical;"></textarea>
+                                        <button type="submit" style="background: #1e3a8a; color: white; border: none; padding: 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar Mensagem</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                default:
+                    renderPosts();
+            }
+        }
+
+        // Função para inscrever newsletter
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            alert(`Obrigado! O email ${email} foi inscrito na nossa newsletter.`);
+            this.reset();
+        });
+
+        // Função para busca com Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Fechar modal clicando fora
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('postModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Função para adicionar novo post (para área administrativa)
+        function addNewPost() {
+            const title = prompt('Título do post:');
+            if (!title) return;
+            
+            const category = prompt('Categoria (noticias, reunioes, resolucoes, editais, eventos):');
+            if (!category) return;
+            
+            const excerpt = prompt('Resumo do post:');
+            if (!excerpt) return;
+            
+            const content = prompt('Conteúdo completo do post:');
+            if (!content) return;
+            
+            const newPost = {
+                id: posts.length + 1,
+                title: title,
+                category: category,
+                date: new Date().toISOString().split('T')[0],
+                excerpt: excerpt,
+                content: content
+            };
+            
+            posts.unshift(newPost);
+            renderPosts();
+            alert('Post adicionado com sucesso!');
+        }
+
+        // Função para simular upload de arquivo
+        function uploadDocument() {
+            const fileName = prompt('Nome do arquivo:');
+            if (!fileName) return;
+            
+            const downloadList = document.querySelector('.download-list');
+            const newItem = document.createElement('li');
+            newItem.className = 'download-item';
+            newItem.innerHTML = `
+                <a href="#" class="download-link">${fileName}</a>
+                <span class="download-icon">PDF</span>
+            `;
+            downloadList.insertBefore(newItem, downloadList.firstChild);
+            alert('Documento adicionado com sucesso!');
+        }
+
+        // Função para simular adição de evento
+        function addEvent() {
+            const eventName = prompt('Nome do evento:');
+            if (!eventName) return;
+            
+            const eventDate = prompt('Data do evento (DD/MM):');
+            if (!eventDate) return;
+            
+            const eventList = document.querySelector('.event-list');
+            const newEvent = document.createElement('li');
+            newEvent.className = 'event-item';
+            newEvent.innerHTML = `
+                <div class="event-date">${eventDate}</div>
+                <div>${eventName}</div>
+            `;
+            eventList.insertBefore(newEvent, eventList.firstChild);
+            alert('Evento adicionado com sucesso!');
+        }
+
+        // Inicializar o blog
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPosts();
+            
+            // Simular carregamento de dados
+            setTimeout(() => {
+                console.log('Blog CAS/DF carregado com sucesso!');
+            }, 1000);
+        });
+
+        // Função para exportar dados (para backup)
+        function exportData() {
+            const data = {
+                posts: posts,
+                exportDate: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'cas-df-blog-backup.json';
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        // Função para importar dados
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        if (data.posts && Array.isArray(data.posts)) {
+                            posts.length = 0;
+                            posts.push(...data.posts);
+                            renderPosts();
+                            alert('Dados importados com sucesso!');
+                        } else {
+                            alert('Arquivo inválido!');
+                        }
+                    } catch (error) {
+                        alert('Erro ao ler o arquivo!');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        // Adicionar funcionalidades de administração via console para desenvolvimento
+        window.casdfAdmin = {
+            addPost: addNewPost,
+            uploadDoc: uploadDocument,
+            addEvent: addEvent,
+            exportData: exportData,
+            importData: importData,
+            posts: posts
+        };
+
+        console.log('Blog CAS/DF - Funções administrativas disponíveis via window.casdfAdmin');
+    </script>
+</body>
+</html>
