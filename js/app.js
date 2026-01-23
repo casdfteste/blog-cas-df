@@ -610,21 +610,146 @@ function showSubSection(section, subsection) {
     }
 }
 
+// ===== GALERIA DE FOTOS =====
+const GALLERY_PHOTOS = [
+    {
+        id: 1,
+        src: 'assets/images/gallery/reuniao-01.jpg',
+        title: 'Reuniao Plenaria do CAS/DF',
+        description: 'Conselheiros reunidos para deliberacao de pautas importantes',
+        category: 'reunioes'
+    },
+    {
+        id: 2,
+        src: 'assets/images/gallery/conferencia-01.jpg',
+        title: 'Conferencia Distrital de Assistencia Social',
+        description: 'Participantes da conferencia debatendo politicas publicas',
+        category: 'conferencias'
+    },
+    {
+        id: 3,
+        src: 'assets/images/gallery/capacitacao-01.jpg',
+        title: 'Capacitacao de Conselheiros',
+        description: 'Formacao continuada para conselheiros do CAS/DF',
+        category: 'capacitacao'
+    },
+    {
+        id: 4,
+        src: 'assets/images/gallery/visita-01.jpg',
+        title: 'Visita Tecnica a Entidade',
+        description: 'Comissao de Inscricao em visita tecnica',
+        category: 'visitas'
+    },
+    {
+        id: 5,
+        src: 'assets/images/gallery/posse-01.jpg',
+        title: 'Posse dos Novos Conselheiros',
+        description: 'Cerimonia de posse da nova gestao 2025-2027',
+        category: 'eventos'
+    },
+    {
+        id: 6,
+        src: 'assets/images/gallery/comunidade-01.jpg',
+        title: 'Acao na Comunidade',
+        description: 'CAS/DF presente nas acoes comunitarias',
+        category: 'acoes'
+    }
+];
+
 // ===== CONTEUDO DAS SECOES =====
 function getHomeContent() {
     const posts = DataManager.getPosts();
 
+    // Hero Banner humanizado
+    const heroBanner = `
+        <div class="hero-banner">
+            <div class="hero-content">
+                <h1 class="hero-title">Construindo Juntos uma Assistencia Social mais Humana</h1>
+                <p class="hero-subtitle">O CAS/DF trabalha para garantir direitos e promover a dignidade de todas as pessoas em situacao de vulnerabilidade social no Distrito Federal.</p>
+                <div class="hero-buttons">
+                    <button class="hero-btn primary" onclick="showSection('sobre')">Conheca o CAS/DF</button>
+                    <button class="hero-btn secondary" onclick="showSection('inscricao')">Inscreva sua Entidade</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-icon">&#x1F91D;</div>
+            </div>
+        </div>
+    `;
+
+    // Cards de destaque humanizados
+    const featureCards = `
+        <div class="features-section">
+            <h2 class="section-title">Como Podemos Ajudar</h2>
+            <div class="features-grid">
+                <div class="feature-card" onclick="showSection('inscricao')">
+                    <div class="feature-icon">&#x1F4DD;</div>
+                    <h3>Inscricao de Entidades</h3>
+                    <p>Cadastre sua organizacao de assistencia social e faca parte da rede de protecao social do DF.</p>
+                </div>
+                <div class="feature-card" onclick="showSection('reunioes')">
+                    <div class="feature-icon">&#x1F465;</div>
+                    <h3>Participacao Social</h3>
+                    <p>Acompanhe as reunioes do conselho e participe das decisoes sobre politicas publicas.</p>
+                </div>
+                <div class="feature-card" onclick="showSection('resolucoes')">
+                    <div class="feature-icon">&#x1F4DC;</div>
+                    <h3>Resolucoes e Normas</h3>
+                    <p>Acesse todas as resolucoes e documentos normativos do CAS/DF.</p>
+                </div>
+                <div class="feature-card" onclick="showSection('conferencias')">
+                    <div class="feature-icon">&#x1F3DB;</div>
+                    <h3>Conferencias</h3>
+                    <p>Participe das conferencias de assistencia social e contribua com propostas.</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Estatisticas com visual moderno
+    const statsHtml = `
+        <div class="social-banner">
+            <h2>Numeros que Representam Nosso Compromisso</h2>
+            <p class="mb-3">Trabalhando diariamente pela protecao social no Distrito Federal</p>
+            <div class="stats-grid">
+                <div class="stat-card glass">
+                    <div class="stat-number">${posts.length}</div>
+                    <div class="stat-label">Publicacoes</div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-number">340</div>
+                    <div class="stat-label">Reunioes Realizadas</div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Entidades Inscritas</div>
+                </div>
+                <div class="stat-card glass">
+                    <div class="stat-number">31</div>
+                    <div class="stat-label">Regioes Atendidas</div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Posts com design melhorado
     let postsHtml = '';
     posts.forEach(post => {
         const categoryColor = Utils.getCategoryColor(post.category);
         postsHtml += `
-            <div class="post-card" onclick="openPost(${post.id})">
-                <div class="post-meta">
-                    <span class="post-category" style="background: ${categoryColor}">${Utils.getCategoryName(post.category)}</span>
-                    <span>${Utils.formatDate(post.date)}</span>
+            <div class="post-card modern" onclick="openPost(${post.id})">
+                <div class="post-image-placeholder">
+                    <span>&#x1F4F0;</span>
                 </div>
-                <div class="post-title">${Utils.sanitizeHTML(post.title)}</div>
-                <div class="post-excerpt">${Utils.sanitizeHTML(post.excerpt)}</div>
+                <div class="post-content">
+                    <div class="post-meta">
+                        <span class="post-category" style="background: ${categoryColor}">${Utils.getCategoryName(post.category)}</span>
+                        <span class="post-date">${Utils.formatDate(post.date)}</span>
+                    </div>
+                    <div class="post-title">${Utils.sanitizeHTML(post.title)}</div>
+                    <div class="post-excerpt">${Utils.sanitizeHTML(post.excerpt)}</div>
+                    <div class="post-read-more">Ler mais <span>&#x2192;</span></div>
+                </div>
             </div>
         `;
     });
@@ -638,39 +763,86 @@ function getHomeContent() {
         `;
     }
 
-    const statsHtml = `
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">${posts.length}</div>
-                <div class="stat-label">Posts Publicados</div>
+    // Secao de galeria preview
+    const galleryPreview = `
+        <div class="gallery-section">
+            <h2 class="section-title">Galeria de Fotos</h2>
+            <p class="section-subtitle">Momentos que retratam nosso trabalho pela assistencia social</p>
+            <div class="gallery-grid">
+                ${GALLERY_PHOTOS.slice(0, 4).map(photo => `
+                    <div class="gallery-item" onclick="openGalleryPhoto(${photo.id})">
+                        <div class="gallery-placeholder">
+                            <span>&#x1F4F7;</span>
+                            <small>${photo.title}</small>
+                        </div>
+                        <div class="gallery-overlay">
+                            <h4>${photo.title}</h4>
+                            <p>${photo.description}</p>
+                        </div>
+                    </div>
+                `).join('')}
             </div>
-            <div class="stat-card">
-                <div class="stat-number">${Object.keys(DataManager.getCategories()).length}</div>
-                <div class="stat-label">Categorias</div>
+            <div class="text-center mt-3">
+                <button class="admin-btn" onclick="showSubSection('reunioes', 'fotos')" style="background: var(--primary-purple);">Ver Todas as Fotos</button>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">340</div>
-                <div class="stat-label">Reunioes Realizadas</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">150+</div>
-                <div class="stat-label">Entidades Inscritas</div>
+        </div>
+    `;
+
+    // Quote inspiracional
+    const quoteSection = `
+        <div class="quote-card">
+            <div class="quote-icon">&#x201C;</div>
+            <blockquote>
+                A assistencia social e direito do cidadao e dever do Estado. Juntos, construimos uma sociedade mais justa e solidaria.
+            </blockquote>
+            <cite>- CAS/DF, pela garantia de direitos socioassistenciais</cite>
+        </div>
+    `;
+
+    // Links rapidos
+    const quickAccess = `
+        <div class="quick-access-section">
+            <h2 class="section-title">Acesso Rapido</h2>
+            <div class="quick-access-grid">
+                <a href="javascript:void(0)" onclick="showSection('atas')" class="quick-access-card">
+                    <span class="quick-icon">&#x1F4CB;</span>
+                    <span>Atas das Reunioes</span>
+                </a>
+                <a href="javascript:void(0)" onclick="showSection('resolucoes')" class="quick-access-card">
+                    <span class="quick-icon">&#x1F4DC;</span>
+                    <span>Resolucoes</span>
+                </a>
+                <a href="javascript:void(0)" onclick="showSection('entidades')" class="quick-access-card">
+                    <span class="quick-icon">&#x1F3E2;</span>
+                    <span>Entidades Inscritas</span>
+                </a>
+                <a href="javascript:void(0)" onclick="showSection('contato')" class="quick-access-card">
+                    <span class="quick-icon">&#x1F4E9;</span>
+                    <span>Fale Conosco</span>
+                </a>
             </div>
         </div>
     `;
 
     return `
-        <h1 class="page-title">Blog CAS DF - Ultimas Noticias</h1>
+        ${heroBanner}
+        ${featureCards}
         ${statsHtml}
-        <div class="admin-help">
-            <h4>Area de Posts e Noticias</h4>
-            <p><strong>Como usar:</strong> Esta e a pagina inicial onde aparecerao todas as noticias, deliberacoes e informacoes importantes do CAS/DF.</p>
+
+        <div class="news-section">
+            <div class="section-header">
+                <h2 class="section-title">Ultimas Noticias</h2>
+                <div class="admin-buttons">
+                    <button class="admin-btn success" onclick="showAddPostForm()">+ Adicionar Post</button>
+                    <button class="admin-btn secondary" onclick="showManageCategories()">Categorias</button>
+                </div>
+            </div>
+            <div class="posts-grid modern">${postsHtml}</div>
         </div>
-        <div class="admin-buttons mb-2">
-            <button class="admin-btn success" onclick="showAddPostForm()">+ Adicionar Post</button>
-            <button class="admin-btn secondary" onclick="showManageCategories()">Gerenciar Categorias</button>
-        </div>
-        <div class="posts-grid">${postsHtml}</div>
+
+        ${galleryPreview}
+        ${quoteSection}
+        ${quickAccess}
     `;
 }
 
@@ -1143,6 +1315,12 @@ function getSubSectionContent(section, subsection) {
     // Tratamento especial para comissoes
     if (section === 'sobre' && subsection === 'comissoes') {
         return getComissoesContent();
+    }
+
+    // Tratamento especial para galeria de fotos
+    if ((section === 'reunioes' && subsection === 'fotos') ||
+        (section === 'conferencias' && subsection === 'fotos')) {
+        return getGalleryContent();
     }
 
     const title = getSubSectionTitle(section, subsection);
@@ -1836,6 +2014,89 @@ function openComissao(comissaoId) {
     Modal.show(content, comissao.nome);
 }
 
+// ===== FUNCOES DE GALERIA =====
+function openGalleryPhoto(photoId) {
+    const photo = GALLERY_PHOTOS.find(p => p.id === photoId);
+
+    if (!photo) {
+        Notifications.error('Foto nao encontrada');
+        return;
+    }
+
+    const content = `
+        <div class="gallery-modal">
+            <div class="gallery-photo-container">
+                <div class="gallery-placeholder-large">
+                    <span style="font-size: 5rem;">&#x1F4F7;</span>
+                    <p style="margin-top: 1rem; color: var(--text-gray);">Imagem: ${Utils.sanitizeHTML(photo.title)}</p>
+                </div>
+            </div>
+            <div class="gallery-info mt-2">
+                <p class="mb-1"><strong>Categoria:</strong> ${Utils.sanitizeHTML(photo.category)}</p>
+                <p>${Utils.sanitizeHTML(photo.description)}</p>
+            </div>
+            <div class="admin-buttons mt-2">
+                <button class="admin-btn secondary" onclick="Modal.close()">Fechar</button>
+            </div>
+        </div>
+    `;
+
+    Modal.show(content, photo.title);
+}
+
+function getGalleryContent() {
+    return `
+        <h1 class="page-title">Galeria de Fotos</h1>
+        <div class="admin-help">
+            <h4>Album de Fotos do CAS/DF</h4>
+            <p>Registros fotograficos de reunioes, conferencias, capacitacoes e eventos do Conselho.</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showGalleryTab('todos')">Todas</button>
+            <button class="tab-btn" onclick="showGalleryTab('reunioes')">Reunioes</button>
+            <button class="tab-btn" onclick="showGalleryTab('conferencias')">Conferencias</button>
+            <button class="tab-btn" onclick="showGalleryTab('eventos')">Eventos</button>
+        </div>
+
+        <div class="gallery-section" style="box-shadow: none; padding: 0; margin-top: 1rem;">
+            <div class="gallery-grid" id="galleryGrid">
+                ${GALLERY_PHOTOS.map(photo => `
+                    <div class="gallery-item" onclick="openGalleryPhoto(${photo.id})" data-category="${photo.category}">
+                        <div class="gallery-placeholder">
+                            <span>&#x1F4F7;</span>
+                            <small>${photo.title}</small>
+                        </div>
+                        <div class="gallery-overlay">
+                            <h4>${photo.title}</h4>
+                            <p>${photo.description}</p>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+
+        <div class="admin-help mt-3">
+            <h4>Adicionar Fotos</h4>
+            <p>Para adicionar novas fotos, coloque os arquivos na pasta <code>assets/images/gallery/</code> e atualize o codigo.</p>
+        </div>
+    `;
+}
+
+function showGalleryTab(category) {
+    document.querySelectorAll('.tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const items = document.querySelectorAll('.gallery-item');
+    items.forEach(item => {
+        if (category === 'todos' || item.dataset.category === category) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
 // ===== INICIALIZACAO =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Blog CAS/DF iniciando...');
@@ -1903,5 +2164,8 @@ window.openResolucao = openResolucao;
 window.confirmDeleteResolucao = confirmDeleteResolucao;
 // Comissoes
 window.openComissao = openComissao;
+// Galeria
+window.openGalleryPhoto = openGalleryPhoto;
+window.showGalleryTab = showGalleryTab;
 
 console.log('Script carregado - Aguardando DOM...');
