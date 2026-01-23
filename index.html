@@ -3,558 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog CAS DF - Conselho de Assistência Social do Distrito Federal</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #16a34a 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo {
-            width: 60px;
-            height: 60px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #1e3a8a;
-            font-size: 1.2rem;
-        }
-
-        .site-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .site-subtitle {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-box input {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 25px;
-            width: 250px;
-            outline: none;
-        }
-
-        .search-box button {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #1e3a8a;
-            color: white;
-            border: none;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .login-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-
-        .login-btn:hover {
-            background: white;
-            color: #1e3a8a;
-        }
-
-        nav {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-links > li > a {
-            color: white;
-            text-decoration: none;
-            padding: 0.7rem 1rem;
-            border-radius: 25px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            display: block;
-            font-size: 0.9rem;
-        }
-
-        .nav-links > li > a:hover,
-        .nav-links > li > a.active {
-            background: white;
-            color: #1e3a8a;
-        }
-
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            min-width: 200px;
-            z-index: 1000;
-        }
-
-        .nav-item:hover .dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown ul {
-            list-style: none;
-            padding: 0.5rem 0;
-        }
-
-        .dropdown li a {
-            color: #333;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: block;
-            transition: background 0.3s ease;
-            font-size: 0.85rem;
-        }
-
-        .dropdown li a:hover {
-            background: #f8f9fa;
-            color: #1e3a8a;
-        }
-
-        .mobile-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        main {
-            margin: 2rem 0;
-            min-height: 60vh;
-        }
-
-        .content-area {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-        }
-
-        .page-title {
-            color: #1e3a8a;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            border-bottom: 3px solid #3b82f6;
-            padding-bottom: 0.5rem;
-        }
-
-        .admin-help {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .admin-help h4 {
-            color: #856404;
-            margin-bottom: 0.5rem;
-        }
-
-        .placeholder-content {
-            background: #f8f9fa;
-            border: 2px dashed #dee2e6;
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            margin: 1rem 0;
-        }
-
-        .placeholder-text {
-            color: #6c757d;
-            font-style: italic;
-            margin-bottom: 1rem;
-        }
-
-        .admin-buttons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .admin-btn {
-            background: #1e3a8a;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: background 0.3s ease;
-        }
-
-        .admin-btn:hover {
-            background: #1e40af;
-        }
-
-        .admin-btn.secondary {
-            background: #6b7280;
-        }
-
-        .admin-btn.secondary:hover {
-            background: #4b5563;
-        }
-
-        .posts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .post-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .post-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            font-size: 0.8rem;
-            color: #6b7280;
-        }
-
-        .post-category {
-            background: #f97316;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 10px;
-            font-size: 0.7rem;
-        }
-
-        .post-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #1e3a8a;
-        }
-
-        .post-excerpt {
-            color: #6b7280;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin: 2rem 0;
-        }
-
-        .contact-form {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .contact-info {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #1e3a8a;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .contact-submit-btn {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .contact-submit-btn:hover {
-            background: linear-gradient(135deg, #1e40af, #2563eb);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
-        }
-
-        .contact-info h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.4rem;
-        }
-
-        .contact-detail {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-        }
-
-        footer {
-            background: #1f2937;
-            color: white;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-section h3 {
-            color: #3b82f6;
-            margin-bottom: 1rem;
-        }
-
-        .footer-section p, .footer-section li {
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: #d1d5db;
-            text-decoration: none;
-        }
-
-        .footer-section a:hover {
-            color: #3b82f6;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #374151;
-            color: #9ca3af;
-        }
-
-        @media (max-width: 768px) {
-            .header-top {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .search-box input {
-                width: 200px;
-            }
-
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(10px);
-                border-radius: 0 0 10px 10px;
-                padding: 1rem;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-
-            .nav-links.mobile-open {
-                display: flex;
-            }
-
-            .nav-links > li > a {
-                color: #1e3a8a;
-                border-radius: 5px;
-                margin: 0.2rem 0;
-            }
-
-            .nav-links > li > a:hover {
-                background: #1e3a8a;
-                color: white;
-            }
-
-            .mobile-toggle {
-                display: block;
-            }
-
-            .dropdown {
-                position: static;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                background: transparent;
-                margin-left: 1rem;
-            }
-
-            .dropdown ul {
-                background: #f8f9fa;
-                border-radius: 5px;
-                margin-top: 0.5rem;
-            }
-
-            .content-area {
-                padding: 1rem;
-            }
-
-            .page-title {
-                font-size: 1.5rem;
-            }
-
-            .admin-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .admin-btn {
-                width: 100%;
-                max-width: 200px;
-            }
-
-            .contact-container {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        .text-center { text-align: center; }
-        .mt-2 { margin-top: 1rem; }
-    </style>
+    <meta name="description" content="Blog oficial do Conselho de Assistencia Social do Distrito Federal - CAS/DF. Noticias, resolucoes, atas e informacoes sobre assistencia social no DF.">
+    <meta name="keywords" content="CAS/DF, Conselho Assistencia Social, Distrito Federal, SUAS, Assistencia Social, Brasilia">
+    <meta name="author" content="CAS/DF">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Blog CAS DF - Conselho de Assistencia Social do Distrito Federal">
+    <meta property="og:description" content="Portal oficial do CAS/DF com noticias, resolucoes e informacoes sobre assistencia social.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="pt_BR">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+
+    <title>Blog CAS DF - Conselho de Assistencia Social do Distrito Federal</title>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-top">
@@ -562,48 +31,50 @@
                     <div class="logo">CAS</div>
                     <div>
                         <div class="site-title">Blog CAS DF</div>
-                        <div class="site-subtitle">Conselho de Assistência Social do Distrito Federal</div>
+                        <div class="site-subtitle">Conselho de Assistencia Social do Distrito Federal</div>
                     </div>
                 </div>
                 <div class="header-actions">
                     <div class="search-box">
-                        <input type="text" placeholder="Buscar no blog..." id="searchInput">
-                        <button onclick="performSearch()">🔍</button>
+                        <input type="text" placeholder="Buscar no blog..." id="searchInput" aria-label="Buscar no blog">
+                        <button onclick="performSearch()" aria-label="Buscar">&#x1F50D;</button>
                     </div>
                     <a href="javascript:void(0)" class="login-btn" onclick="showLogin()">Acesso Restrito</a>
                 </div>
             </div>
+
+            <!-- Navegacao -->
             <nav>
                 <div class="nav-container">
                     <ul class="nav-links" id="navLinks">
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="active" onclick="showSection('home')">INÍCIO</a>
+                            <a href="javascript:void(0)" class="active" onclick="showSection('home')">INICIO</a>
                         </li>
                         <li class="nav-item">
                             <a href="javascript:void(0)" onclick="showSection('sobre')">SOBRE</a>
                             <div class="dropdown">
                                 <ul>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('sobre', 'presidencia')">Presidência</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('sobre', 'presidencia')">Presidencia</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('sobre', 'secretaria')">Secretaria Executiva</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('sobre', 'conselheiros-sc')">Conselheiros Sociedade Civil</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('sobre', 'conselheiros-gov')">Conselheiros do Governo</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('sobre', 'comissoes')">Comissões</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('sobre', 'comissoes')">Comissoes</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" onclick="showSection('planejamento')">PLANEJAMENTO ESTRATÉGICO</a>
+                            <a href="javascript:void(0)" onclick="showSection('planejamento')">PLANEJAMENTO ESTRATEGICO</a>
                             <div class="dropdown">
                                 <ul>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('planejamento', 'pei-2025-2027')">PEI 2025-2027</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('planejamento', 'objetivos')">Objetivos Estratégicos</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('planejamento', 'objetivos')">Objetivos Estrategicos</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('planejamento', 'indicadores')">Indicadores e Metas</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('planejamento', 'monitoramento')">Monitoramento</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" onclick="showSection('resolucoes')">RESOLUÇÕES</a>
+                            <a href="javascript:void(0)" onclick="showSection('resolucoes')">RESOLUCOES</a>
                             <div class="dropdown">
                                 <ul>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('resolucoes', 'regimento')">Regimento Interno</a></li>
@@ -626,21 +97,21 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" onclick="showSection('reunioes')">REUNIÕES DO CAS DF</a>
+                            <a href="javascript:void(0)" onclick="showSection('reunioes')">REUNIOES DO CAS DF</a>
                             <div class="dropdown">
                                 <ul>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('reunioes', 'ordinarias')">Reuniões Ordinárias (Pautas)</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('reunioes', 'calendario')">Calendário</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('reunioes', 'ordinarias')">Reunioes Ordinarias (Pautas)</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('reunioes', 'calendario')">Calendario</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('reunioes', 'lives')">Lives do CAS DF</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('reunioes', 'fotos')">Álbum de Fotos</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('reunioes', 'fotos')">Album de Fotos</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" onclick="showSection('eleicoes')">ELEIÇÃO SOCIEDADE CIVIL</a>
+                            <a href="javascript:void(0)" onclick="showSection('eleicoes')">ELEICAO SOCIEDADE CIVIL</a>
                             <div class="dropdown">
                                 <ul>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('eleicoes', '2024-2026')">Gestão 2024-2026</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('eleicoes', '2024-2026')">Gestao 2024-2026</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('eleicoes', '2022-2024')">2022-2024</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('eleicoes', '2020-2022')">2020-2022</a></li>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('eleicoes', '2018-2020')">2018-2020</a></li>
@@ -649,13 +120,13 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" onclick="showSection('conferencias')">CONFERÊNCIAS</a>
+                            <a href="javascript:void(0)" onclick="showSection('conferencias')">CONFERENCIAS</a>
                             <div class="dropdown">
                                 <ul>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'regionais')">Conferências Regionais</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'distrital')">Conferência Distrital</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'nacional')">Conferência Nacional</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'fotos')">Fotos das Conferências</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'regionais')">Conferencias Regionais</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'distrital')">Conferencia Distrital</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'nacional')">Conferencia Nacional</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('conferencias', 'fotos')">Fotos das Conferencias</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -663,13 +134,13 @@
                             <a href="javascript:void(0)" onclick="showSection('entidades')">ENTIDADES INSCRITAS</a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" onclick="showSection('inscricao')">PROCEDIMENTOS PARA INSCRIÇÃO</a>
+                            <a href="javascript:void(0)" onclick="showSection('inscricao')">PROCEDIMENTOS PARA INSCRICAO</a>
                             <div class="dropdown">
                                 <ul>
                                     <li><a href="javascript:void(0)" onclick="showSubSection('inscricao', 'passo-a-passo')">Passo a Passo</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('inscricao', 'documentos')">Documentos Necessários</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('inscricao', 'formulario')">Formulário de Inscrição</a></li>
-                                    <li><a href="javascript:void(0)" onclick="showSubSection('inscricao', 'acompanhar')">Acompanhar Inscrição</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('inscricao', 'documentos')">Documentos Necessarios</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('inscricao', 'formulario')">Formulario de Inscricao</a></li>
+                                    <li><a href="javascript:void(0)" onclick="showSubSection('inscricao', 'acompanhar')">Acompanhar Inscricao</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -677,570 +148,64 @@
                             <a href="javascript:void(0)" onclick="showSection('contato')">CONTATE-NOS</a>
                         </li>
                     </ul>
-                    <button class="mobile-toggle" onclick="toggleMobileMenu()">☰</button>
+                    <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
                 </div>
             </nav>
         </div>
     </header>
 
+    <!-- Conteudo Principal -->
     <div class="container">
         <main>
             <div class="content-area" id="mainContent">
-                <div style="text-align: center; padding: 2rem;">
-                    <h2>Carregando conteúdo...</h2>
-                    <p>Aguarde um momento.</p>
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p class="mt-2">Carregando conteudo...</p>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>CAS/DF</h3>
-                    <p>O Conselho de Assistência Social do Distrito Federal (CAS/DF) é um órgão colegiado de caráter permanente e deliberativo, vinculado à SEDES/DF.</p>
+                    <p>O Conselho de Assistencia Social do Distrito Federal (CAS/DF) e um orgao colegiado de carater permanente e deliberativo, vinculado a SEDES/DF.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Contato</h3>
-                    <p>📍 SEPN 511, Bloco C, Ed. Bittar IV, 4º andar<br>Asa Norte, Brasília/DF</p>
-                    <p>📞 Telefone: (61) 2017-4260</p>
-                    <p>📧 Email: cas.df@sedes.df.gov.br</p>
+                    <p>&#x1F3E2; SEPN 511, Bloco C, Ed. Bittar IV, 4o andar<br>Asa Norte, Brasilia/DF</p>
+                    <p>&#x1F4DE; Telefone: (61) 2017-4260</p>
+                    <p>&#x2709; Email: cas.df@sedes.df.gov.br</p>
                 </div>
                 <div class="footer-section">
-                    <h3>Links Rápidos</h3>
+                    <h3>Links Rapidos</h3>
                     <ul>
                         <li><a href="javascript:void(0)" onclick="showSection('sobre')">Sobre o CAS/DF</a></li>
-                        <li><a href="javascript:void(0)" onclick="showSection('reunioes')">Reuniões</a></li>
-                        <li><a href="javascript:void(0)" onclick="showSection('planejamento')">Planejamento Estratégico</a></li>
+                        <li><a href="javascript:void(0)" onclick="showSection('reunioes')">Reunioes</a></li>
+                        <li><a href="javascript:void(0)" onclick="showSection('planejamento')">Planejamento Estrategico</a></li>
                         <li><a href="javascript:void(0)" onclick="showSection('contato')">Contato</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h3>Governo do DF</h3>
                     <ul>
-                        <li><a href="#" target="_blank">Portal GDF</a></li>
-                        <li><a href="#" target="_blank">SEDES</a></li>
-                        <li><a href="#" target="_blank">Ouvidoria</a></li>
-                        <li><a href="#" target="_blank">Transparência</a></li>
+                        <li><a href="https://www.df.gov.br" target="_blank" rel="noopener noreferrer">Portal GDF</a></li>
+                        <li><a href="https://www.sedes.df.gov.br" target="_blank" rel="noopener noreferrer">SEDES</a></li>
+                        <li><a href="https://www.ouvidoria.df.gov.br" target="_blank" rel="noopener noreferrer">Ouvidoria</a></li>
+                        <li><a href="https://www.transparencia.df.gov.br" target="_blank" rel="noopener noreferrer">Transparencia</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 CAS/DF - Conselho de Assistência Social do Distrito Federal. Todos os direitos reservados.</p>
+                <p>&copy; 2025 CAS/DF - Conselho de Assistencia Social do Distrito Federal. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
-    <script>
-        // VARIÁVEIS GLOBAIS
-        const samplePosts = [
-            {
-                id: 1,
-                title: "CAS/DF realiza 340ª Reunião Ordinária",
-                category: "reunioes",
-                date: "2025-06-20",
-                excerpt: "A 340ª Reunião Ordinária do CAS/DF discutiu importantes questões sobre o Sistema Único de Assistência Social no Distrito Federal."
-            },
-            {
-                id: 2,
-                title: "Nova resolução sobre critérios de inscrição de entidades",
-                category: "resolucoes", 
-                date: "2025-06-18",
-                excerpt: "Aprovada resolução que estabelece novos critérios para inscrição e renovação de entidades de assistência social."
-            },
-            {
-                id: 3,
-                title: "Edital para Conferência Distrital de Assistência Social",
-                category: "editais",
-                date: "2025-06-15", 
-                excerpt: "Publicado edital para realização da próxima Conferência Distrital de Assistência Social do DF."
-            }
-        ];
-
-        let currentSection = 'home';
-        let currentSubSection = null;
-
-        // FUNÇÕES AUXILIARES
-        function getCategoryName(category) {
-            const categories = {
-                'noticias': 'Notícias',
-                'reunioes': 'Reuniões', 
-                'resolucoes': 'Resoluções',
-                'editais': 'Editais',
-                'eventos': 'Eventos'
-            };
-            return categories[category] || 'Geral';
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR');
-        }
-
-        // NAVEGAÇÃO
-        function toggleMobileMenu() {
-            const navLinks = document.getElementById('navLinks');
-            if (navLinks) {
-                navLinks.classList.toggle('mobile-open');
-            }
-        }
-
-        function updateActiveNav(section) {
-            document.querySelectorAll('.nav-links > li > a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const activeLink = document.querySelector("[onclick=\"showSection('" + section + "')\"]");
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-        }
-
-        function showSection(section) {
-            console.log('Mostrando seção:', section);
-            currentSection = section;
-            currentSubSection = null;
-            updateActiveNav(section);
-            
-            const content = document.getElementById('mainContent');
-            if (!content) {
-                console.error('Elemento mainContent não encontrado!');
-                return;
-            }
-            
-            try {
-                let htmlContent = '';
-                
-                switch(section) {
-                    case 'home':
-                        htmlContent = getHomeContent();
-                        break;
-                    case 'sobre':
-                        htmlContent = getSobreContent();
-                        break;
-                    case 'planejamento':
-                        htmlContent = getPlanejamentoContent();
-                        break;
-                    case 'resolucoes':
-                        htmlContent = getResolucoesContent();
-                        break;
-                    case 'atas':
-                        htmlContent = getAtasContent();
-                        break;
-                    case 'reunioes':
-                        htmlContent = getReuniaoesContent();
-                        break;
-                    case 'eleicoes':
-                        htmlContent = getEleicoesContent();
-                        break;
-                    case 'conferencias':
-                        htmlContent = getConferenciasContent();
-                        break;
-                    case 'entidades':
-                        htmlContent = getEntidadesContent();
-                        break;
-                    case 'inscricao':
-                        htmlContent = getInscricaoContent();
-                        break;
-                    case 'contato':
-                        htmlContent = getContatoContent();
-                        break;
-                    default:
-                        htmlContent = getPlaceholderContent(section);
-                }
-                
-                content.innerHTML = htmlContent;
-                console.log('Conteúdo carregado para seção:', section);
-                
-            } catch (error) {
-                console.error('Erro ao carregar seção:', error);
-                content.innerHTML = '<div style="text-align: center; padding: 2rem;"><h2 style="color: red;">Erro ao carregar seção: ' + section + '</h2><p>Detalhes: ' + error.message + '</p></div>';
-            }
-            
-            const navLinks = document.getElementById('navLinks');
-            if (navLinks) {
-                navLinks.classList.remove('mobile-open');
-            }
-        }
-
-        function showSubSection(section, subsection) {
-            console.log('Mostrando subseção:', section, subsection);
-            currentSection = section;
-            currentSubSection = subsection;
-            
-            const content = document.getElementById('mainContent');
-            if (!content) {
-                console.error('Elemento mainContent não encontrado!');
-                return;
-            }
-            
-            content.innerHTML = getSubSectionContent(section, subsection);
-            
-            const navLinks = document.getElementById('navLinks');
-            if (navLinks) {
-                navLinks.classList.remove('mobile-open');
-            }
-        }
-
-        // CONTEÚDO DAS SEÇÕES
-        function getHomeContent() {
-            let postsHtml = '';
-            for (let i = 0; i < samplePosts.length; i++) {
-                const post = samplePosts[i];
-                postsHtml += '<div class="post-card" onclick="openPost(' + post.id + ')">' +
-                    '<div class="post-meta">' +
-                    '<span class="post-category">' + getCategoryName(post.category) + '</span>' +
-                    '<span>' + formatDate(post.date) + '</span>' +
-                    '</div>' +
-                    '<div class="post-title">' + post.title + '</div>' +
-                    '<div class="post-excerpt">' + post.excerpt + '</div>' +
-                    '</div>';
-            }
-            
-            return '<h1 class="page-title">Blog CAS DF - Últimas Notícias</h1>' +
-                '<div class="admin-help">' +
-                '<h4>📋 Área de Posts e Notícias</h4>' +
-                '<p><strong>Como usar:</strong> Esta é a página inicial onde aparecerão todas as notícias, deliberações e informações importantes do CAS/DF.</p>' +
-                '<p><strong>Para adicionar posts:</strong> Use o painel administrativo (Acesso Restrito) ou os comandos via console.</p>' +
-                '</div>' +
-                '<div class="posts-grid">' + postsHtml + '</div>' +
-                '<div class="admin-buttons mt-2">' +
-                '<button class="admin-btn" onclick="addNewPost()">➕ Adicionar Post</button>' +
-                '<button class="admin-btn secondary" onclick="manageCategories()">📁 Gerenciar Categorias</button>' +
-                '<button class="admin-btn secondary" onclick="showPostHelp()">❓ Como Usar</button>' +
-                '</div>';
-        }
-
-        function getSobreContent() {
-            return '<h1 class="page-title">Sobre o CAS/DF</h1>' +
-                '<div class="admin-help">' +
-                '<h4>ℹ️ Seção Institucional</h4>' +
-                '<p>Esta seção contém informações sobre a estrutura, composição e organização do CAS/DF.</p>' +
-                '<p><strong>Presidente Atual:</strong> Coracy Coelho Chavante (Gestão 2025-2027)</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Informações Institucionais</h3>' +
-                '<p class="placeholder-text">Selecione uma das opções no menu "SOBRE" para visualizar:</p>' +
-                '<div style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 2rem; border-radius: 12px; margin: 2rem 0; text-align: center;">' +
-                '<h3 style="margin-bottom: 1rem;">👤 PRESIDÊNCIA ATUAL</h3>' +
-                '<h4 style="margin-bottom: 0.5rem; color: #eab308;">Coracy Coelho Chavante</h4>' +
-                '<p style="opacity: 0.9;">Presidente do CAS/DF</p>' +
-                '<p style="opacity: 0.9;">Mandato: 2025-2027</p>' +
-                '<button class="admin-btn" onclick="showSubSection(\'sobre\', \'presidencia\')" style="margin-top: 1rem; background: white; color: #1e3a8a;">Ver Informações Completas</button>' +
-                '</div>' +
-                '<div class="admin-buttons">' +
-                '<button class="admin-btn" onclick="showSubSection(\'sobre\', \'presidencia\')" style="background: #1e3a8a;">👤 Presidência</button>' +
-                '<button class="admin-btn" onclick="showSubSection(\'sobre\', \'secretaria\')" style="background: #3b82f6;">🏢 Secretaria</button>' +
-                '<button class="admin-btn" onclick="showSubSection(\'sobre\', \'conselheiros-sc\')" style="background: #16a34a;">👥 Conselheiros SC</button>' +
-                '<button class="admin-btn" onclick="showSubSection(\'sobre\', \'comissoes\')" style="background: #f97316;">📋 Comissões</button>' +
-                '</div>' +
-                '</div>';
-        }
-
-        function getPlanejamentoContent() {
-            return '<h1 class="page-title">Planejamento Estratégico Institucional</h1>' +
-                '<div class="admin-help">' +
-                '<h4>🎯 Planejamento Estratégico CAS/DF 2025-2027</h4>' +
-                '<p>Esta seção contém o Plano Estratégico Institucional (PEI) do CAS/DF e documentos relacionados.</p>' +
-                '<p><strong>Presidente:</strong> Coracy Coelho Chavante | <strong>Período:</strong> 2025-2027</p>' +
-                '</div>' +
-                '<div class="admin-buttons mt-2">' +
-                '<button class="admin-btn" onclick="uploadPEIDocument()" style="background: #1e3a8a;">📤 Upload Documento PEI</button>' +
-                '<button class="admin-btn secondary" onclick="updateIndicadores()" style="background: #16a34a;">📊 Atualizar Indicadores</button>' +
-                '<button class="admin-btn secondary" onclick="generateReport()" style="background: #f97316;">📈 Gerar Relatório</button>' +
-                '</div>';
-        }
-
-        function getContatoContent() {
-            return '<h1 class="page-title">Contate-nos</h1>' +
-                '<div class="admin-help">' +
-                '<h4>📞 Canal de Comunicação</h4>' +
-                '<p>Entre em contato conosco através das informações abaixo.</p>' +
-                '</div>' +
-                '<div class="contact-container">' +
-                '<div class="contact-form">' +
-                '<h3>📧 Formulário de Contato</h3>' +
-                '<form onsubmit="handleContactSubmit(event)">' +
-                '<div class="form-group">' +
-                '<label for="contactName">Nome Completo *</label>' +
-                '<input type="text" id="contactName" name="name" required placeholder="Digite seu nome completo">' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="contactEmail">E-mail *</label>' +
-                '<input type="email" id="contactEmail" name="email" required placeholder="Digite seu melhor e-mail">' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="contactPhone">Telefone</label>' +
-                '<input type="tel" id="contactPhone" name="phone" placeholder="(61) 99999-9999">' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="contactSubject">Assunto</label>' +
-                '<input type="text" id="contactSubject" name="subject" placeholder="Sobre o que você gostaria de falar?">' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="contactMessage">Mensagem *</label>' +
-                '<textarea id="contactMessage" name="message" required placeholder="Digite sua mensagem aqui..."></textarea>' +
-                '</div>' +
-                '<button type="submit" class="contact-submit-btn">📧 Enviar Mensagem</button>' +
-                '</form>' +
-                '</div>' +
-                '<div class="contact-info">' +
-                '<h3>📍 Informações de Contato</h3>' +
-                '<div class="contact-detail">' +
-                '<span style="margin-right: 1rem;">🏢</span>' +
-                '<div><strong>Endereço:</strong><br>SEPN 511, Bloco C, Ed. Bittar IV, 4º andar<br>Asa Norte, Brasília/DF<br>CEP: 70750-543</div>' +
-                '</div>' +
-                '<div class="contact-detail">' +
-                '<span style="margin-right: 1rem;">📞</span>' +
-                '<div><strong>Telefone:</strong><br>(61) 2017-4260</div>' +
-                '</div>' +
-                '<div class="contact-detail">' +
-                '<span style="margin-right: 1rem;">📧</span>' +
-                '<div><strong>E-mail:</strong><br>cas.df@sedes.df.gov.br</div>' +
-                '</div>' +
-                '<div class="contact-detail">' +
-                '<span style="margin-right: 1rem;">🕒</span>' +
-                '<div><strong>Horário de Funcionamento:</strong><br>Segunda a Sexta: 8h às 18h</div>' +
-                '</div>' +
-                '<div class="contact-detail">' +
-                '<span style="margin-right: 1rem;">👤</span>' +
-                '<div><strong>Presidente:</strong><br>Coracy Coelho Chavante</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
-        }
-
-        function getResolucoesContent() {
-            return '<h1 class="page-title">Resoluções do CAS/DF</h1>' +
-                '<div class="admin-help">' +
-                '<h4>📜 Documentos Normativos</h4>' +
-                '<p>Aqui ficam organizadas todas as resoluções do CAS/DF por ano, além do Regimento Interno.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Acervo de Resoluções</h3>' +
-                '<p class="placeholder-text">Documentos organizados por ano para facilitar consulta e download.</p>' +
-                '</div>';
-        }
-
-        function getAtasContent() {
-            return '<h1 class="page-title">Atas das Reuniões</h1>' +
-                '<div class="admin-help">' +
-                '<h4>📝 Registro das Reuniões</h4>' +
-                '<p>Atas das reuniões plenárias e de comissões organizadas por períodos.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Acervo de Atas</h3>' +
-                '<p class="placeholder-text">Documentos das reuniões organizados por períodos para facilitar consulta.</p>' +
-                '</div>';
-        }
-
-        function getReuniaoesContent() {
-            return '<h1 class="page-title">Reuniões do CAS DF</h1>' +
-                '<div class="admin-help">' +
-                '<h4>🤝 Informações sobre Reuniões</h4>' +
-                '<p>Seção dedicada às reuniões: pautas, calendário, transmissões ao vivo e registro fotográfico.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Gestão de Reuniões</h3>' +
-                '<p class="placeholder-text">Centralize todas as informações sobre as reuniões do CAS/DF.</p>' +
-                '</div>';
-        }
-
-        function getEleicoesContent() {
-            return '<h1 class="page-title">Eleição Sociedade Civil</h1>' +
-                '<div class="admin-help">' +
-                '<h4>🗳️ Processo Eleitoral</h4>' +
-                '<p>Documentos e informações sobre as eleições dos representantes da sociedade civil no CAS/DF.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Histórico Eleitoral</h3>' +
-                '<p class="placeholder-text">Documentos das eleições organizados por gestão.</p>' +
-                '</div>';
-        }
-
-        function getConferenciasContent() {
-            return '<h1 class="page-title">Conferências de Assistência Social</h1>' +
-                '<div class="admin-help">' +
-                '<h4>🎯 Conferências de Assistência Social</h4>' +
-                '<p>Documentos e registros das conferências regionais, distrital e participação nas conferências nacionais.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Sistema de Conferências</h3>' +
-                '<p class="placeholder-text">Documentos e registros organizados por tipo de conferência.</p>' +
-                '</div>';
-        }
-
-        function getEntidadesContent() {
-            return '<h1 class="page-title">Entidades Inscritas no CAS/DF</h1>' +
-                '<div class="admin-help">' +
-                '<h4>🏢 Entidades de Assistência Social Inscritas</h4>' +
-                '<p>Consulte aqui todas as entidades de assistência social devidamente inscritas no CAS/DF.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Registro de Entidades</h3>' +
-                '<p class="placeholder-text">Base de dados das entidades inscritas e em processo de análise.</p>' +
-                '<div class="admin-buttons">' +
-                '<button class="admin-btn" onclick="exportEntidades()">📊 Exportar Lista</button>' +
-                '<button class="admin-btn secondary" onclick="showSection(\'inscricao\')">➕ Nova Inscrição</button>' +
-                '</div>' +
-                '</div>';
-        }
-
-        function getInscricaoContent() {
-            return '<h1 class="page-title">Procedimentos para Inscrição no CAS/DF</h1>' +
-                '<div class="admin-help">' +
-                '<h4>📝 Inscrição de Entidades de Assistência Social</h4>' +
-                '<p>Processo completo de inscrição de entidades no Conselho de Assistência Social do DF.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Sistema de Inscrição Digital</h3>' +
-                '<p class="placeholder-text">Processo 100% digital para inscrição e renovação de entidades.</p>' +
-                '<div class="admin-buttons">' +
-                '<button class="admin-btn" onclick="showSubSection(\'inscricao\', \'formulario\')" style="background: #16a34a;">🖥️ Iniciar Inscrição</button>' +
-                '<button class="admin-btn secondary" onclick="showSubSection(\'inscricao\', \'passo-a-passo\')">📋 Ver Procedimentos</button>' +
-                '</div>' +
-                '</div>';
-        }
-
-        function getPlaceholderContent(section) {
-            return '<h1 class="page-title">' + section.toUpperCase() + '</h1>' +
-                '<div class="admin-help">' +
-                '<h4>📝 Seção em Desenvolvimento</h4>' +
-                '<p>Esta seção será preenchida com conteúdo específico.</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>Conteúdo em Preparação</h3>' +
-                '<p class="placeholder-text">Esta seção está sendo preparada e será atualizada em breve.</p>' +
-                '</div>';
-        }
-
-        function getSubSectionContent(section, subsection) {
-            return '<h1 class="page-title">' + getSubSectionTitle(section, subsection) + '</h1>' +
-                '<div class="admin-help">' +
-                '<h4>📝 Conteúdo a ser Preenchido</h4>' +
-                '<p><strong>Seção:</strong> ' + section.toUpperCase() + '</p>' +
-                '<p><strong>Subseção:</strong> ' + subsection + '</p>' +
-                '</div>' +
-                '<div class="placeholder-content">' +
-                '<h3>[TÍTULO DA SEÇÃO]</h3>' +
-                '<p class="placeholder-text">[CONTEÚDO SERÁ ADICIONADO AQUI PELA ADMINISTRAÇÃO]</p>' +
-                '<div class="admin-buttons">' +
-                '<button class="admin-btn" onclick="editSection(\'' + section + '\', \'' + subsection + '\')">✏️ Editar Conteúdo</button>' +
-                '<button class="admin-btn secondary" onclick="showSection(\'' + section + '\')">← Voltar para ' + section.toUpperCase() + '</button>' +
-                '</div>' +
-                '</div>';
-        }
-
-        function getSubSectionTitle(section, subsection) {
-            const titles = {
-                'sobre': {
-                    'presidencia': 'Presidência do CAS/DF',
-                    'secretaria': 'Secretaria Executiva',
-                    'conselheiros-sc': 'Conselheiros da Sociedade Civil',
-                    'conselheiros-gov': 'Conselheiros do Governo',
-                    'comissoes': 'Comissões do CAS/DF'
-                },
-                'inscricao': {
-                    'passo-a-passo': 'Passo a Passo para Inscrição',
-                    'documentos': 'Documentos Necessários',
-                    'formulario': 'Formulário de Inscrição Online',
-                    'acompanhar': 'Acompanhar Status da Inscrição'
-                }
-            };
-            
-            return (titles[section] && titles[section][subsection]) ? titles[section][subsection] : section + ' - ' + subsection;
-        }
-
-        // FUNÇÕES ADMINISTRATIVAS
-        function openPost(postId) {
-            const post = samplePosts.find(p => p.id === postId);
-            if (post) {
-                alert('📰 Post: ' + post.title + '\n\nCategoria: ' + getCategoryName(post.category) + '\nData: ' + formatDate(post.date) + '\n\n' + post.excerpt);
-            }
-        }
-
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const subject = formData.get('subject') || 'Sem assunto';
-            const message = formData.get('message');
-            
-            alert('✅ Mensagem enviada com sucesso!\n\nDe: ' + name + '\nE-mail: ' + email + '\nAssunto: ' + subject);
-            event.target.reset();
-        }
-
-        function exportEntidades() {
-            alert('📊 Exportar Lista de Entidades\n\nNa versão final:\n• Export para Excel/PDF\n• Filtros personalizados');
-        }
-
-        function showLogin() {
-            const password = prompt('Digite a senha de acesso:');
-            if (password === 'casdf2025') {
-                alert('✅ Acesso liberado!');
-            } else if (password !== null) {
-                alert('❌ Senha incorreta!');
-            }
-        }
-
-        function performSearch() {
-            const searchTerm = document.getElementById('searchInput').value;
-            if (searchTerm.trim()) {
-                alert('🔍 Busca por: "' + searchTerm + '"');
-            }
-        }
-
-        function addNewPost() {
-            alert('📝 Função: Adicionar Novo Post');
-        }
-
-        function manageCategories() {
-            alert('📁 Gerenciar Categorias');
-        }
-
-        function showPostHelp() {
-            alert('❓ Ajuda - Como Usar');
-        }
-
-        function editSection(section, subsection) {
-            alert('✏️ Editar Seção: ' + section + ' > ' + subsection);
-        }
-
-        function uploadPEIDocument() {
-            alert('📤 Upload Documento PEI');
-        }
-
-        function updateIndicadores() {
-            alert('📊 Atualizar Indicadores');
-        }
-
-        function generateReport() {
-            alert('📈 Gerar Relatório');
-        }
-
-        // INICIALIZAÇÃO
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Blog CAS/DF iniciando...');
-            
-            const mainContent = document.getElementById('mainContent');
-            if (!mainContent) {
-                console.error('❌ Elemento mainContent não encontrado!');
-                return;
-            }
-            
-            try {
-                showSection('home');
-                console.log('✅ Página inicial carregada com sucesso');
-            } catch (error) {
-                console.error('❌ Erro ao carregar página inicial:', error);
-            }
-            
-            console.log('✅ Blog CAS/DF carregado completamente!');
-        });
-
-        console.log('📄 Script carregado - Aguardando DOM...');
-    </script>
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
 </body>
 </html>
