@@ -11,7 +11,10 @@ const CONFIG = {
     storageKeys: {
         posts: 'casdf_posts',
         categories: 'casdf_categories',
-        settings: 'casdf_settings'
+        settings: 'casdf_settings',
+        atas: 'casdf_atas',
+        resolucoes: 'casdf_resolucoes',
+        comissoes: 'casdf_comissoes'
     },
     president: {
         name: 'Coracy Coelho Chavante',
@@ -59,12 +62,190 @@ const SAMPLE_POSTS = [
     }
 ];
 
+// ===== ATAS DE EXEMPLO =====
+const SAMPLE_ATAS = [
+    {
+        id: 1,
+        numero: '340',
+        tipo: 'ordinaria',
+        data: '2025-06-20',
+        ano: '2025',
+        descricao: '340a Reuniao Ordinaria do CAS/DF',
+        participantes: 'Conselheiros titulares e suplentes',
+        pauta: 'Aprovacao de inscricoes de entidades, informes da Secretaria Executiva, deliberacoes sobre o SUAS-DF',
+        arquivo: null
+    },
+    {
+        id: 2,
+        numero: '339',
+        tipo: 'ordinaria',
+        data: '2025-05-15',
+        ano: '2025',
+        descricao: '339a Reuniao Ordinaria do CAS/DF',
+        participantes: 'Conselheiros titulares e suplentes',
+        pauta: 'Analise de processos, aprovacao de resolucoes, planejamento de conferencias',
+        arquivo: null
+    },
+    {
+        id: 3,
+        numero: '338',
+        tipo: 'ordinaria',
+        data: '2025-04-10',
+        ano: '2025',
+        descricao: '338a Reuniao Ordinaria do CAS/DF',
+        participantes: 'Conselheiros titulares e suplentes',
+        pauta: 'Posse dos novos conselheiros, eleicao da mesa diretora',
+        arquivo: null
+    },
+    {
+        id: 4,
+        numero: '337',
+        tipo: 'ordinaria',
+        data: '2024-12-12',
+        ano: '2024',
+        descricao: '337a Reuniao Ordinaria do CAS/DF',
+        participantes: 'Conselheiros titulares e suplentes',
+        pauta: 'Balanco anual, aprovacao do calendario 2025',
+        arquivo: null
+    }
+];
+
+// ===== RESOLUCOES DE EXEMPLO =====
+const SAMPLE_RESOLUCOES = [
+    {
+        id: 1,
+        numero: '45',
+        ano: '2025',
+        data: '2025-06-18',
+        titulo: 'Resolucao que estabelece criterios para inscricao de entidades',
+        ementa: 'Dispoe sobre os criterios e procedimentos para inscricao e renovacao de inscricao de entidades de assistencia social no CAS/DF.',
+        tipo: 'normativa',
+        arquivo: null
+    },
+    {
+        id: 2,
+        numero: '44',
+        ano: '2025',
+        data: '2025-05-20',
+        titulo: 'Resolucao sobre o calendario de reunioes 2025',
+        ementa: 'Aprova o calendario de reunioes ordinarias e extraordinarias do CAS/DF para o exercicio de 2025.',
+        tipo: 'administrativa',
+        arquivo: null
+    },
+    {
+        id: 3,
+        numero: '43',
+        ano: '2025',
+        data: '2025-04-15',
+        titulo: 'Resolucao de composicao das Comissoes Tematicas',
+        ementa: 'Define a composicao das comissoes tematicas permanentes do CAS/DF para a gestao 2025-2027.',
+        tipo: 'administrativa',
+        arquivo: null
+    },
+    {
+        id: 4,
+        numero: '38',
+        ano: '2024',
+        data: '2024-11-20',
+        titulo: 'Resolucao sobre o Plano Decenal de Assistencia Social',
+        ementa: 'Aprova diretrizes para acompanhamento do Plano Decenal de Assistencia Social do DF.',
+        tipo: 'normativa',
+        arquivo: null
+    },
+    {
+        id: 5,
+        numero: '35',
+        ano: '2024',
+        data: '2024-08-15',
+        titulo: 'Resolucao sobre capacitacao de conselheiros',
+        ementa: 'Institui o Programa de Capacitacao Continuada para conselheiros do CAS/DF.',
+        tipo: 'normativa',
+        arquivo: null
+    }
+];
+
+// ===== COMISSOES =====
+const COMISSOES_DATA = [
+    {
+        id: 1,
+        nome: 'Comissao de Normas',
+        sigla: 'CN',
+        descricao: 'Responsavel pela analise e elaboracao de normas, resolucoes e pareceres tecnicos do CAS/DF.',
+        atribuicoes: [
+            'Analisar e emitir parecer sobre projetos de resolucoes',
+            'Elaborar minutas de normas e regulamentos',
+            'Revisar o Regimento Interno',
+            'Acompanhar a legislacao de assistencia social'
+        ],
+        coordenador: 'A definir',
+        membros: []
+    },
+    {
+        id: 2,
+        nome: 'Comissao de Inscricao de Entidades',
+        sigla: 'CIE',
+        descricao: 'Responsavel pela analise dos processos de inscricao e renovacao de entidades de assistencia social.',
+        atribuicoes: [
+            'Analisar pedidos de inscricao de entidades',
+            'Verificar documentacao e requisitos legais',
+            'Realizar visitas tecnicas quando necessario',
+            'Emitir parecer sobre renovacao de inscricoes'
+        ],
+        coordenador: 'A definir',
+        membros: []
+    },
+    {
+        id: 3,
+        nome: 'Comissao de Politica de Assistencia Social',
+        sigla: 'CPAS',
+        descricao: 'Responsavel pelo acompanhamento e avaliacao da politica de assistencia social no DF.',
+        atribuicoes: [
+            'Acompanhar a execucao da politica de assistencia social',
+            'Analisar relatorios de gestao',
+            'Propor diretrizes para o SUAS no DF',
+            'Monitorar indicadores sociais'
+        ],
+        coordenador: 'A definir',
+        membros: []
+    },
+    {
+        id: 4,
+        nome: 'Comissao de Financas e Orcamento',
+        sigla: 'CFO',
+        descricao: 'Responsavel pelo acompanhamento e fiscalizacao dos recursos do Fundo de Assistencia Social.',
+        atribuicoes: [
+            'Acompanhar a execucao orcamentaria do FAS-DF',
+            'Analisar prestacoes de contas',
+            'Emitir parecer sobre o orcamento da assistencia social',
+            'Fiscalizar a aplicacao dos recursos'
+        ],
+        coordenador: 'A definir',
+        membros: []
+    },
+    {
+        id: 5,
+        nome: 'Comissao de Comunicacao',
+        sigla: 'CCOM',
+        descricao: 'Responsavel pela divulgacao das acoes do CAS/DF e comunicacao com a sociedade.',
+        atribuicoes: [
+            'Elaborar estrategias de comunicacao',
+            'Gerenciar redes sociais e site',
+            'Organizar eventos e conferencias',
+            'Promover a participacao social'
+        ],
+        coordenador: 'A definir',
+        membros: []
+    }
+];
+
 // ===== ESTADO DA APLICACAO =====
 let state = {
     currentSection: 'home',
     currentSubSection: null,
     posts: [],
     categories: {},
+    atas: [],
+    resolucoes: [],
     isAdmin: false,
     searchResults: []
 };
@@ -137,6 +318,105 @@ const DataManager = {
                    post.excerpt.toLowerCase().includes(searchTerm) ||
                    (post.content && post.content.toLowerCase().includes(searchTerm));
         });
+    },
+
+    // ===== ATAS =====
+    getAtas() {
+        const stored = localStorage.getItem(CONFIG.storageKeys.atas);
+        if (stored) {
+            return JSON.parse(stored);
+        }
+        this.saveAtas(SAMPLE_ATAS);
+        return SAMPLE_ATAS;
+    },
+
+    saveAtas(atas) {
+        localStorage.setItem(CONFIG.storageKeys.atas, JSON.stringify(atas));
+        state.atas = atas;
+    },
+
+    addAta(ata) {
+        const atas = this.getAtas();
+        const newId = atas.length > 0 ? Math.max(...atas.map(a => a.id)) + 1 : 1;
+        ata.id = newId;
+        atas.unshift(ata);
+        this.saveAtas(atas);
+        return ata;
+    },
+
+    updateAta(ataId, updatedData) {
+        const atas = this.getAtas();
+        const index = atas.findIndex(a => a.id === ataId);
+        if (index !== -1) {
+            atas[index] = { ...atas[index], ...updatedData };
+            this.saveAtas(atas);
+            return atas[index];
+        }
+        return null;
+    },
+
+    deleteAta(ataId) {
+        const atas = this.getAtas();
+        const filtered = atas.filter(a => a.id !== ataId);
+        this.saveAtas(filtered);
+        return filtered;
+    },
+
+    getAtasByYear(ano) {
+        const atas = this.getAtas();
+        return atas.filter(a => a.ano === ano);
+    },
+
+    // ===== RESOLUCOES =====
+    getResolucoes() {
+        const stored = localStorage.getItem(CONFIG.storageKeys.resolucoes);
+        if (stored) {
+            return JSON.parse(stored);
+        }
+        this.saveResolucoes(SAMPLE_RESOLUCOES);
+        return SAMPLE_RESOLUCOES;
+    },
+
+    saveResolucoes(resolucoes) {
+        localStorage.setItem(CONFIG.storageKeys.resolucoes, JSON.stringify(resolucoes));
+        state.resolucoes = resolucoes;
+    },
+
+    addResolucao(resolucao) {
+        const resolucoes = this.getResolucoes();
+        const newId = resolucoes.length > 0 ? Math.max(...resolucoes.map(r => r.id)) + 1 : 1;
+        resolucao.id = newId;
+        resolucoes.unshift(resolucao);
+        this.saveResolucoes(resolucoes);
+        return resolucao;
+    },
+
+    updateResolucao(resolucaoId, updatedData) {
+        const resolucoes = this.getResolucoes();
+        const index = resolucoes.findIndex(r => r.id === resolucaoId);
+        if (index !== -1) {
+            resolucoes[index] = { ...resolucoes[index], ...updatedData };
+            this.saveResolucoes(resolucoes);
+            return resolucoes[index];
+        }
+        return null;
+    },
+
+    deleteResolucao(resolucaoId) {
+        const resolucoes = this.getResolucoes();
+        const filtered = resolucoes.filter(r => r.id !== resolucaoId);
+        this.saveResolucoes(filtered);
+        return filtered;
+    },
+
+    getResolucoesByYear(ano) {
+        const resolucoes = this.getResolucoes();
+        return resolucoes.filter(r => r.ano === ano);
+    },
+
+    // ===== COMISSOES =====
+    getComissoes() {
+        return COMISSOES_DATA;
     }
 };
 
@@ -441,11 +721,33 @@ function getPlanejamentoContent() {
 }
 
 function getResolucoesContent() {
+    const resolucoes = DataManager.getResolucoes();
+    const totalResolucoes = resolucoes.length;
+    const resolucoes2025 = resolucoes.filter(r => r.ano === '2025').length;
+    const resolucoes2024 = resolucoes.filter(r => r.ano === '2024').length;
+
     return `
         <h1 class="page-title">Resolucoes do CAS/DF</h1>
         <div class="admin-help">
             <h4>Documentos Normativos</h4>
             <p>Aqui ficam organizadas todas as resolucoes do CAS/DF por ano, alem do Regimento Interno.</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">${totalResolucoes}</div>
+                <div class="stat-label">Total de Resolucoes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">${resolucoes2025}</div>
+                <div class="stat-label">Resolucoes 2025</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">${resolucoes2024}</div>
+                <div class="stat-label">Resolucoes 2024</div>
+            </div>
+        </div>
+        <div class="admin-buttons mb-2">
+            <button class="admin-btn success" onclick="showAddResolucaoForm()">+ Adicionar Resolucao</button>
         </div>
         <div class="tabs">
             <button class="tab-btn active" onclick="showResolucoesTab('2025')">2025</button>
@@ -454,19 +756,91 @@ function getResolucoesContent() {
             <button class="tab-btn" onclick="showResolucoesTab('anteriores')">Anteriores</button>
             <button class="tab-btn" onclick="showResolucoesTab('regimento')">Regimento Interno</button>
         </div>
-        <div id="resolucoesContent" class="placeholder-content">
-            <h3>Resolucoes 2025</h3>
-            <p class="placeholder-text">Lista de resolucoes aprovadas em 2025 sera exibida aqui.</p>
+        <div id="resolucoesContent">
+            ${getResolucoesListHtml('2025')}
         </div>
     `;
 }
 
+function getResolucoesListHtml(ano) {
+    let resolucoes;
+    if (ano === 'anteriores') {
+        resolucoes = DataManager.getResolucoes().filter(r => parseInt(r.ano) < 2023);
+    } else if (ano === 'regimento') {
+        return `
+            <div class="placeholder-content">
+                <h3>Regimento Interno do CAS/DF</h3>
+                <p class="placeholder-text">O Regimento Interno do CAS/DF estabelece as normas de funcionamento do Conselho.</p>
+                <div class="admin-buttons mt-2">
+                    <button class="admin-btn" onclick="Notifications.info('Download do Regimento Interno')">Baixar Regimento Interno (PDF)</button>
+                </div>
+            </div>
+        `;
+    } else {
+        resolucoes = DataManager.getResolucoesByYear(ano);
+    }
+
+    if (resolucoes.length === 0) {
+        return `
+            <div class="placeholder-content">
+                <h3>Resolucoes ${ano}</h3>
+                <p class="placeholder-text">Nenhuma resolucao cadastrada para ${ano === 'anteriores' ? 'anos anteriores' : ano}.</p>
+            </div>
+        `;
+    }
+
+    let html = '<div class="table-container"><table class="data-table"><thead><tr>';
+    html += '<th>Numero</th><th>Data</th><th>Titulo</th><th>Tipo</th><th>Acoes</th>';
+    html += '</tr></thead><tbody>';
+
+    resolucoes.forEach(r => {
+        const tipoLabel = r.tipo === 'normativa' ? 'Normativa' : 'Administrativa';
+        html += `
+            <tr>
+                <td><strong>Res. ${r.numero}/${r.ano}</strong></td>
+                <td>${Utils.formatDate(r.data)}</td>
+                <td>${Utils.sanitizeHTML(r.titulo)}</td>
+                <td><span class="post-category" style="background: ${r.tipo === 'normativa' ? '#16a34a' : '#3b82f6'}">${tipoLabel}</span></td>
+                <td>
+                    <button class="admin-btn" onclick="openResolucao(${r.id})" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">Ver</button>
+                    <button class="admin-btn danger" onclick="confirmDeleteResolucao(${r.id})" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">Excluir</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    html += '</tbody></table></div>';
+    return html;
+}
+
 function getAtasContent() {
+    const atas = DataManager.getAtas();
+    const totalAtas = atas.length;
+    const atas2025 = atas.filter(a => a.ano === '2025').length;
+    const atas2024 = atas.filter(a => a.ano === '2024').length;
+
     return `
         <h1 class="page-title">Atas das Reunioes</h1>
         <div class="admin-help">
             <h4>Registro das Reunioes</h4>
             <p>Atas das reunioes plenarias e de comissoes organizadas por periodos.</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">${totalAtas}</div>
+                <div class="stat-label">Total de Atas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">${atas2025}</div>
+                <div class="stat-label">Atas 2025</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">${atas2024}</div>
+                <div class="stat-label">Atas 2024</div>
+            </div>
+        </div>
+        <div class="admin-buttons mb-2">
+            <button class="admin-btn success" onclick="showAddAtaForm()">+ Adicionar Ata</button>
         </div>
         <div class="tabs">
             <button class="tab-btn active" onclick="showAtasTab('2025')">2025</button>
@@ -474,11 +848,51 @@ function getAtasContent() {
             <button class="tab-btn" onclick="showAtasTab('2023')">2023</button>
             <button class="tab-btn" onclick="showAtasTab('anteriores')">2010-2022</button>
         </div>
-        <div id="atasContent" class="placeholder-content">
-            <h3>Atas 2025</h3>
-            <p class="placeholder-text">Lista de atas das reunioes de 2025 sera exibida aqui.</p>
+        <div id="atasContent">
+            ${getAtasListHtml('2025')}
         </div>
     `;
+}
+
+function getAtasListHtml(ano) {
+    let atas;
+    if (ano === 'anteriores') {
+        atas = DataManager.getAtas().filter(a => parseInt(a.ano) < 2023);
+    } else {
+        atas = DataManager.getAtasByYear(ano);
+    }
+
+    if (atas.length === 0) {
+        return `
+            <div class="placeholder-content">
+                <h3>Atas ${ano === 'anteriores' ? '2010-2022' : ano}</h3>
+                <p class="placeholder-text">Nenhuma ata cadastrada para ${ano === 'anteriores' ? 'este periodo' : ano}.</p>
+            </div>
+        `;
+    }
+
+    let html = '<div class="table-container"><table class="data-table"><thead><tr>';
+    html += '<th>Reuniao</th><th>Data</th><th>Tipo</th><th>Pauta</th><th>Acoes</th>';
+    html += '</tr></thead><tbody>';
+
+    atas.forEach(a => {
+        const tipoLabel = a.tipo === 'ordinaria' ? 'Ordinaria' : 'Extraordinaria';
+        html += `
+            <tr>
+                <td><strong>${a.numero}a Reuniao</strong></td>
+                <td>${Utils.formatDate(a.data)}</td>
+                <td><span class="post-category" style="background: ${a.tipo === 'ordinaria' ? '#1e3a8a' : '#f97316'}">${tipoLabel}</span></td>
+                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${Utils.sanitizeHTML(a.pauta)}</td>
+                <td>
+                    <button class="admin-btn" onclick="openAta(${a.id})" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">Ver</button>
+                    <button class="admin-btn danger" onclick="confirmDeleteAta(${a.id})" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;">Excluir</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    html += '</tbody></table></div>';
+    return html;
 }
 
 function getReuniaoesContent() {
@@ -676,6 +1090,11 @@ function getPlaceholderContent(section) {
 }
 
 function getSubSectionContent(section, subsection) {
+    // Tratamento especial para comissoes
+    if (section === 'sobre' && subsection === 'comissoes') {
+        return getComissoesContent();
+    }
+
     const title = getSubSectionTitle(section, subsection);
     return `
         <h1 class="page-title">${title}</h1>
@@ -1066,10 +1485,7 @@ function showResolucoesTab(tab) {
     event.target.classList.add('active');
 
     const content = document.getElementById('resolucoesContent');
-    content.innerHTML = `
-        <h3>Resolucoes ${tab === 'regimento' ? '- Regimento Interno' : tab}</h3>
-        <p class="placeholder-text">Conteudo das resolucoes ${tab} sera exibido aqui.</p>
-    `;
+    content.innerHTML = getResolucoesListHtml(tab);
 }
 
 function showAtasTab(tab) {
@@ -1077,10 +1493,297 @@ function showAtasTab(tab) {
     event.target.classList.add('active');
 
     const content = document.getElementById('atasContent');
-    content.innerHTML = `
-        <h3>Atas ${tab}</h3>
-        <p class="placeholder-text">Lista de atas de ${tab} sera exibida aqui.</p>
+    content.innerHTML = getAtasListHtml(tab);
+}
+
+// ===== FUNCOES DE ATAS =====
+function showAddAtaForm() {
+    const content = `
+        <form onsubmit="handleAddAta(event)">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ataNumero">Numero da Reuniao *</label>
+                    <input type="number" id="ataNumero" name="numero" required placeholder="Ex: 341">
+                </div>
+                <div class="form-group">
+                    <label for="ataTipo">Tipo de Reuniao *</label>
+                    <select id="ataTipo" name="tipo" required>
+                        <option value="ordinaria">Ordinaria</option>
+                        <option value="extraordinaria">Extraordinaria</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="ataData">Data da Reuniao *</label>
+                    <input type="date" id="ataData" name="data" required value="${new Date().toISOString().split('T')[0]}">
+                </div>
+                <div class="form-group">
+                    <label for="ataAno">Ano *</label>
+                    <select id="ataAno" name="ano" required>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ataDescricao">Descricao *</label>
+                <input type="text" id="ataDescricao" name="descricao" required placeholder="Ex: 341a Reuniao Ordinaria do CAS/DF">
+            </div>
+            <div class="form-group">
+                <label for="ataParticipantes">Participantes</label>
+                <input type="text" id="ataParticipantes" name="participantes" placeholder="Ex: Conselheiros titulares e suplentes">
+            </div>
+            <div class="form-group">
+                <label for="ataPauta">Pauta da Reuniao *</label>
+                <textarea id="ataPauta" name="pauta" required placeholder="Descreva os principais pontos da pauta" style="min-height: 100px;"></textarea>
+            </div>
+            <div class="admin-buttons">
+                <button type="submit" class="admin-btn success">Salvar Ata</button>
+                <button type="button" class="admin-btn secondary" onclick="Modal.close()">Cancelar</button>
+            </div>
+        </form>
     `;
+
+    Modal.show(content, 'Adicionar Nova Ata');
+}
+
+function handleAddAta(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const ata = {
+        numero: formData.get('numero'),
+        tipo: formData.get('tipo'),
+        data: formData.get('data'),
+        ano: formData.get('ano'),
+        descricao: formData.get('descricao'),
+        participantes: formData.get('participantes') || 'Conselheiros titulares e suplentes',
+        pauta: formData.get('pauta'),
+        arquivo: null
+    };
+
+    DataManager.addAta(ata);
+    Modal.close();
+    Notifications.success('Ata adicionada com sucesso!');
+    showSection('atas');
+}
+
+function openAta(ataId) {
+    const atas = DataManager.getAtas();
+    const ata = atas.find(a => a.id === ataId);
+
+    if (!ata) {
+        Notifications.error('Ata nao encontrada');
+        return;
+    }
+
+    const tipoLabel = ata.tipo === 'ordinaria' ? 'Ordinaria' : 'Extraordinaria';
+    const content = `
+        <div class="mb-2">
+            <span class="post-category" style="background: ${ata.tipo === 'ordinaria' ? '#1e3a8a' : '#f97316'}">${tipoLabel}</span>
+            <span style="margin-left: 1rem; color: #6b7280;">${Utils.formatDate(ata.data)}</span>
+        </div>
+        <p class="mb-2"><strong>Participantes:</strong> ${Utils.sanitizeHTML(ata.participantes)}</p>
+        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb;">
+        <h4 style="color: #1e3a8a; margin-bottom: 0.5rem;">Pauta da Reuniao</h4>
+        <div style="white-space: pre-wrap; line-height: 1.8; background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+            ${Utils.sanitizeHTML(ata.pauta)}
+        </div>
+        <div class="admin-buttons mt-3">
+            <button class="admin-btn" onclick="Notifications.info('Download da ata em PDF')">Baixar PDF</button>
+            <button class="admin-btn danger" onclick="confirmDeleteAta(${ata.id})">Excluir Ata</button>
+        </div>
+    `;
+
+    Modal.show(content, `${ata.numero}a Reuniao ${tipoLabel} - ${ata.ano}`);
+}
+
+function confirmDeleteAta(ataId) {
+    if (confirm('Tem certeza que deseja excluir esta ata? Esta acao nao pode ser desfeita.')) {
+        DataManager.deleteAta(ataId);
+        Modal.close();
+        Notifications.success('Ata excluida com sucesso!');
+        showSection('atas');
+    }
+}
+
+// ===== FUNCOES DE RESOLUCOES =====
+function showAddResolucaoForm() {
+    const content = `
+        <form onsubmit="handleAddResolucao(event)">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="resNumero">Numero da Resolucao *</label>
+                    <input type="number" id="resNumero" name="numero" required placeholder="Ex: 46">
+                </div>
+                <div class="form-group">
+                    <label for="resAno">Ano *</label>
+                    <select id="resAno" name="ano" required>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="resData">Data de Aprovacao *</label>
+                    <input type="date" id="resData" name="data" required value="${new Date().toISOString().split('T')[0]}">
+                </div>
+                <div class="form-group">
+                    <label for="resTipo">Tipo *</label>
+                    <select id="resTipo" name="tipo" required>
+                        <option value="normativa">Normativa</option>
+                        <option value="administrativa">Administrativa</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resTitulo">Titulo da Resolucao *</label>
+                <input type="text" id="resTitulo" name="titulo" required placeholder="Ex: Resolucao que estabelece...">
+            </div>
+            <div class="form-group">
+                <label for="resEmenta">Ementa *</label>
+                <textarea id="resEmenta" name="ementa" required placeholder="Dispoe sobre..." style="min-height: 100px;"></textarea>
+            </div>
+            <div class="admin-buttons">
+                <button type="submit" class="admin-btn success">Salvar Resolucao</button>
+                <button type="button" class="admin-btn secondary" onclick="Modal.close()">Cancelar</button>
+            </div>
+        </form>
+    `;
+
+    Modal.show(content, 'Adicionar Nova Resolucao');
+}
+
+function handleAddResolucao(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const resolucao = {
+        numero: formData.get('numero'),
+        ano: formData.get('ano'),
+        data: formData.get('data'),
+        tipo: formData.get('tipo'),
+        titulo: formData.get('titulo'),
+        ementa: formData.get('ementa'),
+        arquivo: null
+    };
+
+    DataManager.addResolucao(resolucao);
+    Modal.close();
+    Notifications.success('Resolucao adicionada com sucesso!');
+    showSection('resolucoes');
+}
+
+function openResolucao(resolucaoId) {
+    const resolucoes = DataManager.getResolucoes();
+    const res = resolucoes.find(r => r.id === resolucaoId);
+
+    if (!res) {
+        Notifications.error('Resolucao nao encontrada');
+        return;
+    }
+
+    const tipoLabel = res.tipo === 'normativa' ? 'Normativa' : 'Administrativa';
+    const content = `
+        <div class="mb-2">
+            <span class="post-category" style="background: ${res.tipo === 'normativa' ? '#16a34a' : '#3b82f6'}">${tipoLabel}</span>
+            <span style="margin-left: 1rem; color: #6b7280;">Aprovada em ${Utils.formatDate(res.data)}</span>
+        </div>
+        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb;">
+        <h4 style="color: #1e3a8a; margin-bottom: 0.5rem;">Ementa</h4>
+        <div style="white-space: pre-wrap; line-height: 1.8; background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+            ${Utils.sanitizeHTML(res.ementa)}
+        </div>
+        <div class="admin-buttons mt-3">
+            <button class="admin-btn" onclick="Notifications.info('Download da resolucao em PDF')">Baixar PDF</button>
+            <button class="admin-btn danger" onclick="confirmDeleteResolucao(${res.id})">Excluir Resolucao</button>
+        </div>
+    `;
+
+    Modal.show(content, `Resolucao No ${res.numero}/${res.ano} - ${res.titulo}`);
+}
+
+function confirmDeleteResolucao(resolucaoId) {
+    if (confirm('Tem certeza que deseja excluir esta resolucao? Esta acao nao pode ser desfeita.')) {
+        DataManager.deleteResolucao(resolucaoId);
+        Modal.close();
+        Notifications.success('Resolucao excluida com sucesso!');
+        showSection('resolucoes');
+    }
+}
+
+// ===== FUNCOES DE COMISSOES =====
+function getComissoesContent() {
+    const comissoes = DataManager.getComissoes();
+
+    let comissoesHtml = '';
+    comissoes.forEach(c => {
+        comissoesHtml += `
+            <div class="post-card" onclick="openComissao(${c.id})" style="cursor: pointer;">
+                <div class="post-meta">
+                    <span class="post-category" style="background: #1e3a8a;">${c.sigla}</span>
+                </div>
+                <div class="post-title">${c.nome}</div>
+                <div class="post-excerpt">${c.descricao}</div>
+            </div>
+        `;
+    });
+
+    return `
+        <h1 class="page-title">Comissoes do CAS/DF</h1>
+        <div class="admin-help">
+            <h4>Comissoes Tematicas Permanentes</h4>
+            <p>O CAS/DF possui comissoes tematicas permanentes responsaveis pela analise e acompanhamento de temas especificos da assistencia social.</p>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">${comissoes.length}</div>
+                <div class="stat-label">Comissoes Ativas</div>
+            </div>
+        </div>
+        <div class="posts-grid mt-2">
+            ${comissoesHtml}
+        </div>
+    `;
+}
+
+function openComissao(comissaoId) {
+    const comissoes = DataManager.getComissoes();
+    const comissao = comissoes.find(c => c.id === comissaoId);
+
+    if (!comissao) {
+        Notifications.error('Comissao nao encontrada');
+        return;
+    }
+
+    let atribuicoesHtml = '<ul style="margin-left: 1.5rem;">';
+    comissao.atribuicoes.forEach(attr => {
+        atribuicoesHtml += `<li style="margin-bottom: 0.5rem;">${Utils.sanitizeHTML(attr)}</li>`;
+    });
+    atribuicoesHtml += '</ul>';
+
+    const content = `
+        <div class="mb-2">
+            <span class="post-category" style="background: #1e3a8a; font-size: 0.9rem; padding: 0.3rem 0.8rem;">${comissao.sigla}</span>
+        </div>
+        <p style="color: #6b7280; margin-bottom: 1rem;">${Utils.sanitizeHTML(comissao.descricao)}</p>
+        <hr style="margin: 1rem 0; border: none; border-top: 1px solid #e5e7eb;">
+        <h4 style="color: #1e3a8a; margin-bottom: 0.5rem;">Atribuicoes</h4>
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            ${atribuicoesHtml}
+        </div>
+        <div style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 1rem; border-radius: 8px;">
+            <p><strong>Coordenador(a):</strong> ${comissao.coordenador}</p>
+        </div>
+    `;
+
+    Modal.show(content, comissao.nome);
 }
 
 // ===== INICIALIZACAO =====
@@ -1138,5 +1841,17 @@ window.showResolucoesTab = showResolucoesTab;
 window.showAtasTab = showAtasTab;
 window.Modal = Modal;
 window.Notifications = Notifications;
+// Atas
+window.showAddAtaForm = showAddAtaForm;
+window.handleAddAta = handleAddAta;
+window.openAta = openAta;
+window.confirmDeleteAta = confirmDeleteAta;
+// Resolucoes
+window.showAddResolucaoForm = showAddResolucaoForm;
+window.handleAddResolucao = handleAddResolucao;
+window.openResolucao = openResolucao;
+window.confirmDeleteResolucao = confirmDeleteResolucao;
+// Comissoes
+window.openComissao = openComissao;
 
 console.log('Script carregado - Aguardando DOM...');
