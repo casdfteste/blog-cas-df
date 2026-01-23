@@ -1002,13 +1002,63 @@ function getInscricaoContent() {
             <h4>Inscricao de Entidades de Assistencia Social</h4>
             <p>Processo completo de inscricao de entidades no Conselho de Assistencia Social do DF.</p>
         </div>
-        <div class="placeholder-content">
-            <h3>Sistema de Inscricao Digital</h3>
-            <p class="placeholder-text">Processo 100% digital para inscricao e renovacao de entidades.</p>
+
+        <!-- Informacao Importante -->
+        <div style="background: linear-gradient(135deg, #dc2626, #f97316); color: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 0.5rem;">&#x26A0; IMPORTANTE</h3>
+            <p style="font-size: 1.1rem;"><strong>Pedidos de inscricao e outros assuntos sobre inscricao:</strong></p>
+            <p>Enviar oficio pelo <strong>E-PROTOCOLO</strong></p>
+        </div>
+
+        <!-- Cards de Acesso Rapido -->
+        <div class="stats-grid">
+            <div class="stat-card" onclick="window.open('https://sistemas.df.gov.br/Protocolo/Login', '_blank')" style="cursor: pointer; background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#x1F4DD;</div>
+                <div class="stat-label" style="color: white; font-weight: bold;">E-PROTOCOLO</div>
+                <div style="font-size: 0.8rem; opacity: 0.9;">Enviar Oficio</div>
+            </div>
+            <div class="stat-card" onclick="window.open('https://drive.google.com/drive/folders/1RF9ep5qRAKUfTqcCfN4PEvEitTSIHjL4?usp=sharing', '_blank')" style="cursor: pointer; background: linear-gradient(135deg, #16a34a, #22c55e); color: white;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#x1F4C2;</div>
+                <div class="stat-label" style="color: white; font-weight: bold;">ORIENTACOES</div>
+                <div style="font-size: 0.8rem; opacity: 0.9;">Modelos e Documentos</div>
+            </div>
+            <div class="stat-card" onclick="window.open('https://wa.me/5561983141354', '_blank')" style="cursor: pointer; background: linear-gradient(135deg, #25d366, #128c7e); color: white;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#x1F4F1;</div>
+                <div class="stat-label" style="color: white; font-weight: bold;">WHATSAPP</div>
+                <div style="font-size: 0.8rem; opacity: 0.9;">(61) 98314-1354</div>
+            </div>
+        </div>
+
+        <!-- Links Detalhados -->
+        <div style="background: white; border-radius: 12px; padding: 2rem; margin-top: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <h3 style="color: #1e3a8a; margin-bottom: 1.5rem;">Links Importantes</h3>
+
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #1e3a8a;">
+                <h4 style="color: #1e3a8a; margin-bottom: 0.5rem;">&#x1F4DD; E-Protocolo GDF</h4>
+                <p style="color: #6b7280; margin-bottom: 0.5rem;">Sistema para envio de oficios e documentos oficiais</p>
+                <a href="https://sistemas.df.gov.br/Protocolo/Login" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500;">https://sistemas.df.gov.br/Protocolo/Login</a>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #16a34a;">
+                <h4 style="color: #16a34a; margin-bottom: 0.5rem;">&#x1F4C2; Orientacoes e Modelo de Plano de Acao</h4>
+                <p style="color: #6b7280; margin-bottom: 0.5rem;">Documentos necessarios e modelos para inscricao</p>
+                <a href="https://drive.google.com/drive/folders/1RF9ep5qRAKUfTqcCfN4PEvEitTSIHjL4?usp=sharing" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500;">Acessar Google Drive</a>
+            </div>
+
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #25d366;">
+                <h4 style="color: #128c7e; margin-bottom: 0.5rem;">&#x1F4F1; Contato WhatsApp - Secretaria Executiva</h4>
+                <p style="color: #6b7280; margin-bottom: 0.5rem;">Tire suas duvidas pelo WhatsApp</p>
+                <a href="https://wa.me/5561983141354" target="_blank" style="color: #3b82f6; text-decoration: none; font-weight: 500;">(61) 98314-1354</a>
+            </div>
+        </div>
+
+        <!-- Submenu -->
+        <div style="background: white; border-radius: 12px; padding: 2rem; margin-top: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            <h3 style="color: #1e3a8a; margin-bottom: 1rem;">Mais Informacoes</h3>
             <div class="admin-buttons">
-                <button class="admin-btn success" onclick="showSubSection('inscricao', 'formulario')">Iniciar Inscricao</button>
-                <button class="admin-btn secondary" onclick="showSubSection('inscricao', 'passo-a-passo')">Ver Procedimentos</button>
+                <button class="admin-btn" onclick="showSubSection('inscricao', 'passo-a-passo')">Passo a Passo</button>
                 <button class="admin-btn secondary" onclick="showSubSection('inscricao', 'documentos')">Documentos Necessarios</button>
+                <button class="admin-btn secondary" onclick="showSubSection('inscricao', 'acompanhar')">Acompanhar Inscricao</button>
             </div>
         </div>
     `;
