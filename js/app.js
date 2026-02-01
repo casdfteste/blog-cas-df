@@ -752,6 +752,8 @@
         </div>
       </div>`).join('');
 
+    const cs = data.como_solicitar;
+
     app.innerHTML = `
       <div class="page fade-in">
         ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Inscricao de Entidades'}])}
@@ -759,6 +761,28 @@
           <h1 class="page__title">${data.titulo}</h1>
           <p class="page__subtitle">${data.descricao}</p>
         </div>
+
+        <div class="info-section" style="border-left:4px solid var(--accent);background:linear-gradient(135deg,var(--primary-50),var(--white))">
+          <h2 class="info-section__title">${cs.titulo}</h2>
+          <p class="info-section__text">${cs.descricao}</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1.25rem">
+            <a href="${cs.eprotocolo.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--primary);color:var(--white);border-radius:var(--radius-lg);text-decoration:none;transition:var(--transition);font-weight:600" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--primary)'">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <div>
+                <strong style="display:block;font-size:1rem">${cs.eprotocolo.titulo}</strong>
+                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.eprotocolo.instrucao}</span>
+              </div>
+            </a>
+            <a href="${cs.orientacoes.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--accent);color:var(--white);border-radius:var(--radius-lg);text-decoration:none;transition:var(--transition);font-weight:600" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='var(--accent)'">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              <div>
+                <strong style="display:block;font-size:1rem">${cs.orientacoes.titulo}</strong>
+                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.orientacoes.descricao}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
         <div class="info-section">
           <h2 class="info-section__title">Quem deve se inscrever</h2>
           <p class="info-section__text">${data.quem_deve_se_inscrever}</p>
@@ -782,6 +806,10 @@
           <ul class="mt-1">
             <li><strong>E-mail:</strong> ${data.contato.email}</li>
             <li><strong>Telefone:</strong> ${data.contato.telefone}</li>
+            <li>
+              <strong>WhatsApp da Secretaria Executiva:</strong>
+              <a href="https://wa.me/55${data.contato.whatsapp.replace(/\D/g,'')}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600"> ${data.contato.whatsapp}</a>
+            </li>
             <li><strong>Horario:</strong> ${data.contato.horario}</li>
           </ul>
         </div>
