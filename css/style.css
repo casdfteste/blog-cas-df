@@ -1473,4 +1473,224 @@ mark { background: #fef08a; color: inherit; padding: 1px 3px; border-radius: 3px
   .hero__btn { justify-content: center; }
   .stats { grid-template-columns: 1fr 1fr; }
   .header__search { display: none; }
+  .fisc-stats { grid-template-columns: 1fr 1fr; }
+  .fisc-controls { flex-direction: column; }
+  .fisc-filters { flex-wrap: wrap; }
+}
+
+/* ===== FISCALIZACAO ===== */
+
+/* Stats cards */
+.fisc-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.fisc-stat {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border-top: 3px solid var(--gray-200);
+  transition: var(--transition);
+}
+.fisc-stat:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.fisc-stat--total { border-top-color: var(--primary); }
+.fisc-stat--andamento { border-top-color: #f59e0b; }
+.fisc-stat--recebido { border-top-color: #3b82f6; }
+.fisc-stat--concluido { border-top-color: var(--accent); }
+.fisc-stat--atrasado { border-top-color: #ef4444; }
+.fisc-stat--taxa { border-top-color: #8b5cf6; }
+
+.fisc-stat__number {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: .25rem;
+}
+.fisc-stat--total .fisc-stat__number { color: var(--primary); }
+.fisc-stat--andamento .fisc-stat__number { color: #f59e0b; }
+.fisc-stat--recebido .fisc-stat__number { color: #3b82f6; }
+.fisc-stat--concluido .fisc-stat__number { color: var(--accent); }
+.fisc-stat--atrasado .fisc-stat__number { color: #ef4444; }
+.fisc-stat--taxa .fisc-stat__number { color: #8b5cf6; }
+
+.fisc-stat__label {
+  font-size: .78rem;
+  color: var(--gray-500);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+/* Controls */
+.fisc-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.fisc-search {
+  flex: 1;
+  min-width: 200px;
+  padding: .65rem 1rem;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: .9rem;
+  font-family: inherit;
+  transition: var(--transition);
+}
+.fisc-search:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-50);
+}
+
+.fisc-filters {
+  display: flex;
+  gap: .35rem;
+}
+
+.fisc-filter {
+  padding: .45rem .85rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--gray-600);
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+.fisc-filter:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.fisc-filter.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+/* Table */
+.fisc-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  background: var(--white);
+}
+
+.fisc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .88rem;
+}
+
+.fisc-table thead {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.fisc-table th {
+  padding: .85rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  white-space: nowrap;
+}
+
+.fisc-table td {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+}
+
+.fisc-table tbody tr:hover {
+  background: var(--primary-50);
+}
+
+.fisc-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.fisc-td-entidade {
+  font-weight: 600;
+  color: var(--gray-800) !important;
+  max-width: 250px;
+}
+
+.fisc-count {
+  font-size: .82rem;
+  color: var(--gray-400);
+  margin-top: .75rem;
+}
+
+/* Status badges */
+.fisc-badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.fisc-badge--green { background: #dcfce7; color: #166534; }
+.fisc-badge--blue { background: #dbeafe; color: #1e40af; }
+.fisc-badge--yellow { background: #fef3c7; color: #92400e; }
+.fisc-badge--red { background: #fee2e2; color: #991b1b; }
+.fisc-badge--gray { background: var(--gray-100); color: var(--gray-600); }
+
+.fisc-prazo {
+  display: inline-block;
+  padding: .15rem .5rem;
+  border-radius: var(--radius);
+  font-size: .72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.fisc-prazo--green { background: #dcfce7; color: #166534; }
+.fisc-prazo--yellow { background: #fef3c7; color: #92400e; }
+.fisc-prazo--red { background: #fee2e2; color: #991b1b; }
+.fisc-prazo--gray { background: var(--gray-100); color: var(--gray-600); }
+
+/* Resultados possiveis */
+.fisc-resultados {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.fisc-resultado {
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  border-left: 4px solid;
+}
+.fisc-resultado strong {
+  display: block;
+  margin-bottom: .35rem;
+  font-size: .95rem;
+}
+.fisc-resultado p {
+  font-size: .85rem;
+  line-height: 1.5;
+}
+
+.fisc-resultado--green { background: #f0fdf4; border-left-color: #16a34a; color: #166534; }
+.fisc-resultado--yellow { background: #fffbeb; border-left-color: #f59e0b; color: #92400e; }
+.fisc-resultado--red { background: #fef2f2; border-left-color: #ef4444; color: #991b1b; }
+.fisc-resultado--blue { background: #eff6ff; border-left-color: #3b82f6; color: #1e40af; }
+
+@media (max-width: 768px) {
+  .fisc-stats { grid-template-columns: repeat(3, 1fr); }
+  .fisc-resultados { grid-template-columns: 1fr; }
 }

@@ -54,6 +54,7 @@
       else if (route === '/conferencias') await renderConferencias();
       else if (route === '/conferencias/regionais') await renderConferencias('regionais');
       else if (route === '/entidades') await renderEntidades();
+      else if (route === '/fiscalizacao') await renderFiscalizacao();
       else if (route === '/inscricao') await renderInscricao();
       else if (route === '/contato') await renderContato();
       else if (route === '/admin' || route.startsWith('/admin/')) {
@@ -742,6 +743,298 @@
 
     renderList('');
     document.getElementById('entidadesSearch').addEventListener('input', (e) => { renderList(e.target.value.trim()); });
+  }
+
+  // ===== FISCALIZACAO =====
+  async function loadSheetData(sheetId, sheetName) {
+    const url = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(sheetName);
+    const text = await fetch(url).then(r => r.text());
+    const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\)/);
+    if (!match) throw new Error('Formato invalido');
+    const json = JSON.parse(match[1]);
+    const cols = json.table.cols.map(c => c.label);
+    const rows = json.table.rows.map(r => {
+      const obj = {};
+      r.c.forEach((cell, i) => {
+        if (i < cols.length) {
+          obj[cols[i]] = cell ? (cell.v !== null && cell.v !== undefined ? String(cell.v) : '') : '';
+        }
+      });
+      return obj;
+    });
+    return rows;
+  }
+
+  function fiscStatusBadge(status) {
+    const s = (status || '').toLowerCase();
+    if (s.includes('conclu')) return '<span class="fisc-badge fisc-badge--green">Concluido</span>';
+    if (s.includes('recebido')) return '<span class="fisc-badge fisc-badge--blue">Relatorio Recebido</span>';
+    if (s.includes('aguardando')) return '<span class="fisc-badge fisc-badge--yellow">Aguardando Relatorio</span>';
+    if (s.includes('designado')) return '<span class="fisc-badge fisc-badge--gray">Designado</span>';
+    if (s.includes('cancelado')) return '<span class="fisc-badge fisc-badge--red">Cancelado</span>';
+    return '<span class="fisc-badge fisc-badge--gray">' + (status || 'N/A') + '</span>';
+  }
+
+  function fiscPrazoBadge(situacao) {
+    const s = (situacao || '').toLowerCase();
+    if (s.includes('no prazo')) return '<span class="fisc-prazo fisc-prazo--green">No prazo</span>';
+    if (s.includes('vence')) return '<span class="fisc-prazo fisc-prazo--yellow">Vence em breve</span>';
+    if (s.includes('atrasado')) return '<span class="fisc-prazo fisc-prazo--red">Atrasado</span>';
+    if (s.includes('conclu')) return '<span class="fisc-prazo fisc-prazo--green">Concluido</span>';
+    return '<span class="fisc-prazo fisc-prazo--gray">' + (situacao || '—') + '</span>';
+  }
+
+  async function renderFiscalizacao() {
+    const data = await loadJSON('fiscalizacao.json');
+
+    // Static content
+    let stepsHtml = data.processo.map(p => `
+      <div class="step">
+        <div class="step__number">${p.passo}</div>
+        <div class="step__content">
+          <p class="step__title">${p.titulo}</p>
+          <p class="step__desc">${p.descricao}</p>
+        </div>
+      </div>`).join('');
+
+    let resultadosHtml = data.resultados_possiveis.map(r => `
+      <div class="fisc-resultado fisc-resultado--${r.cor}">
+        <strong>${r.resultado}</strong>
+        <p>${r.descricao}</p>
+      </div>`).join('');
+
+    let itensHtml = data.itens_verificados.map(i => '<li>' + i + '</li>').join('');
+
+    let html = `
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Fiscalizacao de Entidades'}])}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}</p>
+        </div>`;
+
+    // Live data section (only if sheet_id is configured)
+    if (data.sheet_id) {
+      html += `
+        <div id="fiscDashboard">
+          <div class="fisc-loading">
+            <div class="loading">Carregando dados da planilha...</div>
+          </div>
+        </div>`;
+    } else {
+      html += `
+        <div class="info-section" style="border-left:4px solid var(--primary);background:var(--primary-50)">
+          <h2 class="info-section__title">Painel de Acompanhamento</h2>
+          <p class="info-section__text">O painel com dados ao vivo das fiscalizacoes sera ativado em breve. Quando configurado, voce podera acompanhar em tempo real o status de cada fiscalizacao em andamento.</p>
+        </div>`;
+    }
+
+    // Static info
+    html += `
+        <div class="info-section">
+          <h2 class="info-section__title">Sobre a Fiscalizacao</h2>
+          <p class="info-section__text">${data.sobre_fiscalizacao}</p>
+          <p class="info-section__text mt-1"><strong>Base legal:</strong> ${data.base_legal}</p>
+          <p class="info-section__text mt-1"><strong>Prazo padrao:</strong> ${data.prazo_padrao}</p>
+        </div>
+
+        <div class="section-title mt-2"><h2>Etapas do Processo</h2></div>
+        <div class="steps">${stepsHtml}</div>
+
+        <div class="info-section mt-2">
+          <h2 class="info-section__title">Itens Verificados na Fiscalizacao</h2>
+          <ul class="competencias-list">${itensHtml}</ul>
+        </div>
+
+        <div class="section-title mt-2"><h2>Resultados Possiveis</h2></div>
+        <div class="fisc-resultados">${resultadosHtml}</div>
+
+        <div class="info-section mt-2">
+          <h2 class="info-section__title">Contato</h2>
+          <p class="info-section__text">Para duvidas sobre fiscalizacoes:</p>
+          <ul class="mt-1">
+            <li><strong>E-mail:</strong> ${data.contato_fiscalizacao.email}</li>
+            <li><strong>Telefone:</strong> ${data.contato_fiscalizacao.telefone}</li>
+          </ul>
+        </div>
+      </div>`;
+
+    app.innerHTML = html;
+
+    // Load live data if configured
+    if (data.sheet_id) {
+      try {
+        const rows = await loadSheetData(data.sheet_id, data.sheet_aba);
+        renderFiscDashboard(rows);
+      } catch (e) {
+        document.getElementById('fiscDashboard').innerHTML = `
+          <div class="info-section" style="border-left:4px solid #ef4444;background:#fef2f2">
+            <h2 class="info-section__title">Erro ao carregar dados</h2>
+            <p class="info-section__text">Nao foi possivel acessar a planilha. Verifique se ela esta publicada na web.</p>
+          </div>`;
+        console.error('Erro ao carregar planilha:', e);
+      }
+    }
+  }
+
+  function renderFiscDashboard(rows) {
+    const container = document.getElementById('fiscDashboard');
+    if (!container) return;
+
+    // Compute stats
+    const total = rows.length;
+    const concluidas = rows.filter(r => (r['Status'] || '').toLowerCase().includes('conclu')).length;
+    const emAndamento = rows.filter(r => {
+      const s = (r['Status'] || '').toLowerCase();
+      return s.includes('designado') || s.includes('aguardando');
+    }).length;
+    const recebidos = rows.filter(r => (r['Status'] || '').toLowerCase().includes('recebido')).length;
+    const atrasados = rows.filter(r => (r['Situação Prazo'] || r['Situacao Prazo'] || '').toLowerCase().includes('atrasado')).length;
+    const taxa = total > 0 ? Math.round((concluidas / total) * 100) : 0;
+
+    let html = `
+      <div class="fisc-stats">
+        <div class="fisc-stat fisc-stat--total">
+          <div class="fisc-stat__number">${total}</div>
+          <div class="fisc-stat__label">Total</div>
+        </div>
+        <div class="fisc-stat fisc-stat--andamento">
+          <div class="fisc-stat__number">${emAndamento}</div>
+          <div class="fisc-stat__label">Em andamento</div>
+        </div>
+        <div class="fisc-stat fisc-stat--recebido">
+          <div class="fisc-stat__number">${recebidos}</div>
+          <div class="fisc-stat__label">Relatorios recebidos</div>
+        </div>
+        <div class="fisc-stat fisc-stat--concluido">
+          <div class="fisc-stat__number">${concluidas}</div>
+          <div class="fisc-stat__label">Concluidas</div>
+        </div>
+        <div class="fisc-stat fisc-stat--atrasado">
+          <div class="fisc-stat__number">${atrasados}</div>
+          <div class="fisc-stat__label">Atrasadas</div>
+        </div>
+        <div class="fisc-stat fisc-stat--taxa">
+          <div class="fisc-stat__number">${taxa}%</div>
+          <div class="fisc-stat__label">Taxa de conclusao</div>
+        </div>
+      </div>
+
+      <div class="section-title mt-2"><h2>Fiscalizacoes</h2></div>
+
+      <div class="fisc-controls">
+        <input type="text" id="fiscSearch" class="fisc-search" placeholder="Buscar por entidade ou conselheiro...">
+        <div class="fisc-filters">
+          <button class="fisc-filter active" data-filter="todos">Todos</button>
+          <button class="fisc-filter" data-filter="andamento">Em andamento</button>
+          <button class="fisc-filter" data-filter="recebido">Recebido</button>
+          <button class="fisc-filter" data-filter="concluido">Concluido</button>
+          <button class="fisc-filter" data-filter="atrasado">Atrasado</button>
+        </div>
+      </div>
+
+      <div class="fisc-table-wrap">
+        <table class="fisc-table">
+          <thead>
+            <tr>
+              <th>Entidade</th>
+              <th>Conselheiro</th>
+              <th>Designacao</th>
+              <th>Prazo</th>
+              <th>Status</th>
+              <th>Situacao</th>
+            </tr>
+          </thead>
+          <tbody id="fiscTableBody"></tbody>
+        </table>
+      </div>
+      <p id="fiscCount" class="fisc-count"></p>`;
+
+    container.innerHTML = html;
+
+    // Column name detection (handles accent variations)
+    function getCol(row, names) {
+      for (const n of names) {
+        if (row[n] !== undefined) return row[n];
+      }
+      return '';
+    }
+
+    function renderTable(filter, search) {
+      const tbody = document.getElementById('fiscTableBody');
+      const countEl = document.getElementById('fiscCount');
+      if (!tbody) return;
+
+      let filtered = rows;
+
+      // Filter by status
+      if (filter === 'andamento') {
+        filtered = filtered.filter(r => {
+          const s = (getCol(r, ['Status']) || '').toLowerCase();
+          return s.includes('designado') || s.includes('aguardando');
+        });
+      } else if (filter === 'recebido') {
+        filtered = filtered.filter(r => (getCol(r, ['Status']) || '').toLowerCase().includes('recebido'));
+      } else if (filter === 'concluido') {
+        filtered = filtered.filter(r => (getCol(r, ['Status']) || '').toLowerCase().includes('conclu'));
+      } else if (filter === 'atrasado') {
+        filtered = filtered.filter(r => (getCol(r, ['Situação Prazo', 'Situacao Prazo']) || '').toLowerCase().includes('atrasado'));
+      }
+
+      // Search
+      if (search) {
+        const q = search.toLowerCase();
+        filtered = filtered.filter(r => {
+          const text = (getCol(r, ['Entidade']) + ' ' + getCol(r, ['Conselheiro'])).toLowerCase();
+          return text.includes(q);
+        });
+      }
+
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray-400)">Nenhuma fiscalizacao encontrada.</td></tr>';
+        countEl.textContent = '0 resultados';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => {
+        const entidade = getCol(r, ['Entidade']);
+        const conselheiro = getCol(r, ['Conselheiro']);
+        const designacao = getCol(r, ['Data Designação', 'Data Designacao']);
+        const prazo = getCol(r, ['Prazo']);
+        const status = getCol(r, ['Status']);
+        const situacao = getCol(r, ['Situação Prazo', 'Situacao Prazo']);
+
+        return `<tr>
+          <td class="fisc-td-entidade">${entidade}</td>
+          <td>${conselheiro}</td>
+          <td>${designacao}</td>
+          <td>${prazo}</td>
+          <td>${fiscStatusBadge(status)}</td>
+          <td>${fiscPrazoBadge(situacao)}</td>
+        </tr>`;
+      }).join('');
+
+      countEl.textContent = filtered.length + ' fiscalizac' + (filtered.length !== 1 ? 'oes' : 'ao') + ' encontrada' + (filtered.length !== 1 ? 's' : '');
+    }
+
+    // Initial render
+    let currentFilter = 'todos';
+    renderTable('todos', '');
+
+    // Filter buttons
+    document.querySelectorAll('.fisc-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.fisc-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderTable(currentFilter, document.getElementById('fiscSearch').value.trim());
+      });
+    });
+
+    // Search
+    document.getElementById('fiscSearch').addEventListener('input', (e) => {
+      renderTable(currentFilter, e.target.value.trim());
+    });
   }
 
   // ===== INSCRICAO =====

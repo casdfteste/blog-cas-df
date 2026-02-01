@@ -1,0 +1,37 @@
+{
+  "titulo": "Fiscalizacao de Entidades",
+  "descricao": "Acompanhe as fiscalizacoes realizadas pelo CAS/DF nas entidades e organizacoes de assistencia social inscritas no Conselho.",
+  "sheet_id": "",
+  "sheet_aba": "Controle de Fiscalizações",
+  "base_legal": "A fiscalizacao e uma das competencias do CAS/DF, prevista na Lei n. 8.742/1993 (LOAS), na Lei Distrital n. 4.176/2008 e na Resolucao CNAS n. 14/2014. O Conselho deve acompanhar e fiscalizar as entidades e organizacoes de assistencia social inscritas, verificando o cumprimento dos requisitos legais e a qualidade dos servicos prestados.",
+  "sobre_fiscalizacao": "A fiscalizacao consiste na verificacao in loco das atividades das entidades inscritas no CAS/DF. Conselheiros sao designados pelo plenario para realizar visitas e elaborar relatorios detalhados sobre as condicoes de funcionamento, atendimento e conformidade com as normas da politica de assistencia social.",
+  "processo": [
+    {"passo": 1, "titulo": "Deliberacao em Plenaria", "descricao": "O plenario do CAS/DF delibera sobre as entidades a serem fiscalizadas e designa os conselheiros responsaveis."},
+    {"passo": 2, "titulo": "Designacao do Conselheiro", "descricao": "A Secretaria Executiva formaliza a designacao e notifica o conselheiro, que recebe a documentacao da entidade e o prazo para realizacao da visita."},
+    {"passo": 3, "titulo": "Visita de Fiscalizacao", "descricao": "O conselheiro realiza a visita in loco na entidade, verificando documentacao, estrutura fisica, acessibilidade, equipe de trabalho, atividades executadas e articulacao com a rede socioassistencial."},
+    {"passo": 4, "titulo": "Elaboracao do Relatorio", "descricao": "Apos a visita, o conselheiro preenche o formulario de fiscalizacao com fotos, avaliacoes e seu voto (Favoravel, Favoravel com Ressalvas, Desfavoravel ou Diligencia)."},
+    {"passo": 5, "titulo": "Analise e Deliberacao", "descricao": "O relatorio e apresentado ao plenario do CAS/DF, que delibera sobre a situacao da entidade com base nas informacoes coletadas."},
+    {"passo": 6, "titulo": "Publicacao", "descricao": "A resolucao resultante e publicada no Diario Oficial do Distrito Federal (DODF)."}
+  ],
+  "itens_verificados": [
+    "Documentacao e licencas de funcionamento",
+    "Adequacao do espaco fisico e acessibilidade",
+    "Equipe tecnica (assistentes sociais, psicologos, pedagogos, etc.)",
+    "Publico atendido e formas de acesso",
+    "Atividades executadas conforme Plano de Trabalho",
+    "Gratuidade dos servicos",
+    "Articulacao com a rede SUAS (CRAS, CREAS, etc.)",
+    "Registros nos conselhos competentes (CDI, CDCA, quando aplicavel)"
+  ],
+  "resultados_possiveis": [
+    {"resultado": "Favoravel", "descricao": "A entidade atende a todos os requisitos legais e normativos.", "cor": "green"},
+    {"resultado": "Favoravel com Ressalvas", "descricao": "A entidade atende aos requisitos, mas ha pontos que precisam ser melhorados.", "cor": "yellow"},
+    {"resultado": "Desfavoravel", "descricao": "A entidade nao atende aos requisitos minimos exigidos.", "cor": "red"},
+    {"resultado": "Diligencia", "descricao": "Sao necessarias mais informacoes ou documentos para emitir parecer.", "cor": "blue"}
+  ],
+  "prazo_padrao": "60 dias a partir da designacao",
+  "contato_fiscalizacao": {
+    "email": "cas.df@sedes.df.gov.br",
+    "telefone": "(61) 3223-1532"
+  }
+}
