@@ -56,6 +56,11 @@
       else if (route === '/entidades') await renderEntidades();
       else if (route === '/inscricao') await renderInscricao();
       else if (route === '/contato') await renderContato();
+      else if (route === '/admin' || route.startsWith('/admin/')) {
+        const sub = route === '/admin' ? 'dashboard' : route.slice(7);
+        if (window.__renderAdmin) window.__renderAdmin(app, sub);
+        else render404();
+      }
       else if (route.startsWith('/busca/')) await renderBusca(decodeURIComponent(route.slice(7)));
       else if (route.startsWith('/post/')) await renderPost(parseInt(route.slice(6)));
       else render404();
