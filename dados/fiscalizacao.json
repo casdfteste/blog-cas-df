@@ -1,8 +1,8 @@
 {
   "titulo": "Fiscalizacao de Entidades",
   "descricao": "Acompanhe as fiscalizacoes realizadas pelo CAS/DF nas entidades e organizacoes de assistencia social inscritas no Conselho.",
-  "sheet_id": "",
-  "sheet_aba": "Controle de Fiscalizações",
+  "sheet_pub_key": "2PACX-1vT1WL6eto5Cr2QDl8Nig-V2ote63OwwWcgdg17AzmGrKaZa1TaZcaHxXuiDy2RMXooZiojNZFza9RoI",
+  "sheet_gid": "512581141",
   "base_legal": "A fiscalizacao e uma das competencias do CAS/DF, prevista na Lei n. 8.742/1993 (LOAS), na Lei Distrital n. 4.176/2008 e na Resolucao CNAS n. 14/2014. O Conselho deve acompanhar e fiscalizar as entidades e organizacoes de assistencia social inscritas, verificando o cumprimento dos requisitos legais e a qualidade dos servicos prestados.",
   "sobre_fiscalizacao": "A fiscalizacao consiste na verificacao in loco das atividades das entidades inscritas no CAS/DF. Conselheiros sao designados pelo plenario para realizar visitas e elaborar relatorios detalhados sobre as condicoes de funcionamento, atendimento e conformidade com as normas da politica de assistencia social.",
   "processo": [

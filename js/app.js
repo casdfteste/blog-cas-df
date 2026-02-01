@@ -746,22 +746,44 @@
   }
 
   // ===== FISCALIZACAO =====
-  async function loadSheetData(sheetId, sheetName) {
-    const url = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent(sheetName);
+  async function loadSheetCSV(pubKey, gid) {
+    const url = 'https://docs.google.com/spreadsheets/d/e/' + pubKey + '/pub?gid=' + gid + '&single=true&output=csv';
     const text = await fetch(url).then(r => r.text());
-    const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]+)\)/);
-    if (!match) throw new Error('Formato invalido');
-    const json = JSON.parse(match[1]);
-    const cols = json.table.cols.map(c => c.label);
-    const rows = json.table.rows.map(r => {
-      const obj = {};
-      r.c.forEach((cell, i) => {
-        if (i < cols.length) {
-          obj[cols[i]] = cell ? (cell.v !== null && cell.v !== undefined ? String(cell.v) : '') : '';
+    if (!text || !text.trim()) return [];
+
+    // Parse CSV properly (handles quoted fields with commas)
+    const rows = [];
+    const lines = text.split('\n');
+    const parseLine = (line) => {
+      const cells = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+          else { inQuotes = !inQuotes; }
+        } else if (ch === ',' && !inQuotes) {
+          cells.push(current.trim()); current = '';
+        } else if (ch === '\r') {
+          continue;
+        } else {
+          current += ch;
         }
-      });
-      return obj;
-    });
+      }
+      cells.push(current.trim());
+      return cells;
+    };
+
+    const headers = parseLine(lines[0]);
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+      const cells = parseLine(line);
+      const obj = {};
+      headers.forEach((h, idx) => { obj[h] = cells[idx] || ''; });
+      rows.push(obj);
+    }
     return rows;
   }
 
@@ -813,8 +835,8 @@
           <p class="page__subtitle">${data.descricao}</p>
         </div>`;
 
-    // Live data section (only if sheet_id is configured)
-    if (data.sheet_id) {
+    // Live data section (only if sheet is configured)
+    if (data.sheet_pub_key && data.sheet_gid) {
       html += `
         <div id="fiscDashboard">
           <div class="fisc-loading">
@@ -862,9 +884,9 @@
     app.innerHTML = html;
 
     // Load live data if configured
-    if (data.sheet_id) {
+    if (data.sheet_pub_key && data.sheet_gid) {
       try {
-        const rows = await loadSheetData(data.sheet_id, data.sheet_aba);
+        const rows = await loadSheetCSV(data.sheet_pub_key, data.sheet_gid);
         renderFiscDashboard(rows);
       } catch (e) {
         document.getElementById('fiscDashboard').innerHTML = `
@@ -880,6 +902,15 @@
   function renderFiscDashboard(rows) {
     const container = document.getElementById('fiscDashboard');
     if (!container) return;
+
+    if (!rows.length) {
+      container.innerHTML = `
+        <div class="info-section" style="border-left:4px solid var(--accent);background:#f0fdf4">
+          <h2 class="info-section__title">Painel de Acompanhamento — Conectado</h2>
+          <p class="info-section__text">A planilha de controle esta conectada ao blog. Quando as primeiras fiscalizacoes forem registradas, os dados aparecerao automaticamente aqui com estatisticas e tabela de acompanhamento.</p>
+        </div>`;
+      return;
+    }
 
     // Compute stats
     const total = rows.length;
