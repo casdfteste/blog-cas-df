@@ -1,0 +1,80 @@
+{
+  "titulo": "Entidades Inscritas no CAS/DF",
+  "descricao": "Lista de entidades e organizacoes de assistencia social inscritas no Conselho de Assistencia Social do Distrito Federal, conforme Resolucao vigente.",
+  "ultima_atualizacao": "2025-03-01",
+  "total": 8,
+  "entidades": [
+    {
+      "nome": "Associacao Beneficente de Assistencia Social — ABAS",
+      "cnpj": "00.000.000/0001-00",
+      "inscricao": "001/2024",
+      "validade": "2026-12-31",
+      "servicos": ["Protecao Social Basica", "Convivencia e Fortalecimento de Vinculos"],
+      "regiao": "Ceilandia",
+      "situacao": "Regular"
+    },
+    {
+      "nome": "Instituto Social do Cerrado — ISC",
+      "cnpj": "00.000.000/0002-00",
+      "inscricao": "002/2024",
+      "validade": "2026-12-31",
+      "servicos": ["Protecao Social Especial", "Acolhimento Institucional"],
+      "regiao": "Taguatinga",
+      "situacao": "Regular"
+    },
+    {
+      "nome": "Fundacao Esperanca Viva",
+      "cnpj": "00.000.000/0003-00",
+      "inscricao": "003/2024",
+      "validade": "2026-12-31",
+      "servicos": ["Protecao Social Basica", "Trabalho Social com Familias"],
+      "regiao": "Samambaia",
+      "situacao": "Regular"
+    },
+    {
+      "nome": "Centro de Apoio a Familia — CAF",
+      "cnpj": "00.000.000/0004-00",
+      "inscricao": "004/2024",
+      "validade": "2026-12-31",
+      "servicos": ["Protecao Social Basica"],
+      "regiao": "Planaltina",
+      "situacao": "Regular"
+    },
+    {
+      "nome": "Acao Social Planalto",
+      "cnpj": "00.000.000/0005-00",
+      "inscricao": "005/2023",
+      "validade": "2025-12-31",
+      "servicos": ["Protecao Social Especial", "Abordagem Social"],
+      "regiao": "Plano Piloto",
+      "situacao": "Regular"
+    },
+    {
+      "nome": "Associacao Comunitaria Sol Nascente",
+      "cnpj": "00.000.000/0006-00",
+      "inscricao": "006/2023",
+      "validade": "2025-12-31",
+      "servicos": ["Protecao Social Basica", "Convivencia e Fortalecimento de Vinculos"],
+      "regiao": "Sol Nascente",
+      "situacao": "Regular"
+    },
+    {
+      "nome": "Instituto de Desenvolvimento Social — IDS",
+      "cnpj": "00.000.000/0007-00",
+      "inscricao": "007/2023",
+      "validade": "2025-12-31",
+      "servicos": ["Protecao Social Especial", "Servico de Acolhimento"],
+      "regiao": "Sobradinho",
+      "situacao": "Em monitoramento"
+    },
+    {
+      "nome": "ONG Caminhos da Cidadania",
+      "cnpj": "00.000.000/0008-00",
+      "inscricao": "008/2023",
+      "validade": "2025-12-31",
+      "servicos": ["Protecao Social Basica", "Assessoramento e Defesa de Direitos"],
+      "regiao": "Recanto das Emas",
+      "situacao": "Regular"
+    }
+  ]
+}

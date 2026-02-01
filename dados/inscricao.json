@@ -1,0 +1,35 @@
+{
+  "titulo": "Inscricao de Entidades no CAS/DF",
+  "descricao": "A inscricao no CAS/DF e obrigatoria para entidades e organizacoes de assistencia social que atuam no Distrito Federal, conforme a Lei n. 8.742/1993 (LOAS) e a Resolucao CNAS n. 14/2014.",
+  "quem_deve_se_inscrever": "Entidades e organizacoes de assistencia social que prestam servicos, executam programas ou projetos, concedem bolsas, ou realizam assessoramento e defesa de direitos no ambito da assistencia social no DF.",
+  "tipos_inscricao": [
+    {"tipo": "Inscricao", "descricao": "Para entidades que nunca foram inscritas no CAS/DF."},
+    {"tipo": "Renovacao", "descricao": "Para entidades com inscricao vigente que desejam renovar."},
+    {"tipo": "Alteracao", "descricao": "Para entidades inscritas que precisam atualizar dados."}
+  ],
+  "documentos_necessarios": [
+    "Requerimento de inscricao (modelo disponivel na Secretaria Executiva)",
+    "Copia do Estatuto Social registrado em cartorio",
+    "Copia da ata de eleicao e posse da atual diretoria",
+    "Copia do CNPJ atualizado",
+    "Copia do documento de identidade do representante legal",
+    "Plano de acao com descricao dos servicos prestados",
+    "Relatorio de atividades do ano anterior (para renovacao)",
+    "Comprovante de endereco da sede no DF",
+    "Declaracao de que nao remunera dirigentes"
+  ],
+  "passo_a_passo": [
+    {"passo": 1, "titulo": "Reunir a documentacao", "descricao": "Reuna todos os documentos listados acima. Certifique-se de que estao atualizados."},
+    {"passo": 2, "titulo": "Protocolar o pedido", "descricao": "Entregue a documentacao na Secretaria Executiva do CAS/DF ou envie por e-mail para cas.df@sedes.df.gov.br."},
+    {"passo": 3, "titulo": "Analise pela CNIE", "descricao": "A Comissao de Normas e Inscricao de Entidades analisara a documentacao e podera solicitar complementacoes."},
+    {"passo": 4, "titulo": "Visita de verificacao", "descricao": "A CNIE podera realizar visita in loco para verificar as atividades declaradas."},
+    {"passo": 5, "titulo": "Deliberacao do plenario", "descricao": "O parecer da CNIE e submetido a votacao do plenario do CAS/DF."},
+    {"passo": 6, "titulo": "Publicacao", "descricao": "A resolucao de deferimento ou indeferimento e publicada no DODF."}
+  ],
+  "prazo": "O prazo medio de analise e de 60 dias uteis a partir do protocolo completo.",
+  "contato": {
+    "email": "cas.df@sedes.df.gov.br",
+    "telefone": "(61) 3223-1532",
+    "horario": "Segunda a sexta, das 9h as 17h"
+  }
+}

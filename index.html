@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAS/DF — Conselho de Assistencia Social do Distrito Federal</title>
+  <meta name="description" content="Blog oficial do Conselho de Assistencia Social do Distrito Federal (CAS/DF). Resolucoes, atas, reunioes, inscricao de entidades e noticias.">
+  <meta property="og:title" content="CAS/DF — Conselho de Assistencia Social do Distrito Federal">
+  <meta property="og:description" content="Blog oficial do CAS/DF. Resolucoes, atas, reunioes, inscricao de entidades e noticias sobre assistencia social no DF.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://casdfteste.github.io/blog-cas-df/">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#/" class="header__logo">
+        <span class="header__logo-icon">⚖️</span>
+        <div class="header__logo-text">
+          <strong>CAS/DF</strong>
+          <small>Conselho de Assistencia Social</small>
+        </div>
+      </a>
+      <button class="header__toggle" id="menuToggle" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="nav">
+        <ul class="nav__list">
+          <li><a href="#/" class="nav__link">Inicio</a></li>
+          <li class="nav__dropdown">
+            <a href="#/sobre" class="nav__link nav__link--dropdown">Sobre</a>
+            <ul class="nav__submenu">
+              <li><a href="#/sobre/presidencia">Presidencia</a></li>
+              <li><a href="#/sobre/secretaria">Secretaria Executiva</a></li>
+              <li><a href="#/sobre/conselheiros">Conselheiros</a></li>
+              <li><a href="#/sobre/comissoes">Comissoes</a></li>
+            </ul>
+          </li>
+          <li><a href="#/planejamento" class="nav__link">Planejamento</a></li>
+          <li class="nav__dropdown">
+            <a href="#/resolucoes" class="nav__link nav__link--dropdown">Documentos</a>
+            <ul class="nav__submenu">
+              <li><a href="#/resolucoes">Resolucoes</a></li>
+              <li><a href="#/atas">Atas</a></li>
+            </ul>
+          </li>
+          <li><a href="#/reunioes" class="nav__link">Reunioes</a></li>
+          <li><a href="#/eleicoes" class="nav__link">Eleicoes</a></li>
+          <li><a href="#/conferencias" class="nav__link">Conferencias</a></li>
+          <li><a href="#/entidades" class="nav__link">Entidades</a></li>
+          <li><a href="#/inscricao" class="nav__link">Inscricao</a></li>
+          <li><a href="#/contato" class="nav__link">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="header__search">
+        <input type="text" id="searchInput" placeholder="Buscar..." aria-label="Buscar no site">
+        <button id="searchBtn" aria-label="Buscar">🔍</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main" id="app">
+    <div class="loading">Carregando...</div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__col">
+        <h3>CAS/DF</h3>
+        <p>Conselho de Assistencia Social do Distrito Federal</p>
+        <p>Orgao vinculado a Secretaria de Estado de Desenvolvimento Social (SEDES)</p>
+      </div>
+      <div class="footer__col">
+        <h3>Contato</h3>
+        <p>📧 cas.df@sedes.df.gov.br</p>
+        <p>📞 (61) 3223-1532</p>
+        <p>📍 SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar — Asa Norte, Brasilia/DF</p>
+      </div>
+      <div class="footer__col">
+        <h3>Links Uteis</h3>
+        <ul>
+          <li><a href="https://www.sedes.df.gov.br" target="_blank" rel="noopener">SEDES</a></li>
+          <li><a href="https://www.gov.br/mds" target="_blank" rel="noopener">Ministerio do Desenvolvimento Social</a></li>
+          <li><a href="https://www.gov.br/participamaisbrasil/cnas" target="_blank" rel="noopener">CNAS</a></li>
+          <li><a href="#/contato">Fale Conosco</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <p>&copy; 2025 CAS/DF — Todos os direitos reservados</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

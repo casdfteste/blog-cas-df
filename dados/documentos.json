@@ -1,0 +1,45 @@
+{
+  "resolucoes": {
+    "titulo": "Resolucoes do CAS/DF",
+    "descricao": "Resolucoes aprovadas pelo plenario do CAS/DF, organizadas por ano.",
+    "anos": [
+      {
+        "ano": 2025,
+        "documentos": [
+          {"numero": "001/2025", "titulo": "Regulamenta inscricao de entidades para 2025", "data": "2025-02-20", "link": "#"},
+          {"numero": "002/2025", "titulo": "Aprova o calendario de reunioes ordinarias 2025", "data": "2025-01-30", "link": "#"}
+        ]
+      },
+      {
+        "ano": 2024,
+        "documentos": [
+          {"numero": "010/2024", "titulo": "Aprova o Plano de Acao do CAS/DF para 2025", "data": "2024-12-18", "link": "#"},
+          {"numero": "009/2024", "titulo": "Aprova criterios para Certificacao CEBAS", "data": "2024-11-20", "link": "#"},
+          {"numero": "008/2024", "titulo": "Regulamenta a XII Conferencia Distrital", "data": "2024-09-15", "link": "#"}
+        ]
+      }
+    ]
+  },
+  "atas": {
+    "titulo": "Atas de Reunioes",
+    "descricao": "Atas das reunioes ordinarias e extraordinarias do CAS/DF.",
+    "periodos": [
+      {
+        "periodo": "2025",
+        "documentos": [
+          {"titulo": "Ata da 1a Reuniao Ordinaria de 2025", "data": "2025-01-15", "link": "#"},
+          {"titulo": "Ata da 2a Reuniao Ordinaria de 2025", "data": "2025-02-19", "link": "#"},
+          {"titulo": "Ata da 3a Reuniao Ordinaria de 2025", "data": "2025-03-19", "link": "#"}
+        ]
+      },
+      {
+        "periodo": "2024",
+        "documentos": [
+          {"titulo": "Ata da 12a Reuniao Ordinaria de 2024", "data": "2024-12-18", "link": "#"},
+          {"titulo": "Ata da 11a Reuniao Ordinaria de 2024", "data": "2024-11-20", "link": "#"},
+          {"titulo": "Ata da Reuniao Extraordinaria — Conferencia Distrital", "data": "2024-10-05", "link": "#"}
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "titulo": "Planejamento Estrategico Institucional (PEI)",
+  "periodo": "2024–2027",
+  "missao": "Deliberar, normatizar, fiscalizar e avaliar a politica de assistencia social no Distrito Federal, fortalecendo o controle social e a participacao popular.",
+  "visao": "Ser referencia nacional como conselho de assistencia social atuante, transparente e comprometido com a garantia dos direitos socioassistenciais.",
+  "valores": [
+    "Transparencia",
+    "Participacao social",
+    "Etica",
+    "Compromisso com os direitos socioassistenciais",
+    "Respeito a diversidade"
+  ],
+  "objetivos_estrategicos": [
+    {
+      "objetivo": "Fortalecer o controle social da politica de assistencia social no DF",
+      "acoes": [
+        "Capacitar conselheiros sobre legislacao e politicas do SUAS",
+        "Ampliar a participacao da sociedade civil nas reunioes e conferencias",
+        "Divulgar as deliberacoes do conselho para a populacao"
+      ]
+    },
+    {
+      "objetivo": "Aprimorar o monitoramento e fiscalizacao das entidades inscritas",
+      "acoes": [
+        "Realizar visitas periodicas de monitoramento",
+        "Atualizar criterios de inscricao e renovacao",
+        "Implementar sistema de acompanhamento das entidades"
+      ]
+    },
+    {
+      "objetivo": "Melhorar a comunicacao e transparencia do CAS/DF",
+      "acoes": [
+        "Manter o blog institucional atualizado",
+        "Transmitir reunioes ao vivo quando possivel",
+        "Publicar resolucoes e atas em ate 15 dias"
+      ]
+    }
+  ],
+  "indicadores": [
+    {"indicador": "Numero de reunioes ordinarias realizadas", "meta": "12 por ano"},
+    {"indicador": "Percentual de entidades monitoradas", "meta": "100% em 2 anos"},
+    {"indicador": "Capacitacoes realizadas", "meta": "Minimo 2 por ano"},
+    {"indicador": "Publicacoes no blog", "meta": "Minimo 2 por mes"}
+  ],
+  "monitoramento": "O acompanhamento do PEI sera realizado semestralmente pela Comissao de Politica de Assistencia Social, com relatorio apresentado ao plenario."
+}

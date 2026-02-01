@@ -1,0 +1,38 @@
+{
+  "titulo": "Conferencias de Assistencia Social",
+  "descricao": "As conferencias de assistencia social sao espacos de debate, avaliacao e proposicao de diretrizes para a politica de assistencia social. Ocorrem nos ambitos regional, distrital e nacional.",
+  "conferencias": [
+    {
+      "tipo": "Distrital",
+      "nome": "XII Conferencia Distrital de Assistencia Social",
+      "tema": "Assistencia Social: Direito do Povo e Dever do Estado, com financiamento publico, para enfrentar as desigualdades e garantir protecao social",
+      "data": "Outubro de 2024",
+      "local": "Centro de Convencoes Ulysses Guimaraes — Brasilia/DF",
+      "status": "Realizada",
+      "deliberacoes_link": "#"
+    },
+    {
+      "tipo": "Nacional",
+      "nome": "XIII Conferencia Nacional de Assistencia Social",
+      "tema": "A definir pelo CNAS",
+      "data": "Previsao: 2025",
+      "local": "Brasilia/DF",
+      "status": "Aguardando convocacao",
+      "deliberacoes_link": ""
+    }
+  ],
+  "regionais": {
+    "descricao": "As conferencias regionais sao etapas preparatorias da conferencia distrital, realizadas nas Regioes Administrativas do DF.",
+    "etapas_2024": [
+      {"regiao": "Plano Piloto e Lago Sul", "data": "Agosto/2024", "status": "Realizada"},
+      {"regiao": "Ceilandia e Samambaia", "data": "Agosto/2024", "status": "Realizada"},
+      {"regiao": "Taguatinga e Aguas Claras", "data": "Setembro/2024", "status": "Realizada"},
+      {"regiao": "Planaltina e Sobradinho", "data": "Setembro/2024", "status": "Realizada"}
+    ]
+  },
+  "historico": [
+    {"edicao": "XII", "ano": 2024, "tema": "Assistencia Social: Direito do Povo e Dever do Estado"},
+    {"edicao": "XI", "ano": 2021, "tema": "Assistencia Social: Direito do Povo, com Financiamento Publico"},
+    {"edicao": "X", "ano": 2019, "tema": "Assistencia Social e o Trabalho do SUAS"}
+  ]
+}
