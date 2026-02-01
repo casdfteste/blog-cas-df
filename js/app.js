@@ -17,8 +17,7 @@
 
   // ===== Router =====
   function getRoute() {
-    const hash = location.hash.slice(1) || '/';
-    return hash;
+    return (location.hash.slice(1) || '/');
   }
 
   function navigate(path) {
@@ -28,6 +27,7 @@
   window.addEventListener('hashchange', handleRoute);
   window.addEventListener('DOMContentLoaded', () => {
     setupMenu();
+    setupBackToTop();
     handleRoute();
   });
 
@@ -44,12 +44,15 @@
       else if (route === '/sobre/secretaria') await renderSobre('secretaria');
       else if (route === '/sobre/conselheiros') await renderSobre('conselheiros');
       else if (route === '/sobre/comissoes') await renderSobre('comissoes');
+      else if (route === '/regimento') await renderRegimento();
       else if (route === '/planejamento') await renderPlanejamento();
       else if (route === '/resolucoes') await renderResolucoes();
       else if (route === '/atas') await renderAtas();
       else if (route === '/reunioes') await renderReunioes();
+      else if (route === '/lives') await renderLives();
       else if (route === '/eleicoes') await renderEleicoes();
       else if (route === '/conferencias') await renderConferencias();
+      else if (route === '/conferencias/regionais') await renderConferencias('regionais');
       else if (route === '/entidades') await renderEntidades();
       else if (route === '/inscricao') await renderInscricao();
       else if (route === '/contato') await renderContato();
@@ -57,7 +60,7 @@
       else if (route.startsWith('/post/')) await renderPost(parseInt(route.slice(6)));
       else render404();
     } catch (e) {
-      app.innerHTML = '<div class="page"><p class="no-results">Erro ao carregar conteudo. Tente novamente.</p></div>';
+      app.innerHTML = '<div class="page"><div class="no-results"><p class="no-results__icon">⚠️</p><p>Erro ao carregar conteudo. Tente novamente.</p></div></div>';
       console.error(e);
     }
   }
@@ -71,7 +74,6 @@
       nav.classList.toggle('open');
     });
 
-    // Mobile dropdowns
     document.querySelectorAll('.nav__dropdown').forEach(dd => {
       dd.querySelector('.nav__link--dropdown').addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
@@ -81,7 +83,6 @@
       });
     });
 
-    // Close menu on link click (mobile)
     document.querySelectorAll('.nav__submenu a, .nav__link:not(.nav__link--dropdown)').forEach(link => {
       link.addEventListener('click', () => {
         nav.classList.remove('open');
@@ -89,14 +90,11 @@
       });
     });
 
-    // Search
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
 
-    searchBtn.addEventListener('click', doSearch);
-    searchInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') doSearch();
-    });
+    if (searchBtn) searchBtn.addEventListener('click', doSearch);
+    if (searchInput) searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
 
     function doSearch() {
       const q = searchInput.value.trim();
@@ -108,13 +106,23 @@
     }
   }
 
+  function setupBackToTop() {
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 400);
+    });
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   function updateActiveNav(route) {
     document.querySelectorAll('.nav__link').forEach(link => {
       link.classList.remove('active');
-      const href = link.getAttribute('href');
-      if (href) {
-        const linkRoute = href.slice(1);
-        if (route === linkRoute || (linkRoute !== '/' && route.startsWith(linkRoute))) {
+      const dr = link.getAttribute('data-route');
+      if (dr) {
+        if (route === dr || (dr !== '/' && route.startsWith(dr))) {
           link.classList.add('active');
         }
       }
@@ -125,6 +133,11 @@
   function formatDate(dateStr) {
     const d = new Date(dateStr + 'T12:00:00');
     return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
+  function shortDate(dateStr) {
+    const d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
 
   function stripHTML(html) {
@@ -139,41 +152,100 @@
     return text.replace(new RegExp('(' + escaped + ')', 'gi'), '<mark>$1</mark>');
   }
 
+  function breadcrumb(items) {
+    return '<nav class="page__breadcrumb">' +
+      items.map((item, i) => {
+        if (i === items.length - 1) return '<strong>' + item.label + '</strong>';
+        return '<a href="' + item.href + '">' + item.label + '</a>';
+      }).join(' <span>/</span> ') +
+      '</nav>';
+  }
+
+  function shareButtons(title, url) {
+    const encoded = encodeURIComponent(title);
+    const encodedUrl = encodeURIComponent(url || location.href);
+    return '<div class="post-single__share">' +
+      '<span>Compartilhar:</span>' +
+      '<a class="share-btn share-btn--fb" href="https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl + '" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>' +
+      '<a class="share-btn share-btn--wa" href="https://wa.me/?text=' + encoded + '%20' + encodedUrl + '" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>' +
+      '<a class="share-btn share-btn--tw" href="https://twitter.com/intent/tweet?text=' + encoded + '&url=' + encodedUrl + '" target="_blank" rel="noopener" aria-label="Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg></a>' +
+      '</div>';
+  }
+
   // ===== HOME =====
   async function renderHome() {
     const posts = await loadJSON('posts.json');
+    const sobre = await loadJSON('sobre.json');
+    const entidades = await loadJSON('entidades.json');
+    const docs = await loadJSON('documentos.json');
+    const reunioes = await loadJSON('reunioes.json');
+
     const sorted = [...posts].sort((a, b) => new Date(b.data) - new Date(a.data));
     const featured = sorted.filter(p => p.destaque).slice(0, 2);
-    const recent = sorted.slice(0, 6);
+    const totalRes = docs.resolucoes.anos.reduce((sum, a) => sum + a.documentos.length, 0);
+    const proxReuniao = reunioes.calendario_2025.find(c => c.status === 'Agendada');
 
-    let html = `
-      <section class="page">
-        <div class="hero">
-          <h1 class="hero__title">CAS/DF</h1>
-          <p class="hero__subtitle">Conselho de Assistencia Social do Distrito Federal — Controle social, transparencia e participacao popular</p>
-        </div>`;
+    let html = '<section class="page fade-in">';
 
+    // Hero
+    html += `
+      <div class="hero">
+        <div class="hero__content">
+          <span class="hero__badge">SUAS — Sistema Unico de Assistencia Social</span>
+          <h1 class="hero__title">Conselho de Assistencia Social do Distrito Federal</h1>
+          <p class="hero__text">Orgao colegiado deliberativo, normativo, fiscalizador e permanente. Controle social, transparencia e participacao popular na politica de assistencia social do DF.</p>
+          <div class="hero__actions">
+            <a href="#/sobre" class="hero__btn hero__btn--primary">Conheca o CAS/DF</a>
+            <a href="#/inscricao" class="hero__btn hero__btn--outline">Inscricao de Entidades</a>
+          </div>
+        </div>
+      </div>`;
+
+    // Stats
+    html += `
+      <div class="stats">
+        <div class="stat">
+          <div class="stat__number">${entidades.total}</div>
+          <div class="stat__label">Entidades Inscritas</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number">${totalRes}</div>
+          <div class="stat__label">Resolucoes Publicadas</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number">${sobre.comissoes.length}</div>
+          <div class="stat__label">Comissoes Tematicas</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number">${proxReuniao ? proxReuniao.data.split('/')[0] + '/' + proxReuniao.data.split('/')[1] : '—'}</div>
+          <div class="stat__label">Proxima Reuniao</div>
+        </div>
+      </div>`;
+
+    // Featured posts
     if (featured.length) {
-      html += '<h2 class="page__title">Destaques</h2><div class="cards">';
-      featured.forEach(p => { html += postCard(p); });
+      html += '<div class="section-title"><h2>Destaques</h2></div>';
+      html += '<div class="cards">';
+      featured.forEach(p => { html += postCard(p, true); });
       html += '</div>';
     }
 
-    html += '<h2 class="page__title">Ultimas Publicacoes</h2><div class="cards">';
-    recent.forEach(p => { html += postCard(p); });
+    // Recent posts
+    html += '<div class="section-title"><h2>Ultimas Publicacoes</h2><a href="#/busca/ " class="section-title__link">Ver todas →</a></div>';
+    html += '<div class="cards">';
+    sorted.slice(0, 6).forEach(p => { html += postCard(p, false); });
     html += '</div>';
-
-    html += `<div class="text-center mt-2">
-        <a href="#/busca/ " class="btn btn--primary">Ver todas as publicacoes</a>
-      </div>`;
 
     html += '</section>';
     app.innerHTML = html;
   }
 
-  function postCard(p) {
-    return `
-      <article class="card">
+  function postCard(p, withCover) {
+    let html = '<article class="card">';
+    if (withCover) {
+      html += '<div class="card__cover">⚖️</div>';
+    }
+    html += `
         <div class="card__body">
           <span class="card__category">${p.categoria}</span>
           <h3 class="card__title"><a href="#/post/${p.id}">${p.titulo}</a></h3>
@@ -182,6 +254,7 @@
           <a href="#/post/${p.id}" class="card__link">Ler mais →</a>
         </div>
       </article>`;
+    return html;
   }
 
   // ===== POST SINGLE =====
@@ -190,14 +263,24 @@
     const post = posts.find(p => p.id === id);
     if (!post) return render404();
 
+    const url = location.href;
+
     app.innerHTML = `
-      <article class="page">
+      <article class="page fade-in">
         <div class="post-single">
-          <a href="#/" class="post-single__back">← Voltar para o inicio</a>
-          <span class="post-single__category">${post.categoria}</span>
-          <h1 class="post-single__title">${post.titulo}</h1>
-          <p class="post-single__meta">${formatDate(post.data)} — ${post.autor}</p>
-          <div class="post-single__content">${post.conteudo}</div>
+          <div class="post-single__cover">
+            <div class="post-single__cover-content">
+              <span class="post-single__category">${post.categoria}</span>
+              <h1 style="font-size:1.5rem;font-weight:700">${post.titulo}</h1>
+            </div>
+          </div>
+          <div class="post-single__body">
+            ${breadcrumb([{href:'#/', label:'Inicio'}, {href:'#/', label:'Posts'}, {label: post.titulo.slice(0,50) + '...'}])}
+            <a href="#/" class="post-single__back">← Voltar ao inicio</a>
+            <p class="post-single__meta">${formatDate(post.data)} — ${post.autor}</p>
+            <div class="post-single__content">${post.conteudo}</div>
+            ${shareButtons(post.titulo, url)}
+          </div>
         </div>
       </article>`;
   }
@@ -206,6 +289,10 @@
   async function renderSobre(sub) {
     const data = await loadJSON('sobre.json');
     const active = sub || 'geral';
+
+    const bc = [{href:'#/', label:'Inicio'}, {href:'#/sobre', label:'Sobre o CAS/DF'}];
+    const subLabels = {presidencia:'Presidencia', secretaria:'Secretaria Executiva', conselheiros:'Conselheiros', comissoes:'Comissoes'};
+    if (sub) bc.push({label: subLabels[sub]});
 
     let content = '';
 
@@ -227,7 +314,7 @@
         <div class="info-section">
           <h2 class="info-section__title">${data.presidencia.titulo}</h2>
           <p class="info-section__text"><strong>${data.presidencia.nome}</strong></p>
-          <p class="info-section__text">${data.presidencia.descricao}</p>
+          <p class="info-section__text mt-1">${data.presidencia.descricao}</p>
         </div>`;
     } else if (active === 'secretaria') {
       const sec = data.secretaria_executiva;
@@ -247,42 +334,72 @@
           <h2 class="info-section__title">Representantes da Sociedade Civil</h2>
           <table class="doc-table">
             <thead><tr><th>Nome</th><th>Segmento</th><th>Tipo</th></tr></thead>
-            <tbody>
-              ${data.conselheiros.sociedade_civil.map(c => '<tr><td>' + c.nome + '</td><td>' + c.segmento + '</td><td>' + c.tipo + '</td></tr>').join('')}
-            </tbody>
+            <tbody>${data.conselheiros.sociedade_civil.map(c => '<tr><td>' + c.nome + '</td><td>' + c.segmento + '</td><td>' + c.tipo + '</td></tr>').join('')}</tbody>
           </table>
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Representantes Governamentais</h2>
           <table class="doc-table">
             <thead><tr><th>Nome</th><th>Orgao</th><th>Tipo</th></tr></thead>
-            <tbody>
-              ${data.conselheiros.governamental.map(c => '<tr><td>' + c.nome + '</td><td>' + c.orgao + '</td><td>' + c.tipo + '</td></tr>').join('')}
-            </tbody>
+            <tbody>${data.conselheiros.governamental.map(c => '<tr><td>' + c.nome + '</td><td>' + c.orgao + '</td><td>' + c.tipo + '</td></tr>').join('')}</tbody>
           </table>
         </div>`;
     } else if (active === 'comissoes') {
       content = data.comissoes.map(c => `
         <div class="info-section">
-          <h2 class="info-section__title">${c.nome} (${c.sigla})</h2>
+          <h2 class="info-section__title">${c.nome} <span class="badge badge--blue">${c.sigla}</span></h2>
           <p class="info-section__text">${c.descricao}</p>
         </div>`).join('');
     }
 
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">Sobre o CAS/DF</h1>
-        <p class="page__subtitle">Informacoes institucionais do Conselho de Assistencia Social do DF</p>
+      <div class="page fade-in">
+        ${breadcrumb(bc)}
+        <div class="page__header">
+          <h1 class="page__title">Sobre o CAS/DF</h1>
+          <p class="page__subtitle">Informacoes institucionais do Conselho de Assistencia Social do Distrito Federal</p>
+        </div>
         <div class="layout-sidebar">
           <aside class="sidebar">
             <p class="sidebar__title">Navegacao</p>
             <a href="#/sobre" class="sidebar__link ${active === 'geral' ? 'active' : ''}">Visao Geral</a>
             <a href="#/sobre/presidencia" class="sidebar__link ${active === 'presidencia' ? 'active' : ''}">Presidencia</a>
             <a href="#/sobre/secretaria" class="sidebar__link ${active === 'secretaria' ? 'active' : ''}">Secretaria Executiva</a>
-            <a href="#/sobre/conselheiros" class="sidebar__link ${active === 'conselheiros' ? 'active' : ''}">Conselheiros</a>
-            <a href="#/sobre/comissoes" class="sidebar__link ${active === 'comissoes' ? 'active' : ''}">Comissoes</a>
+            <a href="#/sobre/conselheiros" class="sidebar__link ${active === 'conselheiros' ? 'active' : ''}">Composicao / Conselheiros</a>
+            <a href="#/sobre/comissoes" class="sidebar__link ${active === 'comissoes' ? 'active' : ''}">Comissoes Tematicas</a>
+            <a href="#/regimento" class="sidebar__link">Regimento Interno</a>
           </aside>
           <div>${content}</div>
+        </div>
+      </div>`;
+  }
+
+  // ===== REGIMENTO INTERNO =====
+  async function renderRegimento() {
+    app.innerHTML = `
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {href:'#/sobre', label:'Sobre o CAS/DF'}, {label:'Regimento Interno'}])}
+        <div class="page__header">
+          <h1 class="page__title">Regimento Interno do CAS/DF</h1>
+          <p class="page__subtitle">Normas de organizacao e funcionamento do Conselho de Assistencia Social do DF</p>
+        </div>
+        <div class="info-section">
+          <h2 class="info-section__title">Sobre o Regimento</h2>
+          <p class="info-section__text">O Regimento Interno do CAS/DF estabelece as normas de organizacao, funcionamento e procedimentos do Conselho de Assistencia Social do Distrito Federal, em conformidade com a Lei Distrital n. 4.176/2008 e a legislacao federal aplicavel.</p>
+          <p class="info-section__text mt-1">O regimento disciplina:</p>
+          <ul class="competencias-list mt-1">
+            <li>Composicao e mandato dos conselheiros</li>
+            <li>Competencias do plenario, da mesa diretora e das comissoes</li>
+            <li>Periodicidade e quorum das reunioes</li>
+            <li>Processo de votacao e deliberacao</li>
+            <li>Procedimentos de inscricao de entidades</li>
+            <li>Disposicoes sobre eleicao da mesa diretora</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h2 class="info-section__title">Download</h2>
+          <p class="info-section__text">O texto completo do Regimento Interno esta disponivel para consulta e download.</p>
+          <p class="mt-1"><a href="#" class="btn btn--primary" target="_blank">Baixar Regimento Interno (PDF)</a></p>
         </div>
       </div>`;
   }
@@ -294,46 +411,37 @@
     let objHtml = data.objetivos_estrategicos.map(obj => `
       <div class="info-section">
         <h2 class="info-section__title">${obj.objetivo}</h2>
-        <ul>
-          ${obj.acoes.map(a => '<li>' + a + '</li>').join('')}
-        </ul>
+        <ul>${obj.acoes.map(a => '<li>' + a + '</li>').join('')}</ul>
       </div>`).join('');
 
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${data.titulo}</h1>
-        <p class="page__subtitle">Periodo: ${data.periodo}</p>
-
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Planejamento Estrategico'}])}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">Periodo: ${data.periodo}</p>
+        </div>
         <div class="info-section">
           <h2 class="info-section__title">Missao</h2>
           <p class="info-section__text">${data.missao}</p>
         </div>
-
         <div class="info-section">
           <h2 class="info-section__title">Visao</h2>
           <p class="info-section__text">${data.visao}</p>
         </div>
-
         <div class="info-section">
           <h2 class="info-section__title">Valores</h2>
-          <ul class="valores-list">
-            ${data.valores.map(v => '<li>' + v + '</li>').join('')}
-          </ul>
+          <ul class="valores-list">${data.valores.map(v => '<li>' + v + '</li>').join('')}</ul>
         </div>
-
-        <h2 class="page__title mt-2">Objetivos Estrategicos</h2>
+        <div class="section-title mt-2"><h2>Objetivos Estrategicos</h2></div>
         ${objHtml}
-
         <div class="info-section">
           <h2 class="info-section__title">Indicadores e Metas</h2>
           <table class="doc-table">
             <thead><tr><th>Indicador</th><th>Meta</th></tr></thead>
-            <tbody>
-              ${data.indicadores.map(i => '<tr><td>' + i.indicador + '</td><td>' + i.meta + '</td></tr>').join('')}
-            </tbody>
+            <tbody>${data.indicadores.map(i => '<tr><td>' + i.indicador + '</td><td>' + i.meta + '</td></tr>').join('')}</tbody>
           </table>
         </div>
-
         <div class="info-section">
           <h2 class="info-section__title">Monitoramento</h2>
           <p class="info-section__text">${data.monitoramento}</p>
@@ -346,32 +454,27 @@
     const data = await loadJSON('documentos.json');
     const res = data.resolucoes;
 
-    let accHtml = res.anos.map(ano => `
+    let accHtml = res.anos.map((ano, i) => `
       <div class="accordion">
-        <div class="accordion__header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <div class="accordion__header${i === 0 ? ' open' : ''}" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
           <span>${ano.ano} (${ano.documentos.length} documento${ano.documentos.length > 1 ? 's' : ''})</span>
           <span class="accordion__arrow">▼</span>
         </div>
-        <div class="accordion__body">
+        <div class="accordion__body${i === 0 ? ' open' : ''}">
           <table class="doc-table">
             <thead><tr><th>Numero</th><th>Titulo</th><th>Data</th><th>Link</th></tr></thead>
-            <tbody>
-              ${ano.documentos.map(d => `
-                <tr>
-                  <td>${d.numero}</td>
-                  <td>${d.titulo}</td>
-                  <td>${formatDate(d.data)}</td>
-                  <td><a href="${d.link}" target="_blank" rel="noopener">📄 Abrir</a></td>
-                </tr>`).join('')}
-            </tbody>
+            <tbody>${ano.documentos.map(d => `<tr><td>${d.numero}</td><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td><a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a></td></tr>`).join('')}</tbody>
           </table>
         </div>
       </div>`).join('');
 
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${res.titulo}</h1>
-        <p class="page__subtitle">${res.descricao}</p>
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Resolucoes do CAS/DF'}])}
+        <div class="page__header">
+          <h1 class="page__title">${res.titulo}</h1>
+          <p class="page__subtitle">${res.descricao}</p>
+        </div>
         ${accHtml}
       </div>`;
   }
@@ -381,31 +484,27 @@
     const data = await loadJSON('documentos.json');
     const atas = data.atas;
 
-    let accHtml = atas.periodos.map(p => `
+    let accHtml = atas.periodos.map((p, i) => `
       <div class="accordion">
-        <div class="accordion__header" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        <div class="accordion__header${i === 0 ? ' open' : ''}" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
           <span>${p.periodo} (${p.documentos.length} documento${p.documentos.length > 1 ? 's' : ''})</span>
           <span class="accordion__arrow">▼</span>
         </div>
-        <div class="accordion__body">
+        <div class="accordion__body${i === 0 ? ' open' : ''}">
           <table class="doc-table">
             <thead><tr><th>Titulo</th><th>Data</th><th>Link</th></tr></thead>
-            <tbody>
-              ${p.documentos.map(d => `
-                <tr>
-                  <td>${d.titulo}</td>
-                  <td>${formatDate(d.data)}</td>
-                  <td><a href="${d.link}" target="_blank" rel="noopener">📄 Abrir</a></td>
-                </tr>`).join('')}
-            </tbody>
+            <tbody>${p.documentos.map(d => `<tr><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td><a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a></td></tr>`).join('')}</tbody>
           </table>
         </div>
       </div>`).join('');
 
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${atas.titulo}</h1>
-        <p class="page__subtitle">${atas.descricao}</p>
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Atas de Reunioes'}])}
+        <div class="page__header">
+          <h1 class="page__title">${atas.titulo}</h1>
+          <p class="page__subtitle">${atas.descricao}</p>
+        </div>
         ${accHtml}
       </div>`;
   }
@@ -417,9 +516,7 @@
     let pautasHtml = data.pautas_recentes.map(p => `
       <div class="info-section">
         <h2 class="info-section__title">Reuniao ${p.tipo} — ${formatDate(p.data)}</h2>
-        <ol class="pauta-list">
-          ${p.itens.map(i => '<li>' + i + '</li>').join('')}
-        </ol>
+        <ol class="pauta-list">${p.itens.map(i => '<li>' + i + '</li>').join('')}</ol>
       </div>`).join('');
 
     let calHtml = data.calendario_2025.map(c => `
@@ -430,10 +527,12 @@
       </div>`).join('');
 
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${data.titulo}</h1>
-        <p class="page__subtitle">${data.descricao}</p>
-
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Reunioes do CAS/DF'}])}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}</p>
+        </div>
         <div class="info-section">
           <h2 class="info-section__title">Informacoes Gerais</h2>
           <ul>
@@ -442,18 +541,54 @@
             <li><strong>Periodicidade:</strong> ${data.periodicidade}</li>
           </ul>
         </div>
-
-        <h2 class="page__title mt-2">Pautas Recentes</h2>
+        <div class="section-title mt-2"><h2>Pautas Recentes</h2></div>
         ${pautasHtml}
-
-        <h2 class="page__title mt-2">Calendario 2025</h2>
-        <div class="calendar-grid">
-          ${calHtml}
-        </div>
-
+        <div class="section-title mt-2"><h2>Calendario 2025</h2></div>
+        <div class="calendar-grid">${calHtml}</div>
         <div class="info-section mt-2">
           <h2 class="info-section__title">Transmissao ao Vivo</h2>
           <p class="info-section__text">${data.lives.descricao}</p>
+          <p class="mt-1"><a href="#/lives" class="btn btn--primary">Ver Lives do CAS/DF</a></p>
+        </div>
+      </div>`;
+  }
+
+  // ===== LIVES =====
+  async function renderLives() {
+    const data = await loadJSON('reunioes.json');
+
+    app.innerHTML = `
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Lives do CAS/DF'}])}
+        <div class="page__header">
+          <h1 class="page__title">Lives do CAS/DF</h1>
+          <p class="page__subtitle">Transmissoes ao vivo das reunioes e eventos do Conselho de Assistencia Social do DF. Acompanhe pelo YouTube e Facebook.</p>
+        </div>
+        <div class="live-card">
+          <div class="live-card__embed">
+            <p style="text-align:center;padding:2rem;color:var(--gray-400)">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:.5rem;display:block;margin-left:auto;margin-right:auto"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              As transmissoes ao vivo serao exibidas aqui.<br>
+              Acompanhe tambem pelo canal do YouTube.
+            </p>
+          </div>
+          <div class="live-card__body">
+            <h3 class="live-card__title">Proxima transmissao</h3>
+            <p class="live-card__meta">${data.lives.descricao}</p>
+          </div>
+        </div>
+        <div class="info-section">
+          <h2 class="info-section__title">Como assistir</h2>
+          <ul>
+            <li><strong>YouTube:</strong> Acesse o canal do CAS/DF no YouTube para assistir as reunioes ao vivo e gravadas</li>
+            <li><strong>Facebook:</strong> As transmissoes tambem sao realizadas pela pagina do CAS/DF no Facebook</li>
+            <li><strong>Presencial:</strong> As reunioes sao abertas ao publico no auditorio da SEDES</li>
+          </ul>
+        </div>
+        <div class="info-section">
+          <h2 class="info-section__title">Calendario de Reunioes</h2>
+          <p class="info-section__text">As reunioes ordinarias acontecem na ${data.periodicidade.toLowerCase()}, as ${data.horario}.</p>
+          <p class="mt-1"><a href="#/reunioes" class="btn btn--primary">Ver calendario completo</a></p>
         </div>
       </div>`;
   }
@@ -464,9 +599,7 @@
 
     let gestoesHtml = data.gestoes.map(g => `
       <div class="info-section">
-        <h2 class="info-section__title">Gestao ${g.periodo}
-          <span class="${g.status === 'Vigente' ? 'green-badge' : ''}">${g.status}</span>
-        </h2>
+        <h2 class="info-section__title">Gestao ${g.periodo} <span class="${g.status === 'Vigente' ? 'green-badge' : 'badge badge--yellow'}">${g.status}</span></h2>
         <p class="info-section__text">${g.composicao}</p>
         <ul class="mt-1">
           <li><strong>Presidente:</strong> ${g.mesa_diretora.presidente}</li>
@@ -478,15 +611,16 @@
     let etapasHtml = data.processo_eleitoral.etapas.map((e, i) => `
       <div class="step">
         <div class="step__number">${i + 1}</div>
-        <div class="step__content">
-          <p class="step__title">${e}</p>
-        </div>
+        <div class="step__content"><p class="step__title">${e}</p></div>
       </div>`).join('');
 
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${data.titulo}</h1>
-        <p class="page__subtitle">${data.descricao}</p>
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Eleicoes do CAS/DF'}])}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}</p>
+        </div>
         ${gestoesHtml}
         <div class="info-section">
           <h2 class="info-section__title">Processo Eleitoral</h2>
@@ -497,117 +631,112 @@
   }
 
   // ===== CONFERENCIAS =====
-  async function renderConferencias() {
+  async function renderConferencias(sub) {
     const data = await loadJSON('conferencias.json');
+    const active = sub || 'distritais';
 
-    let confHtml = data.conferencias.map(c => `
-      <div class="info-section">
-        <h2 class="info-section__title">${c.nome}
-          <span class="${c.status === 'Realizada' ? 'green-badge' : ''}">${c.status}</span>
-        </h2>
-        <ul>
-          <li><strong>Tema:</strong> ${c.tema}</li>
-          <li><strong>Data:</strong> ${c.data}</li>
-          <li><strong>Local:</strong> ${c.local}</li>
-        </ul>
-      </div>`).join('');
+    const bc = [{href:'#/', label:'Inicio'}, {href:'#/conferencias', label:'Conferencias'}];
+    if (sub === 'regionais') bc.push({label: 'Regionais'});
 
-    let regHtml = '';
-    if (data.regionais && data.regionais.etapas_2024) {
-      regHtml = `
+    let content = '';
+
+    if (active === 'distritais') {
+      let confHtml = data.conferencias.map(c => `
         <div class="info-section">
-          <h2 class="info-section__title">Conferencias Regionais 2024</h2>
-          <p class="info-section__text mb-1">${data.regionais.descricao}</p>
+          <h2 class="info-section__title">${c.nome} <span class="${c.status === 'Realizada' ? 'green-badge' : 'badge badge--yellow'}">${c.status}</span></h2>
+          <ul>
+            <li><strong>Tema:</strong> ${c.tema}</li>
+            <li><strong>Data:</strong> ${c.data}</li>
+            <li><strong>Local:</strong> ${c.local}</li>
+          </ul>
+        </div>`).join('');
+
+      let histHtml = `
+        <div class="info-section">
+          <h2 class="info-section__title">Historico de Conferencias</h2>
           <table class="doc-table">
-            <thead><tr><th>Regiao</th><th>Data</th><th>Status</th></tr></thead>
-            <tbody>
-              ${data.regionais.etapas_2024.map(r => `
-                <tr>
-                  <td>${r.regiao}</td>
-                  <td>${r.data}</td>
-                  <td><span class="calendar-item__status status--${r.status.toLowerCase()}">${r.status}</span></td>
-                </tr>`).join('')}
-            </tbody>
+            <thead><tr><th>Edicao</th><th>Ano</th><th>Tema</th></tr></thead>
+            <tbody>${data.historico.map(h => '<tr><td>' + h.edicao + 'a</td><td>' + h.ano + '</td><td>' + h.tema + '</td></tr>').join('')}</tbody>
           </table>
         </div>`;
+
+      content = confHtml + histHtml;
+    } else {
+      let regHtml = '';
+      if (data.regionais && data.regionais.etapas_2024) {
+        regHtml = `
+          <div class="info-section">
+            <h2 class="info-section__title">Etapas Regionais 2024</h2>
+            <p class="info-section__text mb-1">${data.regionais.descricao}</p>
+            <table class="doc-table">
+              <thead><tr><th>Regiao</th><th>Data</th><th>Status</th></tr></thead>
+              <tbody>${data.regionais.etapas_2024.map(r => `<tr><td>${r.regiao}</td><td>${r.data}</td><td><span class="calendar-item__status status--${r.status.toLowerCase()}">${r.status}</span></td></tr>`).join('')}</tbody>
+            </table>
+          </div>`;
+      }
+      content = regHtml || '<div class="info-section"><p class="info-section__text">Informacoes sobre as conferencias regionais serao publicadas em breve.</p></div>';
     }
 
-    let histHtml = `
-      <div class="info-section">
-        <h2 class="info-section__title">Historico</h2>
-        <table class="doc-table">
-          <thead><tr><th>Edicao</th><th>Ano</th><th>Tema</th></tr></thead>
-          <tbody>
-            ${data.historico.map(h => '<tr><td>' + h.edicao + 'a</td><td>' + h.ano + '</td><td>' + h.tema + '</td></tr>').join('')}
-          </tbody>
-        </table>
-      </div>`;
-
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${data.titulo}</h1>
-        <p class="page__subtitle">${data.descricao}</p>
-        ${confHtml}
-        ${regHtml}
-        ${histHtml}
+      <div class="page fade-in">
+        ${breadcrumb(bc)}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}</p>
+        </div>
+        <div class="layout-sidebar">
+          <aside class="sidebar">
+            <p class="sidebar__title">Conferencias</p>
+            <a href="#/conferencias" class="sidebar__link ${active === 'distritais' ? 'active' : ''}">Distritais e Nacionais</a>
+            <a href="#/conferencias/regionais" class="sidebar__link ${active === 'regionais' ? 'active' : ''}">Regionais</a>
+          </aside>
+          <div>${content}</div>
+        </div>
       </div>`;
   }
 
   // ===== ENTIDADES =====
   async function renderEntidades() {
     const data = await loadJSON('entidades.json');
-    let searchTerm = '';
+
+    app.innerHTML = `
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Entidades Inscritas'}])}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}<br>Ultima atualizacao: ${formatDate(data.ultima_atualizacao)}</p>
+        </div>
+        <div class="search-box">
+          <input type="text" id="entidadesSearch" placeholder="Buscar por nome, regiao ou servico...">
+        </div>
+        <p id="entidadesCount" style="font-size:.88rem;color:var(--gray-500);margin-bottom:1rem"></p>
+        <div id="entidadesList"></div>
+      </div>`;
 
     function renderList(term) {
       const filtered = data.entidades.filter(e => {
         if (!term) return true;
         const t = term.toLowerCase();
-        return e.nome.toLowerCase().includes(t) ||
-               e.regiao.toLowerCase().includes(t) ||
-               e.servicos.some(s => s.toLowerCase().includes(t));
+        return e.nome.toLowerCase().includes(t) || e.regiao.toLowerCase().includes(t) || e.servicos.some(s => s.toLowerCase().includes(t));
       });
-
       const listEl = document.getElementById('entidadesList');
       const countEl = document.getElementById('entidadesCount');
       if (!listEl) return;
-
       countEl.textContent = filtered.length + ' entidade' + (filtered.length !== 1 ? 's' : '') + ' encontrada' + (filtered.length !== 1 ? 's' : '');
-
       if (!filtered.length) {
         listEl.innerHTML = '<div class="no-results"><p class="no-results__icon">🔍</p><p>Nenhuma entidade encontrada.</p></div>';
         return;
       }
-
       listEl.innerHTML = filtered.map(e => `
         <div class="entity-card">
-          <p class="entity-card__name">${highlightText(e.nome, term)}
-            <span class="entity-status entity-status--${e.situacao === 'Regular' ? 'regular' : 'monitoramento'}">${e.situacao}</span>
-          </p>
-          <div class="entity-card__info">
-            <strong>Inscricao:</strong> ${e.inscricao} | <strong>Validade:</strong> ${formatDate(e.validade)} | <strong>Regiao:</strong> ${highlightText(e.regiao, term)}
-          </div>
-          <div class="entity-card__tags">
-            ${e.servicos.map(s => '<span class="entity-tag">' + highlightText(s, term) + '</span>').join('')}
-          </div>
+          <p class="entity-card__name">${highlightText(e.nome, term)} <span class="entity-status entity-status--${e.situacao === 'Regular' ? 'regular' : 'monitoramento'}">${e.situacao}</span></p>
+          <div class="entity-card__info"><strong>Inscricao:</strong> ${e.inscricao} | <strong>Validade:</strong> ${shortDate(e.validade)} | <strong>Regiao:</strong> ${highlightText(e.regiao, term)}</div>
+          <div class="entity-card__tags">${e.servicos.map(s => '<span class="entity-tag">' + highlightText(s, term) + '</span>').join('')}</div>
         </div>`).join('');
     }
 
-    app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${data.titulo}</h1>
-        <p class="page__subtitle">${data.descricao} Ultima atualizacao: ${formatDate(data.ultima_atualizacao)}</p>
-        <div class="search-box">
-          <input type="text" id="entidadesSearch" placeholder="Buscar por nome, regiao ou servico...">
-        </div>
-        <p id="entidadesCount" class="page__text"></p>
-        <div id="entidadesList"></div>
-      </div>`;
-
     renderList('');
-
-    document.getElementById('entidadesSearch').addEventListener('input', (e) => {
-      renderList(e.target.value.trim());
-    });
+    document.getElementById('entidadesSearch').addEventListener('input', (e) => { renderList(e.target.value.trim()); });
   }
 
   // ===== INSCRICAO =====
@@ -623,36 +752,30 @@
         </div>
       </div>`).join('');
 
-    let docsHtml = data.documentos_necessarios.map(d => '<li>' + d + '</li>').join('');
-
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">${data.titulo}</h1>
-        <p class="page__subtitle">${data.descricao}</p>
-
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Inscricao de Entidades'}])}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}</p>
+        </div>
         <div class="info-section">
           <h2 class="info-section__title">Quem deve se inscrever</h2>
           <p class="info-section__text">${data.quem_deve_se_inscrever}</p>
         </div>
-
         <div class="info-section">
           <h2 class="info-section__title">Tipos de Inscricao</h2>
           <table class="doc-table">
             <thead><tr><th>Tipo</th><th>Descricao</th></tr></thead>
-            <tbody>
-              ${data.tipos_inscricao.map(t => '<tr><td><strong>' + t.tipo + '</strong></td><td>' + t.descricao + '</td></tr>').join('')}
-            </tbody>
+            <tbody>${data.tipos_inscricao.map(t => '<tr><td><strong>' + t.tipo + '</strong></td><td>' + t.descricao + '</td></tr>').join('')}</tbody>
           </table>
         </div>
-
         <div class="info-section">
           <h2 class="info-section__title">Documentos Necessarios</h2>
-          <ul class="competencias-list">${docsHtml}</ul>
+          <ul class="competencias-list">${data.documentos_necessarios.map(d => '<li>' + d + '</li>').join('')}</ul>
         </div>
-
-        <h2 class="page__title mt-2">Passo a Passo</h2>
+        <div class="section-title mt-2"><h2>Passo a Passo</h2></div>
         <div class="steps">${stepsHtml}</div>
-
         <div class="info-section mt-2">
           <h2 class="info-section__title">Prazo e Contato</h2>
           <p class="info-section__text">${data.prazo}</p>
@@ -668,21 +791,22 @@
   // ===== CONTATO =====
   async function renderContato() {
     app.innerHTML = `
-      <div class="page">
-        <h1 class="page__title">Fale Conosco</h1>
-        <p class="page__subtitle">Entre em contato com o CAS/DF. Responderemos o mais breve possivel.</p>
-
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Contato'}])}
+        <div class="page__header">
+          <h1 class="page__title">Fale Conosco</h1>
+          <p class="page__subtitle">Entre em contato com o CAS/DF. Responderemos o mais breve possivel.</p>
+        </div>
         <div class="layout-sidebar">
           <aside class="sidebar">
             <p class="sidebar__title">Contato Direto</p>
-            <div style="padding:.5rem .75rem;font-size:.85rem;color:var(--gray-600);line-height:1.7">
+            <div style="padding:.5rem .75rem;font-size:.85rem;color:var(--gray-600);line-height:1.8">
               <p><strong>E-mail</strong><br>cas.df@sedes.df.gov.br</p>
               <p class="mt-1"><strong>Telefone</strong><br>(61) 3223-1532</p>
               <p class="mt-1"><strong>Endereco</strong><br>SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasilia/DF<br>CEP 70770-501</p>
-              <p class="mt-1"><strong>Horario</strong><br>Segunda a sexta, 9h as 17h</p>
+              <p class="mt-1"><strong>Horario</strong><br>Seg a Sex, 9h as 17h</p>
             </div>
           </aside>
-
           <div>
             <div class="info-section">
               <h2 class="info-section__title">Enviar Mensagem</h2>
@@ -718,30 +842,20 @@
         </div>
       </div>`;
 
-    // Handle form
     const form = document.getElementById('contactForm');
     const msg = document.getElementById('formMessage');
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
       btn.disabled = true;
       btn.textContent = 'Enviando...';
-
       try {
-        const resp = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
-
+        const resp = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
         if (resp.ok) {
           msg.className = 'form__message form__message--success';
           msg.textContent = 'Mensagem enviada com sucesso! Entraremos em contato em breve.';
           form.reset();
-        } else {
-          throw new Error();
-        }
+        } else { throw new Error(); }
       } catch {
         msg.className = 'form__message form__message--error';
         msg.textContent = 'Erro ao enviar mensagem. Tente novamente ou entre em contato por e-mail.';
@@ -756,36 +870,27 @@
     const posts = await loadJSON('posts.json');
     const results = [];
 
-    if (term && term.trim().length >= 2) {
+    if (term && term.trim().length >= 1) {
       const q = term.trim().toLowerCase();
 
-      // Search posts
       posts.forEach(p => {
         const text = (p.titulo + ' ' + p.resumo + ' ' + stripHTML(p.conteudo)).toLowerCase();
         if (text.includes(q)) {
-          results.push({
-            titulo: p.titulo,
-            resumo: p.resumo,
-            link: '#/post/' + p.id,
-            tipo: 'Post'
-          });
+          results.push({ titulo: p.titulo, resumo: p.resumo, link: '#/post/' + p.id, tipo: 'Post' });
         }
       });
 
-      // Search in other data files
       try {
         const sobre = await loadJSON('sobre.json');
-        const sobreText = JSON.stringify(sobre).toLowerCase();
-        if (sobreText.includes(q)) {
-          results.push({ titulo: 'Sobre o CAS/DF', resumo: sobre.descricao, link: '#/sobre', tipo: 'Pagina' });
+        if (JSON.stringify(sobre).toLowerCase().includes(q)) {
+          results.push({ titulo: 'Sobre o CAS/DF', resumo: sobre.descricao.slice(0, 150) + '...', link: '#/sobre', tipo: 'Pagina' });
         }
       } catch {}
 
       try {
         const plan = await loadJSON('planejamento.json');
-        const planText = JSON.stringify(plan).toLowerCase();
-        if (planText.includes(q)) {
-          results.push({ titulo: plan.titulo, resumo: plan.missao, link: '#/planejamento', tipo: 'Pagina' });
+        if (JSON.stringify(plan).toLowerCase().includes(q)) {
+          results.push({ titulo: plan.titulo, resumo: plan.missao.slice(0, 150) + '...', link: '#/planejamento', tipo: 'Pagina' });
         }
       } catch {}
 
@@ -794,14 +899,14 @@
         docs.resolucoes.anos.forEach(ano => {
           ano.documentos.forEach(d => {
             if ((d.titulo + ' ' + d.numero).toLowerCase().includes(q)) {
-              results.push({ titulo: 'Resolucao ' + d.numero + ' — ' + d.titulo, resumo: 'Resolucao aprovada em ' + formatDate(d.data), link: '#/resolucoes', tipo: 'Documento' });
+              results.push({ titulo: 'Resolucao ' + d.numero + ' — ' + d.titulo, resumo: 'Aprovada em ' + formatDate(d.data), link: '#/resolucoes', tipo: 'Resolucao' });
             }
           });
         });
         docs.atas.periodos.forEach(p => {
           p.documentos.forEach(d => {
             if (d.titulo.toLowerCase().includes(q)) {
-              results.push({ titulo: d.titulo, resumo: 'Ata de ' + formatDate(d.data), link: '#/atas', tipo: 'Documento' });
+              results.push({ titulo: d.titulo, resumo: formatDate(d.data), link: '#/atas', tipo: 'Ata' });
             }
           });
         });
@@ -817,32 +922,39 @@
       } catch {}
     }
 
-    let html = `
-      <div class="page">
-        <h1 class="page__title">Resultados da Busca</h1>
-        <p class="page__subtitle">${results.length} resultado${results.length !== 1 ? 's' : ''} para "${term}"</p>`;
-
-    if (!results.length) {
-      html += '<div class="no-results"><p class="no-results__icon">🔍</p><p>Nenhum resultado encontrado. Tente termos diferentes.</p></div>';
-    } else {
-      html += results.map(r => `
-        <div class="search-results__item">
-          <span class="card__category">${r.tipo}</span>
-          <h3><a href="${r.link}">${highlightText(r.titulo, term)}</a></h3>
-          <p>${highlightText(r.resumo, term)}</p>
-        </div>`).join('');
+    // If empty search, show all posts
+    if (!term || term.trim().length < 1) {
+      const posts2 = await loadJSON('posts.json');
+      [...posts2].sort((a, b) => new Date(b.data) - new Date(a.data)).forEach(p => {
+        results.push({ titulo: p.titulo, resumo: p.resumo, link: '#/post/' + p.id, tipo: 'Post' });
+      });
     }
 
-    html += '</div>';
-    app.innerHTML = html;
+    const displayTerm = term && term.trim().length >= 1 ? term : '';
+
+    app.innerHTML = `
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Inicio'}, {label: displayTerm ? 'Busca: "' + displayTerm + '"' : 'Todas as publicacoes'}])}
+        <div class="page__header">
+          <h1 class="page__title">${displayTerm ? 'Resultados da Busca' : 'Todas as Publicacoes'}</h1>
+          <p class="page__subtitle">${results.length} resultado${results.length !== 1 ? 's' : ''}${displayTerm ? ' para "' + displayTerm + '"' : ''}</p>
+        </div>
+        ${!results.length ? '<div class="no-results"><p class="no-results__icon">🔍</p><p>Nenhum resultado encontrado. Tente termos diferentes.</p></div>' :
+          results.map(r => `
+            <div class="search-results__item">
+              <span class="card__category">${r.tipo}</span>
+              <h3><a href="${r.link}">${displayTerm ? highlightText(r.titulo, displayTerm) : r.titulo}</a></h3>
+              <p>${displayTerm ? highlightText(r.resumo, displayTerm) : r.resumo}</p>
+            </div>`).join('')}
+      </div>`;
   }
 
   // ===== 404 =====
   function render404() {
     app.innerHTML = `
       <div class="page text-center" style="padding:4rem 1rem">
-        <h1 style="font-size:3rem;color:var(--gray-300)">404</h1>
-        <p class="page__subtitle">Pagina nao encontrada</p>
+        <p style="font-size:4rem;font-weight:800;color:var(--gray-200)">404</p>
+        <p class="page__subtitle" style="margin-top:.5rem">Pagina nao encontrada</p>
         <a href="#/" class="btn btn--primary mt-2">Voltar ao Inicio</a>
       </div>`;
   }
