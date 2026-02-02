@@ -1694,3 +1694,67 @@ mark { background: #fef08a; color: inherit; padding: 1px 3px; border-radius: 3px
   .fisc-stats { grid-template-columns: repeat(3, 1fr); }
   .fisc-resultados { grid-template-columns: 1fr; }
 }
+
+/* ===== Entity Card - Layout Atualizado (157 entidades reais) ===== */
+
+.entity-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .5rem;
+}
+
+.entity-card__numero {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: .2rem .65rem;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 20px;
+  font-size: .72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.entity-card__detail {
+  margin-top: .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.entity-card__row {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  font-size: .82rem;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+.entity-card__row svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--gray-400);
+}
+
+.entity-card__resolucoes {
+  margin-top: .75rem;
+  padding-top: .75rem;
+  border-top: 1px solid var(--gray-100);
+  font-size: .78rem;
+  color: var(--gray-400);
+  line-height: 1.6;
+}
+
+.entity-card__resolucoes strong {
+  color: var(--gray-500);
+}
+
+@media (max-width: 768px) {
+  .entity-card__header {
+    flex-direction: column;
+    gap: .4rem;
+  }
+}

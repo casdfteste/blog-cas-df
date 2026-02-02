@@ -713,7 +713,7 @@
           <p class="page__subtitle">${data.descricao}<br>Ultima atualizacao: ${formatDate(data.ultima_atualizacao)}</p>
         </div>
         <div class="search-box">
-          <input type="text" id="entidadesSearch" placeholder="Buscar por nome, regiao ou servico...">
+          <input type="text" id="entidadesSearch" placeholder="Buscar por nome, CNPJ, regiao ou endereco...">
         </div>
         <p id="entidadesCount" style="font-size:.88rem;color:var(--gray-500);margin-bottom:1rem"></p>
         <div id="entidadesList"></div>
@@ -723,7 +723,12 @@
       const filtered = data.entidades.filter(e => {
         if (!term) return true;
         const t = term.toLowerCase();
-        return e.nome.toLowerCase().includes(t) || e.regiao.toLowerCase().includes(t) || e.servicos.some(s => s.toLowerCase().includes(t));
+        return e.nome.toLowerCase().includes(t) ||
+               e.regiao.toLowerCase().includes(t) ||
+               e.cnpj.includes(t) ||
+               e.inscricao.toLowerCase().includes(t) ||
+               e.endereco.toLowerCase().includes(t) ||
+               e.email.toLowerCase().includes(t);
       });
       const listEl = document.getElementById('entidadesList');
       const countEl = document.getElementById('entidadesCount');
@@ -735,9 +740,31 @@
       }
       listEl.innerHTML = filtered.map(e => `
         <div class="entity-card">
-          <p class="entity-card__name">${highlightText(e.nome, term)} <span class="entity-status entity-status--${e.situacao === 'Regular' ? 'regular' : 'monitoramento'}">${e.situacao}</span></p>
-          <div class="entity-card__info"><strong>Inscricao:</strong> ${e.inscricao} | <strong>Validade:</strong> ${shortDate(e.validade)} | <strong>Regiao:</strong> ${highlightText(e.regiao, term)}</div>
-          <div class="entity-card__tags">${e.servicos.map(s => '<span class="entity-tag">' + highlightText(s, term) + '</span>').join('')}</div>
+          <div class="entity-card__header">
+            <p class="entity-card__name">${highlightText(e.nome, term)}</p>
+            <span class="entity-card__numero">Inscricao ${e.inscricao}</span>
+          </div>
+          <div class="entity-card__info">
+            <span><strong>CNPJ:</strong> ${e.cnpj}</span>
+            <span><strong>Regiao:</strong> ${highlightText(e.regiao, term)}</span>
+          </div>
+          <div class="entity-card__detail">
+            <div class="entity-card__row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>${highlightText(e.endereco, term)}</span>
+            </div>
+            <div class="entity-card__row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <span>${e.telefone}</span>
+            </div>
+            <div class="entity-card__row">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>${e.email}</span>
+            </div>
+          </div>
+          <div class="entity-card__resolucoes">
+            <strong>Resolucoes:</strong> ${e.resolucoes}
+          </div>
         </div>`).join('');
     }
 
@@ -1272,8 +1299,8 @@
       try {
         const ent = await loadJSON('entidades.json');
         ent.entidades.forEach(e => {
-          if ((e.nome + ' ' + e.regiao + ' ' + e.servicos.join(' ')).toLowerCase().includes(q)) {
-            results.push({ titulo: e.nome, resumo: 'Entidade inscrita — Regiao: ' + e.regiao, link: '#/entidades', tipo: 'Entidade' });
+          if ((e.nome + ' ' + e.regiao + ' ' + e.cnpj + ' ' + e.endereco + ' ' + e.email).toLowerCase().includes(q)) {
+            results.push({ titulo: e.nome, resumo: 'Inscricao ' + e.inscricao + ' — Regiao: ' + e.regiao, link: '#/entidades', tipo: 'Entidade' });
           }
         });
       } catch {}
