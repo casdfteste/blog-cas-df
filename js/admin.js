@@ -33,6 +33,7 @@
     else if (section === 'eleicoes') await renderEleicoesAdmin(app);
     else if (section === 'sobre') await renderSobreAdmin(app);
     else if (section === 'config') renderConfig(app);
+    else if (section === 'manual') renderManual(app);
     else renderDashboard(app);
   };
 
@@ -167,6 +168,7 @@
       { id: 'eleicoes', label: 'Eleições', icon: '🗳️' },
       { id: 'sobre', label: 'Sobre / Conselheiros', icon: '👥' },
       { id: 'config', label: 'Configurações', icon: '⚙️' },
+      { id: 'manual', label: 'Manual', icon: '📖' },
     ];
 
     app.innerHTML = `
@@ -1137,6 +1139,174 @@
         msg.textContent = 'Erro: ' + err.message;
       }
     });
+  }
+
+  // ===== Manual =====
+  function renderManual(app) {
+    adminLayout(app, 'manual', `
+      <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Manual do Painel Administrativo</h2>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Acesso ao Painel</h2>
+        <ol>
+          <li>Abra o blog e acesse: <code style="background:var(--gray-100);padding:.15rem .4rem;border-radius:4px">index.html#/admin</code></li>
+          <li>Digite a senha: <strong>casdf2025</strong></li>
+          <li>Na primeira vez, será solicitado um <strong>Token do GitHub</strong> (veja abaixo)</li>
+        </ol>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Configuração do Token do GitHub (primeira vez)</h2>
+        <p class="info-section__text mb-1">O token permite que o painel salve as alterações diretamente no blog.</p>
+        <ol>
+          <li>Acesse: <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener">github.com/settings/tokens/new</a></li>
+          <li>Em "Note", coloque: <strong>Blog CAS/DF Admin</strong></li>
+          <li>Em "Expiration", escolha: <strong>No expiration</strong></li>
+          <li>Marque a permissão: <strong>repo</strong></li>
+          <li>Clique em <strong>Generate token</strong></li>
+          <li>Copie o token e cole no campo do painel</li>
+          <li>Pronto! O token fica salvo no navegador</li>
+        </ol>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Seções do Painel</h2>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">📝 Posts / Notícias</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li><strong>Criar post:</strong> Menu > Posts > "+ Novo Post"</li>
+            <li>Preencha: título, data, categoria, autor, resumo e conteúdo (HTML)</li>
+            <li>O conteúdo aceita formatação HTML (negrito, itálico, listas, links, imagens)</li>
+            <li>Use os botões de formatação acima do campo de conteúdo</li>
+            <li>Marque "Destaque" para o post aparecer na seção de destaques da página inicial</li>
+            <li><strong>Editar:</strong> Clique em "Editar" ao lado do post</li>
+            <li><strong>Excluir:</strong> Clique em "Excluir" (pede confirmação)</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">📄 Resoluções e Atas</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li><strong>Adicionar resolução:</strong> Preencha número, data, ano, título e link do PDF</li>
+            <li><strong>Adicionar ata:</strong> Preencha data, período, título e link do PDF</li>
+            <li>Os documentos PDF devem ser enviados ao Google Drive e o link compartilhável colado no formulário</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">🏢 Entidades</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li><strong>Adicionar entidade:</strong> Preencha nome, CNPJ, inscrição, validade, região, serviços e situação</li>
+            <li>O total de entidades é atualizado automaticamente</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">📅 Reuniões</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li><strong>Adicionar pauta:</strong> Preencha data, tipo (ordinária/extraordinária) e itens da pauta (um por linha)</li>
+            <li><strong>Atualizar calendário:</strong> Clique no mês desejado para marcar como "Realizada"</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">🎤 Conferências</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li><strong>Adicionar conferência:</strong> Preencha tipo, nome, tema, data, local e status</li>
+            <li><strong>Adicionar etapa regional:</strong> Preencha região, data e status</li>
+            <li><strong>Excluir:</strong> Clique em "Excluir" ao lado da conferência</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">🗳️ Eleições</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li><strong>Editar gestão vigente:</strong> Atualize presidente, vice-presidente, período e links do edital/resultado</li>
+            <li>Se o período for diferente, uma nova gestão será criada automaticamente</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">👥 Sobre / Conselheiros</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li><strong>Presidência:</strong> Atualize nome e descrição</li>
+            <li><strong>Conselheiros:</strong> Edite os nomes diretamente nas tabelas e clique "Salvar Conselheiros"</li>
+            <li>Use "+ Adicionar" para incluir novos conselheiros</li>
+            <li><strong>Descrição institucional:</strong> Edite o texto do CAS/DF e a base legal</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">⚙️ Configurações</h3>
+          <ul style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li>Visualize e altere o token do GitHub</li>
+            <li>Edite os links das redes sociais</li>
+            <li>Informações sobre o repositório e deploy</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Como Adicionar Fotos e Documentos</h2>
+
+        <div style="margin-bottom:1rem">
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">Fotos (para posts)</h3>
+          <ol style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li>Faça upload da foto no <strong>Google Drive</strong></li>
+            <li>Clique com botão direito > <strong>Compartilhar</strong> > <strong>Qualquer pessoa com o link</strong></li>
+            <li>Copie o link</li>
+            <li>Cole no campo "URL da Imagem" do formulário de post</li>
+          </ol>
+        </div>
+
+        <div>
+          <h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem">Documentos PDF (resoluções, atas, editais)</h3>
+          <ol style="font-size:.88rem;color:var(--gray-600);margin-left:1.25rem">
+            <li>Faça upload do PDF no <strong>Google Drive</strong></li>
+            <li>Clique com botão direito > <strong>Compartilhar</strong> > <strong>Qualquer pessoa com o link</strong></li>
+            <li>Copie o link compartilhável</li>
+            <li>Cole no campo "Link do documento" do formulário</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Dicas Importantes</h2>
+        <ul>
+          <li>Após salvar, o blog atualiza automaticamente em até 1 minuto</li>
+          <li>O painel funciona em qualquer navegador (Chrome, Firefox, Edge)</li>
+          <li>O token fica salvo apenas no navegador em uso - se trocar de computador, configure novamente</li>
+          <li>Para sair do painel, clique em "Sair" no canto superior direito</li>
+          <li>Para voltar ao blog, clique em "Ver Blog"</li>
+        </ul>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Estrutura dos Dados</h2>
+        <p class="info-section__text mb-1">Cada seção do blog corresponde a um arquivo JSON na pasta <code style="background:var(--gray-100);padding:.15rem .4rem;border-radius:4px">dados/</code>:</p>
+        <table style="width:100%;font-size:.88rem;border-collapse:collapse">
+          <thead><tr style="text-align:left;border-bottom:2px solid var(--gray-200)"><th style="padding:.5rem">Seção</th><th style="padding:.5rem">Arquivo</th></tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Posts/Notícias</td><td style="padding:.5rem"><code>posts.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Resoluções e Atas</td><td style="padding:.5rem"><code>documentos.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Entidades</td><td style="padding:.5rem"><code>entidades.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Reuniões</td><td style="padding:.5rem"><code>reunioes.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Conferências</td><td style="padding:.5rem"><code>conferencias.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Eleições</td><td style="padding:.5rem"><code>eleicoes.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Sobre o CAS/DF</td><td style="padding:.5rem"><code>sobre.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Fiscalização</td><td style="padding:.5rem"><code>fiscalizacao.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Inscrição</td><td style="padding:.5rem"><code>inscricao.json</code></td></tr>
+            <tr><td style="padding:.5rem">Planejamento</td><td style="padding:.5rem"><code>planejamento.json</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Suporte</h2>
+        <p class="info-section__text">Em caso de dúvidas ou problemas técnicos, entre em contato com o desenvolvedor responsável.</p>
+      </div>
+    `);
   }
 
 })();
