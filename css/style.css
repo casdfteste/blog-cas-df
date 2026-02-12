@@ -1255,9 +1255,10 @@ mark { background: #fef08a; color: inherit; padding: 1px 3px; border-radius: 3px
 
 .footer__logo-img {
   height: 60px;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
+  width: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.2);
 }
 
 .footer__desc {
