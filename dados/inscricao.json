@@ -1,51 +1,88 @@
 {
-  "titulo": "Inscricao de Entidades no CAS/DF",
-  "descricao": "A inscricao no CAS/DF e obrigatoria para entidades e organizacoes de assistencia social que atuam no Distrito Federal, conforme a Lei n. 8.742/1993 (LOAS) e a Resolucao CNAS n. 14/2014.",
-  "quem_deve_se_inscrever": "Entidades e organizacoes de assistencia social que prestam servicos, executam programas ou projetos, concedem bolsas, ou realizam assessoramento e defesa de direitos no ambito da assistencia social no DF.",
+  "titulo": "Inscrição de Entidades no CAS/DF",
+  "descricao": "A inscrição no CAS/DF é obrigatória para entidades e organizações de assistência social que atuam no Distrito Federal, conforme a Lei n. 8.742/1993 (LOAS) e a Resolução CNAS n. 14/2014.",
+  "quem_deve_se_inscrever": "Entidades e organizações de assistência social que prestam serviços, executam programas ou projetos, concedem bolsas, ou realizam assessoramento e defesa de direitos no âmbito da assistência social no DF.",
   "tipos_inscricao": [
-    {"tipo": "Inscricao", "descricao": "Para entidades que nunca foram inscritas no CAS/DF."},
-    {"tipo": "Renovacao", "descricao": "Para entidades com inscricao vigente que desejam renovar."},
-    {"tipo": "Alteracao", "descricao": "Para entidades inscritas que precisam atualizar dados."}
+    {
+      "tipo": "Inscrição",
+      "descricao": "Para entidades que nunca foram inscritas no CAS/DF."
+    },
+    {
+      "tipo": "Renovacao",
+      "descricao": "Para entidades com inscrição vigente que desejam renovar."
+    },
+    {
+      "tipo": "Alteracao",
+      "descricao": "Para entidades inscritas que precisam atualizar dados."
+    }
   ],
   "como_solicitar": {
-    "titulo": "Como solicitar a inscricao",
-    "descricao": "Os pedidos de inscricao e demais assuntos relacionados devem ser encaminhados via oficio pelo sistema e-Protocolo do Governo do Distrito Federal.",
+    "titulo": "Como solicitar a inscrição",
+    "descricao": "Os pedidos de inscrição e demais assuntos relacionados devem ser encaminhados via oficio pelo sistema e-Protocolo do Governo do Distrito Federal.",
     "eprotocolo": {
       "titulo": "e-Protocolo GDF",
       "url": "https://sistemas.df.gov.br/Protocolo/Login",
-      "instrucao": "Acesse o sistema e-Protocolo para enviar seu oficio com o pedido de inscricao, renovacao ou outros assuntos relacionados a inscricao no CAS/DF."
+      "instrucao": "Acesse o sistema e-Protocolo para enviar seu oficio com o pedido de inscrição, renovação ou outros assuntos relacionados a inscrição no CAS/DF."
     },
     "orientacoes": {
-      "titulo": "Orientacoes e Modelo de Plano de Acao",
+      "titulo": "Orientações e Modelo de Plano de Ação",
       "url": "https://drive.google.com/drive/folders/1RF9ep5qRAKUfTqcCfN4PEvEitTSIHjL4?usp=sharing",
-      "descricao": "Acesse a pasta com as orientacoes completas para inscricao no CAS/DF e o modelo de Plano de Acao que deve ser preenchido e anexado ao pedido."
+      "descricao": "Acesse a pasta com as orientações completas para inscrição no CAS/DF e o modelo de Plano de Ação que deve ser preenchido e anexado ao pedido."
     }
   },
   "documentos_necessarios": [
-    "Requerimento de inscricao (modelo disponivel na pasta de orientacoes)",
-    "Plano de Acao preenchido (modelo disponivel na pasta de orientacoes)",
-    "Copia do Estatuto Social registrado em cartorio",
-    "Copia da ata de eleicao e posse da atual diretoria",
+    "Requerimento de inscrição (modelo disponível na pasta de orientações)",
+    "Plano de Ação preenchido (modelo disponível na pasta de orientações)",
+    "Copia do Estatuto Social registrado em cartório",
+    "Copia da ata de eleição e posse da atual diretoria",
     "Copia do CNPJ atualizado",
     "Copia do documento de identidade do representante legal",
-    "Relatorio de atividades do ano anterior (para renovacao)",
+    "Relatório de atividades do ano anterior (para renovação)",
     "Comprovante de endereco da sede no DF",
-    "Declaracao de que nao remunera dirigentes"
+    "Declaração de que não remunera dirigentes"
   ],
   "passo_a_passo": [
-    {"passo": 1, "titulo": "Consultar as orientacoes", "descricao": "Acesse a pasta de orientacoes no Google Drive para conhecer os requisitos e baixar o modelo de Plano de Acao."},
-    {"passo": 2, "titulo": "Reunir a documentacao", "descricao": "Reuna todos os documentos listados, incluindo o Plano de Acao preenchido. Certifique-se de que estao atualizados."},
-    {"passo": 3, "titulo": "Protocolar via e-Protocolo", "descricao": "Acesse o sistema e-Protocolo do GDF e envie o oficio com toda a documentacao anexada."},
-    {"passo": 4, "titulo": "Analise pela CNIE", "descricao": "A Comissao de Normas e Inscricao de Entidades analisara a documentacao e podera solicitar complementacoes."},
-    {"passo": 5, "titulo": "Visita de verificacao", "descricao": "A CNIE podera realizar visita in loco para verificar as atividades declaradas."},
-    {"passo": 6, "titulo": "Deliberacao do plenario", "descricao": "O parecer da CNIE e submetido a votacao do plenario do CAS/DF."},
-    {"passo": 7, "titulo": "Publicacao", "descricao": "A resolucao de deferimento ou indeferimento e publicada no DODF."}
+    {
+      "passo": 1,
+      "titulo": "Consultar as orientações",
+      "descricao": "Acesse a pasta de orientações no Google Drive para conhecer os requisitos e baixar o modelo de Plano de Ação."
+    },
+    {
+      "passo": 2,
+      "titulo": "Reunir a documentação",
+      "descricao": "Reuna todos os documentos listados, incluindo o Plano de Ação preenchido. Certifique-se de que estao atualizados."
+    },
+    {
+      "passo": 3,
+      "titulo": "Protocolar via e-Protocolo",
+      "descricao": "Acesse o sistema e-Protocolo do GDF e envie o oficio com toda a documentação anexada."
+    },
+    {
+      "passo": 4,
+      "titulo": "Analise pela CNIE",
+      "descricao": "A Comissão de Normas e Inscrição de Entidades analisara a documentação e podera solicitar complementações."
+    },
+    {
+      "passo": 5,
+      "titulo": "Visita de verificação",
+      "descricao": "A CNIE podera realizar visita in loco para verificar as atividades declaradas."
+    },
+    {
+      "passo": 6,
+      "titulo": "Deliberação do plenário",
+      "descricao": "O parecer da CNIE é submetido a votação do plenário do CAS/DF."
+    },
+    {
+      "passo": 7,
+      "titulo": "Publicação",
+      "descricao": "A resolução de deferimento ou indeferimento é publicada no DODF."
+    }
   ],
-  "prazo": "O prazo medio de analise e de 60 dias uteis a partir do protocolo completo.",
+  "prazo": "O prazo médio de análise e de 60 dias uteis a partir do protocolo completo.",
   "contato": {
     "email": "cas.df@sedes.df.gov.br",
     "telefone": "(61) 3223-1532",
     "whatsapp": "(61) 98314-1354",
-    "horario": "Segunda a sexta, das 9h as 17h"
+    "horario": "Segunda a sexta, das 9h às 17h"
   }
 }

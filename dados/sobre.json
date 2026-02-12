@@ -1,43 +1,83 @@
 {
-  "descricao": "O Conselho de Assistencia Social do Distrito Federal (CAS/DF) e um orgao colegiado deliberativo, normativo, fiscalizador e permanente do sistema descentralizado e participativo da assistencia social do DF, vinculado a Secretaria de Estado de Desenvolvimento Social (SEDES).",
+  "descricao": "O Conselho de Assistência Social do Distrito Federal (CAS/DF) é um órgão colegiado deliberativo, normativo, fiscalizador e permanente do sistema descentralizado e participativo da assistência social do DF, vinculado à Secretaria de Estado de Desenvolvimento Social (SEDES).",
   "base_legal": "Instituido pela Lei Distrital n. 997/1995 e reestruturado pela Lei Distrital n. 4.176/2008.",
   "competencias": [
-    "Aprovar a Politica de Assistencia Social do DF",
-    "Normatizar as acoes e regular a prestacao de servicos socioassistenciais",
-    "Fiscalizar as entidades e organizacoes de assistencia social",
-    "Inscrever e fiscalizar entidades e organizacoes de assistencia social",
-    "Acompanhar e avaliar a gestao dos recursos do Fundo de Assistencia Social do DF"
+    "Aprovar a Política de Assistência Social do DF",
+    "Normatizar as ações e regular a prestação de serviços socioassistenciais",
+    "Fiscalizar as entidades e organizações de assistência social",
+    "Inscrever e fiscalizar entidades e organizações de assistência social",
+    "Acompanhar e avaliar a gestão dos recursos do Fundo de Assistência Social do DF"
   ],
   "presidencia": {
-    "titulo": "Presidencia",
-    "nome": "A definir conforme gestao vigente",
-    "descricao": "A Presidencia do CAS/DF e exercida em sistema de alternancia entre representantes da sociedade civil e do governo, com mandato conforme regimento interno."
+    "titulo": "Presidência",
+    "nome": "A definir conforme gestão vigente",
+    "descricao": "A Presidência do CAS/DF é exercida em sistema de alternância entre representantes da sociedade civil e do governo, com mandato conforme regimento interno."
   },
   "secretaria_executiva": {
     "titulo": "Secretaria Executiva",
-    "descricao": "A Secretaria Executiva e responsavel pelo apoio tecnico-administrativo ao funcionamento do CAS/DF, incluindo organizacao de reunioes, elaboracao de atas, tramitacao de processos e atendimento ao publico.",
+    "descricao": "A Secretaria Executiva é responsável pelo apoio técnico-administrativo ao funcionamento do CAS/DF, incluindo organização de reuniões, elaboração de atas, tramitação de processos e atendimento ao público.",
     "contato": {
       "email": "cas.df@sedes.df.gov.br",
       "telefone": "(61) 3223-1532",
-      "endereco": "SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar — Asa Norte, Brasilia/DF — CEP 70770-501"
+      "endereco": "SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar - Asa Norte, Brasília/DF - CEP 70770-501"
     }
   },
   "conselheiros": {
     "sociedade_civil": [
-      {"nome": "Representante 1 — Sociedade Civil", "segmento": "Entidades de Assistencia Social", "tipo": "Titular"},
-      {"nome": "Representante 2 — Sociedade Civil", "segmento": "Trabalhadores do SUAS", "tipo": "Titular"},
-      {"nome": "Representante 3 — Sociedade Civil", "segmento": "Usuarios do SUAS", "tipo": "Titular"}
+      {
+        "nome": "Representante 1 - Sociedade Civil",
+        "segmento": "Entidades de Assistência Social",
+        "tipo": "Titular"
+      },
+      {
+        "nome": "Representante 2 - Sociedade Civil",
+        "segmento": "Trabalhadores do SUAS",
+        "tipo": "Titular"
+      },
+      {
+        "nome": "Representante 3 - Sociedade Civil",
+        "segmento": "Usuarios do SUAS",
+        "tipo": "Titular"
+      }
     ],
     "governamental": [
-      {"nome": "Representante 1 — Governo", "orgao": "SEDES", "tipo": "Titular"},
-      {"nome": "Representante 2 — Governo", "orgao": "Secretaria de Saude", "tipo": "Titular"},
-      {"nome": "Representante 3 — Governo", "orgao": "Secretaria de Educacao", "tipo": "Titular"}
+      {
+        "nome": "Representante 1 - Governo",
+        "orgao": "SEDES",
+        "tipo": "Titular"
+      },
+      {
+        "nome": "Representante 2 - Governo",
+        "orgao": "Secretaria de Saúde",
+        "tipo": "Titular"
+      },
+      {
+        "nome": "Representante 3 - Governo",
+        "orgao": "Secretaria de Educação",
+        "tipo": "Titular"
+      }
     ]
   },
   "comissoes": [
-    {"nome": "Comissao de Politica de Assistencia Social", "sigla": "CPAS", "descricao": "Responsavel pela analise e proposicao de politicas de assistencia social no DF."},
-    {"nome": "Comissao de Financiamento e Orcamento", "sigla": "CFO", "descricao": "Acompanha a execucao orcamentaria do Fundo de Assistencia Social do DF."},
-    {"nome": "Comissao de Normas e Inscricao de Entidades", "sigla": "CNIE", "descricao": "Responsavel pela analise de processos de inscricao de entidades de assistencia social."},
-    {"nome": "Comissao de Monitoramento e Fiscalizacao", "sigla": "CMF", "descricao": "Realiza visitas e monitoramento das entidades inscritas no CAS/DF."}
+    {
+      "nome": "Comissão de Política de Assistência Social",
+      "sigla": "CPAS",
+      "descricao": "Responsavel pela análise e proposição de políticas de assistência social no DF."
+    },
+    {
+      "nome": "Comissão de Financiamento e Orçamento",
+      "sigla": "CFO",
+      "descricao": "Acompanha a execução orçamentária do Fundo de Assistência Social do DF."
+    },
+    {
+      "nome": "Comissão de Normas e Inscrição de Entidades",
+      "sigla": "CNIE",
+      "descricao": "Responsavel pela análise de processos de inscrição de entidades de assistência social."
+    },
+    {
+      "nome": "Comissão de Monitoramento e Fiscalização",
+      "sigla": "CMF",
+      "descricao": "Realiza visitas e monitoramento das entidades inscritas no CAS/DF."
+    }
   ]
 }

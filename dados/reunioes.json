@@ -1,47 +1,95 @@
 {
-  "titulo": "Reunioes do CAS/DF",
-  "descricao": "O CAS/DF realiza reunioes ordinarias mensais e extraordinarias quando necessario. As reunioes sao abertas ao publico.",
-  "local": "Auditorio da SEDES — SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasilia/DF",
-  "horario": "14h as 17h",
-  "periodicidade": "Terceira quarta-feira de cada mes",
+  "titulo": "Reuniões do CAS/DF",
+  "descricao": "O CAS/DF realiza reuniões ordinárias mensais e extraordinarias quando necessário. As reuniões são abertas ao público.",
+  "local": "Auditorio da SEDES - SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasília/DF",
+  "horario": "14h às 17h",
+  "periodicidade": "Terceira quarta-feira de cada mês",
   "pautas_recentes": [
     {
       "data": "2025-03-19",
-      "tipo": "Ordinaria",
+      "tipo": "Ordinária",
       "itens": [
-        "Aprovacao da ata anterior",
-        "Relatorio da Comissao de Inscricao de Entidades",
-        "Apresentacao do relatorio de monitoramento do FNAS",
-        "Informes da Presidencia"
+        "Aprovação da ata anterior",
+        "Relatório da Comissão de Inscrição de Entidades",
+        "Apresentação do relatório de monitoramento do FNAS",
+        "Informes da Presidência"
       ]
     },
     {
       "data": "2025-02-19",
-      "tipo": "Ordinaria",
+      "tipo": "Ordinária",
       "itens": [
-        "Aprovacao da ata anterior",
-        "Votacao da Resolucao sobre inscricao de entidades",
-        "Planejamento da capacitacao de conselheiros",
+        "Aprovação da ata anterior",
+        "Votacao da Resolução sobre inscrição de entidades",
+        "Planejamento da capacitação de conselheiros",
         "Informes gerais"
       ]
     }
   ],
   "calendario_2025": [
-    {"mes": "Janeiro", "data": "15/01/2025", "status": "Realizada"},
-    {"mes": "Fevereiro", "data": "19/02/2025", "status": "Realizada"},
-    {"mes": "Marco", "data": "19/03/2025", "status": "Realizada"},
-    {"mes": "Abril", "data": "16/04/2025", "status": "Agendada"},
-    {"mes": "Maio", "data": "21/05/2025", "status": "Agendada"},
-    {"mes": "Junho", "data": "18/06/2025", "status": "Agendada"},
-    {"mes": "Julho", "data": "16/07/2025", "status": "Agendada"},
-    {"mes": "Agosto", "data": "20/08/2025", "status": "Agendada"},
-    {"mes": "Setembro", "data": "17/09/2025", "status": "Agendada"},
-    {"mes": "Outubro", "data": "15/10/2025", "status": "Agendada"},
-    {"mes": "Novembro", "data": "19/11/2025", "status": "Agendada"},
-    {"mes": "Dezembro", "data": "17/12/2025", "status": "Agendada"}
+    {
+      "mes": "Janeiro",
+      "data": "15/01/2025",
+      "status": "Realizada"
+    },
+    {
+      "mes": "Fevereiro",
+      "data": "19/02/2025",
+      "status": "Realizada"
+    },
+    {
+      "mes": "Março",
+      "data": "19/03/2025",
+      "status": "Realizada"
+    },
+    {
+      "mes": "Abril",
+      "data": "16/04/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Maio",
+      "data": "21/05/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Junho",
+      "data": "18/06/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Julho",
+      "data": "16/07/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Agosto",
+      "data": "20/08/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Setembro",
+      "data": "17/09/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Outubro",
+      "data": "15/10/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Novembro",
+      "data": "19/11/2025",
+      "status": "Agendada"
+    },
+    {
+      "mes": "Dezembro",
+      "data": "17/12/2025",
+      "status": "Agendada"
+    }
   ],
   "lives": {
-    "descricao": "As reunioes podem ser acompanhadas ao vivo pelo canal do YouTube da SEDES, quando disponivel transmissao.",
+    "descricao": "As reuniões podem ser acompanhadas ao vivo pelo canal do YouTube da SEDES, quando disponível transmissão.",
     "canal": "#"
   }
 }

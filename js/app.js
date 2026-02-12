@@ -28,8 +28,19 @@
   window.addEventListener('DOMContentLoaded', () => {
     setupMenu();
     setupBackToTop();
+    loadSocialLinks();
     handleRoute();
   });
+
+  async function loadSocialLinks() {
+    try {
+      const config = await loadJSON('config.json');
+      const links = config.redes_sociais;
+      document.querySelectorAll('a[aria-label="Instagram"]').forEach(a => { a.href = links.instagram; });
+      document.querySelectorAll('a[aria-label="YouTube"]').forEach(a => { a.href = links.youtube; });
+      document.querySelectorAll('a[aria-label="Facebook"]').forEach(a => { a.href = links.facebook; });
+    } catch (e) { /* usa os links padrão do HTML */ }
+  }
 
   async function handleRoute() {
     const route = getRoute();
@@ -66,7 +77,7 @@
       else if (route.startsWith('/post/')) await renderPost(parseInt(route.slice(6)));
       else render404();
     } catch (e) {
-      app.innerHTML = '<div class="page"><div class="no-results"><p class="no-results__icon">⚠️</p><p>Erro ao carregar conteudo. Tente novamente.</p></div></div>';
+      app.innerHTML = '<div class="page"><div class="no-results"><p class="no-results__icon">⚠️</p><p>Erro ao carregar conteúdo. Tente novamente.</p></div></div>';
       console.error(e);
     }
   }
@@ -197,12 +208,12 @@
     html += `
       <div class="hero">
         <div class="hero__content">
-          <span class="hero__badge">SUAS — Sistema Unico de Assistencia Social</span>
-          <h1 class="hero__title">Conselho de Assistencia Social do Distrito Federal</h1>
-          <p class="hero__text">Orgao colegiado deliberativo, normativo, fiscalizador e permanente. Controle social, transparencia e participacao popular na politica de assistencia social do DF.</p>
+          <span class="hero__badge">SUAS - Sistema Único de Assistência Social</span>
+          <h1 class="hero__title">Conselho de Assistência Social do Distrito Federal</h1>
+          <p class="hero__text">Órgão colegiado deliberativo, normativo, fiscalizador e permanente. Controle social, transparência e participação popular na política de assistência social do DF.</p>
           <div class="hero__actions">
-            <a href="#/sobre" class="hero__btn hero__btn--primary">Conheca o CAS/DF</a>
-            <a href="#/inscricao" class="hero__btn hero__btn--outline">Inscricao de Entidades</a>
+            <a href="#/sobre" class="hero__btn hero__btn--primary">Conheça o CAS/DF</a>
+            <a href="#/inscricao" class="hero__btn hero__btn--outline">Inscrição de Entidades</a>
           </div>
         </div>
       </div>`;
@@ -216,15 +227,15 @@
         </div>
         <div class="stat">
           <div class="stat__number">${totalRes}</div>
-          <div class="stat__label">Resolucoes Publicadas</div>
+          <div class="stat__label">Resoluções Publicadas</div>
         </div>
         <div class="stat">
           <div class="stat__number">${sobre.comissoes.length}</div>
-          <div class="stat__label">Comissoes Tematicas</div>
+          <div class="stat__label">Comissões Temáticas</div>
         </div>
         <div class="stat">
-          <div class="stat__number">${proxReuniao ? proxReuniao.data.split('/')[0] + '/' + proxReuniao.data.split('/')[1] : '—'}</div>
-          <div class="stat__label">Proxima Reuniao</div>
+          <div class="stat__number">${proxReuniao ? proxReuniao.data.split('/')[0] + '/' + proxReuniao.data.split('/')[1] : '-'}</div>
+          <div class="stat__label">Próxima Reunião</div>
         </div>
       </div>`;
 
@@ -237,7 +248,7 @@
     }
 
     // Recent posts
-    html += '<div class="section-title"><h2>Ultimas Publicacoes</h2><a href="#/busca/ " class="section-title__link">Ver todas →</a></div>';
+    html += '<div class="section-title"><h2>Últimas Publicações</h2><a href="#/busca/ " class="section-title__link">Ver todas →</a></div>';
     html += '<div class="cards">';
     sorted.slice(0, 6).forEach(p => { html += postCard(p, false); });
     html += '</div>';
@@ -255,7 +266,7 @@
         <div class="card__body">
           <span class="card__category">${p.categoria}</span>
           <h3 class="card__title"><a href="#/post/${p.id}">${p.titulo}</a></h3>
-          <p class="card__meta">${formatDate(p.data)} — ${p.autor}</p>
+          <p class="card__meta">${formatDate(p.data)} - ${p.autor}</p>
           <p class="card__excerpt">${p.resumo}</p>
           <a href="#/post/${p.id}" class="card__link">Ler mais →</a>
         </div>
@@ -281,9 +292,9 @@
             </div>
           </div>
           <div class="post-single__body">
-            ${breadcrumb([{href:'#/', label:'Inicio'}, {href:'#/', label:'Posts'}, {label: post.titulo.slice(0,50) + '...'}])}
-            <a href="#/" class="post-single__back">← Voltar ao inicio</a>
-            <p class="post-single__meta">${formatDate(post.data)} — ${post.autor}</p>
+            ${breadcrumb([{href:'#/', label:'Início'}, {href:'#/', label:'Posts'}, {label: post.titulo.slice(0,50) + '...'}])}
+            <a href="#/" class="post-single__back">← Voltar ao início</a>
+            <p class="post-single__meta">${formatDate(post.data)} - ${post.autor}</p>
             <div class="post-single__content">${post.conteudo}</div>
             ${shareButtons(post.titulo, url)}
           </div>
@@ -296,8 +307,8 @@
     const data = await loadJSON('sobre.json');
     const active = sub || 'geral';
 
-    const bc = [{href:'#/', label:'Inicio'}, {href:'#/sobre', label:'Sobre o CAS/DF'}];
-    const subLabels = {presidencia:'Presidencia', secretaria:'Secretaria Executiva', conselheiros:'Conselheiros', comissoes:'Comissoes'};
+    const bc = [{href:'#/', label:'Início'}, {href:'#/sobre', label:'Sobre o CAS/DF'}];
+    const subLabels = {presidencia:'Presidência', secretaria:'Secretaria Executiva', conselheiros:'Conselheiros', comissoes:'Comissoes'};
     if (sub) bc.push({label: subLabels[sub]});
 
     let content = '';
@@ -310,9 +321,9 @@
           <p class="info-section__text mt-1"><strong>Base legal:</strong> ${data.base_legal}</p>
         </div>
         <div class="info-section">
-          <h2 class="info-section__title">Competencias</h2>
-          <ul class="competencias-list">
-            ${data.competencias.map(c => '<li>' + c + '</li>').join('')}
+          <h2 class="info-section__title">Competências</h2>
+          <ul class="competências-list">
+            ${data.competências.map(c => '<li>' + c + '</li>').join('')}
           </ul>
         </div>`;
     } else if (active === 'presidencia') {
@@ -346,7 +357,7 @@
         <div class="info-section">
           <h2 class="info-section__title">Representantes Governamentais</h2>
           <table class="doc-table">
-            <thead><tr><th>Nome</th><th>Orgao</th><th>Tipo</th></tr></thead>
+            <thead><tr><th>Nome</th><th>Órgão</th><th>Tipo</th></tr></thead>
             <tbody>${data.conselheiros.governamental.map(c => '<tr><td>' + c.nome + '</td><td>' + c.orgao + '</td><td>' + c.tipo + '</td></tr>').join('')}</tbody>
           </table>
         </div>`;
@@ -363,16 +374,16 @@
         ${breadcrumb(bc)}
         <div class="page__header">
           <h1 class="page__title">Sobre o CAS/DF</h1>
-          <p class="page__subtitle">Informacoes institucionais do Conselho de Assistencia Social do Distrito Federal</p>
+          <p class="page__subtitle">Informações institucionais do Conselho de Assistência Social do Distrito Federal</p>
         </div>
         <div class="layout-sidebar">
           <aside class="sidebar">
-            <p class="sidebar__title">Navegacao</p>
-            <a href="#/sobre" class="sidebar__link ${active === 'geral' ? 'active' : ''}">Visao Geral</a>
-            <a href="#/sobre/presidencia" class="sidebar__link ${active === 'presidencia' ? 'active' : ''}">Presidencia</a>
+            <p class="sidebar__title">Navegação</p>
+            <a href="#/sobre" class="sidebar__link ${active === 'geral' ? 'active' : ''}">Visão Geral</a>
+            <a href="#/sobre/presidencia" class="sidebar__link ${active === 'presidencia' ? 'active' : ''}">Presidência</a>
             <a href="#/sobre/secretaria" class="sidebar__link ${active === 'secretaria' ? 'active' : ''}">Secretaria Executiva</a>
-            <a href="#/sobre/conselheiros" class="sidebar__link ${active === 'conselheiros' ? 'active' : ''}">Composicao / Conselheiros</a>
-            <a href="#/sobre/comissoes" class="sidebar__link ${active === 'comissoes' ? 'active' : ''}">Comissoes Tematicas</a>
+            <a href="#/sobre/conselheiros" class="sidebar__link ${active === 'conselheiros' ? 'active' : ''}">Composição / Conselheiros</a>
+            <a href="#/sobre/comissoes" class="sidebar__link ${active === 'comissoes' ? 'active' : ''}">Comissões Temáticas</a>
             <a href="#/regimento" class="sidebar__link">Regimento Interno</a>
           </aside>
           <div>${content}</div>
@@ -384,27 +395,27 @@
   async function renderRegimento() {
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {href:'#/sobre', label:'Sobre o CAS/DF'}, {label:'Regimento Interno'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {href:'#/sobre', label:'Sobre o CAS/DF'}, {label:'Regimento Interno'}])}
         <div class="page__header">
           <h1 class="page__title">Regimento Interno do CAS/DF</h1>
-          <p class="page__subtitle">Normas de organizacao e funcionamento do Conselho de Assistencia Social do DF</p>
+          <p class="page__subtitle">Normas de organização e funcionamento do Conselho de Assistência Social do DF</p>
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Sobre o Regimento</h2>
-          <p class="info-section__text">O Regimento Interno do CAS/DF estabelece as normas de organizacao, funcionamento e procedimentos do Conselho de Assistencia Social do Distrito Federal, em conformidade com a Lei Distrital n. 4.176/2008 e a legislacao federal aplicavel.</p>
+          <p class="info-section__text">O Regimento Interno do CAS/DF estabelece as normas de organização, funcionamento e procedimentos do Conselho de Assistência Social do Distrito Federal, em conformidade com a Lei Distrital n. 4.176/2008 e a legislação federal aplicável.</p>
           <p class="info-section__text mt-1">O regimento disciplina:</p>
-          <ul class="competencias-list mt-1">
-            <li>Composicao e mandato dos conselheiros</li>
-            <li>Competencias do plenario, da mesa diretora e das comissoes</li>
-            <li>Periodicidade e quorum das reunioes</li>
-            <li>Processo de votacao e deliberacao</li>
-            <li>Procedimentos de inscricao de entidades</li>
-            <li>Disposicoes sobre eleicao da mesa diretora</li>
+          <ul class="competências-list mt-1">
+            <li>Composição e mandato dos conselheiros</li>
+            <li>Competências do plenário, da mesa diretora e das comissoes</li>
+            <li>Periodicidade e quórum das reuniões</li>
+            <li>Processo de votação e deliberação</li>
+            <li>Procedimentos de inscrição de entidades</li>
+            <li>Disposições sobre eleição da mesa diretora</li>
           </ul>
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Download</h2>
-          <p class="info-section__text">O texto completo do Regimento Interno esta disponivel para consulta e download.</p>
+          <p class="info-section__text">O texto completo do Regimento Interno está disponível para consulta e download.</p>
           <p class="mt-1"><a href="#" class="btn btn--primary" target="_blank">Baixar Regimento Interno (PDF)</a></p>
         </div>
       </div>`;
@@ -417,29 +428,29 @@
     let objHtml = data.objetivos_estrategicos.map(obj => `
       <div class="info-section">
         <h2 class="info-section__title">${obj.objetivo}</h2>
-        <ul>${obj.acoes.map(a => '<li>' + a + '</li>').join('')}</ul>
+        <ul>${obj.ações.map(a => '<li>' + a + '</li>').join('')}</ul>
       </div>`).join('');
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Planejamento Estrategico'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Planejamento Estratégico'}])}
         <div class="page__header">
           <h1 class="page__title">${data.titulo}</h1>
-          <p class="page__subtitle">Periodo: ${data.periodo}</p>
+          <p class="page__subtitle">Período: ${data.periodo}</p>
         </div>
         <div class="info-section">
-          <h2 class="info-section__title">Missao</h2>
+          <h2 class="info-section__title">Missão</h2>
           <p class="info-section__text">${data.missao}</p>
         </div>
         <div class="info-section">
-          <h2 class="info-section__title">Visao</h2>
+          <h2 class="info-section__title">Visão</h2>
           <p class="info-section__text">${data.visao}</p>
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Valores</h2>
           <ul class="valores-list">${data.valores.map(v => '<li>' + v + '</li>').join('')}</ul>
         </div>
-        <div class="section-title mt-2"><h2>Objetivos Estrategicos</h2></div>
+        <div class="section-title mt-2"><h2>Objetivos Estratégicos</h2></div>
         ${objHtml}
         <div class="info-section">
           <h2 class="info-section__title">Indicadores e Metas</h2>
@@ -468,7 +479,7 @@
         </div>
         <div class="accordion__body${i === 0 ? ' open' : ''}">
           <table class="doc-table">
-            <thead><tr><th>Numero</th><th>Titulo</th><th>Data</th><th>Link</th></tr></thead>
+            <thead><tr><th>Número</th><th>Título</th><th>Data</th><th>Link</th></tr></thead>
             <tbody>${ano.documentos.map(d => `<tr><td>${d.numero}</td><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td><a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a></td></tr>`).join('')}</tbody>
           </table>
         </div>
@@ -476,7 +487,7 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Resolucoes do CAS/DF'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Resoluções do CAS/DF'}])}
         <div class="page__header">
           <h1 class="page__title">${res.titulo}</h1>
           <p class="page__subtitle">${res.descricao}</p>
@@ -498,7 +509,7 @@
         </div>
         <div class="accordion__body${i === 0 ? ' open' : ''}">
           <table class="doc-table">
-            <thead><tr><th>Titulo</th><th>Data</th><th>Link</th></tr></thead>
+            <thead><tr><th>Título</th><th>Data</th><th>Link</th></tr></thead>
             <tbody>${p.documentos.map(d => `<tr><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td><a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a></td></tr>`).join('')}</tbody>
           </table>
         </div>
@@ -506,7 +517,7 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Atas de Reunioes'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Atas de Reuniões'}])}
         <div class="page__header">
           <h1 class="page__title">${atas.titulo}</h1>
           <p class="page__subtitle">${atas.descricao}</p>
@@ -521,7 +532,7 @@
 
     let pautasHtml = data.pautas_recentes.map(p => `
       <div class="info-section">
-        <h2 class="info-section__title">Reuniao ${p.tipo} — ${formatDate(p.data)}</h2>
+        <h2 class="info-section__title">Reunião ${p.tipo} - ${formatDate(p.data)}</h2>
         <ol class="pauta-list">${p.itens.map(i => '<li>' + i + '</li>').join('')}</ol>
       </div>`).join('');
 
@@ -534,13 +545,13 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Reunioes do CAS/DF'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Reuniões do CAS/DF'}])}
         <div class="page__header">
           <h1 class="page__title">${data.titulo}</h1>
           <p class="page__subtitle">${data.descricao}</p>
         </div>
         <div class="info-section">
-          <h2 class="info-section__title">Informacoes Gerais</h2>
+          <h2 class="info-section__title">Informações Gerais</h2>
           <ul>
             <li><strong>Local:</strong> ${data.local}</li>
             <li><strong>Horario:</strong> ${data.horario}</li>
@@ -549,10 +560,10 @@
         </div>
         <div class="section-title mt-2"><h2>Pautas Recentes</h2></div>
         ${pautasHtml}
-        <div class="section-title mt-2"><h2>Calendario 2025</h2></div>
+        <div class="section-title mt-2"><h2>Calendário 2025</h2></div>
         <div class="calendar-grid">${calHtml}</div>
         <div class="info-section mt-2">
-          <h2 class="info-section__title">Transmissao ao Vivo</h2>
+          <h2 class="info-section__title">Transmissão ao Vivo</h2>
           <p class="info-section__text">${data.lives.descricao}</p>
           <p class="mt-1"><a href="#/lives" class="btn btn--primary">Ver Lives do CAS/DF</a></p>
         </div>
@@ -565,36 +576,36 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Lives do CAS/DF'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Lives do CAS/DF'}])}
         <div class="page__header">
           <h1 class="page__title">Lives do CAS/DF</h1>
-          <p class="page__subtitle">Transmissoes ao vivo das reunioes e eventos do Conselho de Assistencia Social do DF. Acompanhe pelo YouTube e Facebook.</p>
+          <p class="page__subtitle">Transmissões ao vivo das reuniões e eventos do Conselho de Assistência Social do DF. Acompanhe pelo YouTube e Facebook.</p>
         </div>
         <div class="live-card">
           <div class="live-card__embed">
             <p style="text-align:center;padding:2rem;color:var(--gray-400)">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:.5rem;display:block;margin-left:auto;margin-right:auto"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              As transmissoes ao vivo serao exibidas aqui.<br>
-              Acompanhe tambem pelo canal do YouTube.
+              As transmissões ao vivo serão exibidas aqui.<br>
+              Acompanhe também pelo canal do YouTube.
             </p>
           </div>
           <div class="live-card__body">
-            <h3 class="live-card__title">Proxima transmissao</h3>
+            <h3 class="live-card__title">Próxima transmissão</h3>
             <p class="live-card__meta">${data.lives.descricao}</p>
           </div>
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Como assistir</h2>
           <ul>
-            <li><strong>YouTube:</strong> Acesse o canal do CAS/DF no YouTube para assistir as reunioes ao vivo e gravadas</li>
-            <li><strong>Facebook:</strong> As transmissoes tambem sao realizadas pela pagina do CAS/DF no Facebook</li>
-            <li><strong>Presencial:</strong> As reunioes sao abertas ao publico no auditorio da SEDES</li>
+            <li><strong>YouTube:</strong> Acesse o canal do CAS/DF no YouTube para assistir às reuniões ao vivo e gravadas</li>
+            <li><strong>Facebook:</strong> As transmissões também são realizadas pela página do CAS/DF no Facebook</li>
+            <li><strong>Presencial:</strong> As reuniões são abertas ao público no auditório da SEDES</li>
           </ul>
         </div>
         <div class="info-section">
-          <h2 class="info-section__title">Calendario de Reunioes</h2>
-          <p class="info-section__text">As reunioes ordinarias acontecem na ${data.periodicidade.toLowerCase()}, as ${data.horario}.</p>
-          <p class="mt-1"><a href="#/reunioes" class="btn btn--primary">Ver calendario completo</a></p>
+          <h2 class="info-section__title">Calendário de Reuniões</h2>
+          <p class="info-section__text">As reuniões ordinárias acontecem na ${data.periodicidade.toLowerCase()}, as ${data.horario}.</p>
+          <p class="mt-1"><a href="#/reunioes" class="btn btn--primary">Ver calendário completo</a></p>
         </div>
       </div>`;
   }
@@ -605,12 +616,12 @@
 
     let gestoesHtml = data.gestoes.map(g => `
       <div class="info-section">
-        <h2 class="info-section__title">Gestao ${g.periodo} <span class="${g.status === 'Vigente' ? 'green-badge' : 'badge badge--yellow'}">${g.status}</span></h2>
+        <h2 class="info-section__title">Gestão ${g.periodo} <span class="${g.status === 'Vigente' ? 'green-badge' : 'badge badge--yellow'}">${g.status}</span></h2>
         <p class="info-section__text">${g.composicao}</p>
         <ul class="mt-1">
           <li><strong>Presidente:</strong> ${g.mesa_diretora.presidente}</li>
           <li><strong>Vice-Presidente:</strong> ${g.mesa_diretora.vice_presidente}</li>
-          <li><strong>Segmento da Presidencia:</strong> ${g.mesa_diretora.segmento_presidente}</li>
+          <li><strong>Segmento da Presidência:</strong> ${g.mesa_diretora.segmento_presidente}</li>
         </ul>
       </div>`).join('');
 
@@ -622,7 +633,7 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Eleicoes do CAS/DF'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Eleições do CAS/DF'}])}
         <div class="page__header">
           <h1 class="page__title">${data.titulo}</h1>
           <p class="page__subtitle">${data.descricao}</p>
@@ -641,7 +652,7 @@
     const data = await loadJSON('conferencias.json');
     const active = sub || 'distritais';
 
-    const bc = [{href:'#/', label:'Inicio'}, {href:'#/conferencias', label:'Conferencias'}];
+    const bc = [{href:'#/', label:'Início'}, {href:'#/conferencias', label:'Conferências'}];
     if (sub === 'regionais') bc.push({label: 'Regionais'});
 
     let content = '';
@@ -659,9 +670,9 @@
 
       let histHtml = `
         <div class="info-section">
-          <h2 class="info-section__title">Historico de Conferencias</h2>
+          <h2 class="info-section__title">Histórico de Conferências</h2>
           <table class="doc-table">
-            <thead><tr><th>Edicao</th><th>Ano</th><th>Tema</th></tr></thead>
+            <thead><tr><th>Edição</th><th>Ano</th><th>Tema</th></tr></thead>
             <tbody>${data.historico.map(h => '<tr><td>' + h.edicao + 'a</td><td>' + h.ano + '</td><td>' + h.tema + '</td></tr>').join('')}</tbody>
           </table>
         </div>`;
@@ -675,12 +686,12 @@
             <h2 class="info-section__title">Etapas Regionais 2024</h2>
             <p class="info-section__text mb-1">${data.regionais.descricao}</p>
             <table class="doc-table">
-              <thead><tr><th>Regiao</th><th>Data</th><th>Status</th></tr></thead>
+              <thead><tr><th>Região</th><th>Data</th><th>Status</th></tr></thead>
               <tbody>${data.regionais.etapas_2024.map(r => `<tr><td>${r.regiao}</td><td>${r.data}</td><td><span class="calendar-item__status status--${r.status.toLowerCase()}">${r.status}</span></td></tr>`).join('')}</tbody>
             </table>
           </div>`;
       }
-      content = regHtml || '<div class="info-section"><p class="info-section__text">Informacoes sobre as conferencias regionais serao publicadas em breve.</p></div>';
+      content = regHtml || '<div class="info-section"><p class="info-section__text">Informações sobre as conferências regionais serão publicadas em breve.</p></div>';
     }
 
     app.innerHTML = `
@@ -692,7 +703,7 @@
         </div>
         <div class="layout-sidebar">
           <aside class="sidebar">
-            <p class="sidebar__title">Conferencias</p>
+            <p class="sidebar__title">Conferências</p>
             <a href="#/conferencias" class="sidebar__link ${active === 'distritais' ? 'active' : ''}">Distritais e Nacionais</a>
             <a href="#/conferencias/regionais" class="sidebar__link ${active === 'regionais' ? 'active' : ''}">Regionais</a>
           </aside>
@@ -707,13 +718,13 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Entidades Inscritas'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Entidades Inscritas'}])}
         <div class="page__header">
           <h1 class="page__title">${data.titulo}</h1>
-          <p class="page__subtitle">${data.descricao}<br>Ultima atualizacao: ${formatDate(data.ultima_atualizacao)}</p>
+          <p class="page__subtitle">${data.descricao}<br>Última atualização: ${formatDate(data.ultima_atualizacao)}</p>
         </div>
         <div class="search-box">
-          <input type="text" id="entidadesSearch" placeholder="Buscar por nome, CNPJ, regiao ou endereco...">
+          <input type="text" id="entidadesSearch" placeholder="Buscar por nome, CNPJ, região ou endereço...">
         </div>
         <p id="entidadesCount" style="font-size:.88rem;color:var(--gray-500);margin-bottom:1rem"></p>
         <div id="entidadesList"></div>
@@ -742,11 +753,11 @@
         <div class="entity-card">
           <div class="entity-card__header">
             <p class="entity-card__name">${highlightText(e.nome, term)}</p>
-            <span class="entity-card__numero">Inscricao ${e.inscricao}</span>
+            <span class="entity-card__numero">Inscrição ${e.inscricao}</span>
           </div>
           <div class="entity-card__info">
             <span><strong>CNPJ:</strong> ${e.cnpj}</span>
-            <span><strong>Regiao:</strong> ${highlightText(e.regiao, term)}</span>
+            <span><strong>Região:</strong> ${highlightText(e.regiao, term)}</span>
           </div>
           <div class="entity-card__detail">
             <div class="entity-card__row">
@@ -763,7 +774,7 @@
             </div>
           </div>
           <div class="entity-card__resolucoes">
-            <strong>Resolucoes:</strong> ${e.resolucoes}
+            <strong>Resoluções:</strong> ${e.resolucoes}
           </div>
         </div>`).join('');
     }
@@ -816,9 +827,9 @@
 
   function fiscStatusBadge(status) {
     const s = (status || '').toLowerCase();
-    if (s.includes('conclu')) return '<span class="fisc-badge fisc-badge--green">Concluido</span>';
-    if (s.includes('recebido')) return '<span class="fisc-badge fisc-badge--blue">Relatorio Recebido</span>';
-    if (s.includes('aguardando')) return '<span class="fisc-badge fisc-badge--yellow">Aguardando Relatorio</span>';
+    if (s.includes('conclu')) return '<span class="fisc-badge fisc-badge--green">Concluído</span>';
+    if (s.includes('recebido')) return '<span class="fisc-badge fisc-badge--blue">Relatório Recebido</span>';
+    if (s.includes('aguardando')) return '<span class="fisc-badge fisc-badge--yellow">Aguardando Relatório</span>';
     if (s.includes('designado')) return '<span class="fisc-badge fisc-badge--gray">Designado</span>';
     if (s.includes('cancelado')) return '<span class="fisc-badge fisc-badge--red">Cancelado</span>';
     return '<span class="fisc-badge fisc-badge--gray">' + (status || 'N/A') + '</span>';
@@ -829,8 +840,8 @@
     if (s.includes('no prazo')) return '<span class="fisc-prazo fisc-prazo--green">No prazo</span>';
     if (s.includes('vence')) return '<span class="fisc-prazo fisc-prazo--yellow">Vence em breve</span>';
     if (s.includes('atrasado')) return '<span class="fisc-prazo fisc-prazo--red">Atrasado</span>';
-    if (s.includes('conclu')) return '<span class="fisc-prazo fisc-prazo--green">Concluido</span>';
-    return '<span class="fisc-prazo fisc-prazo--gray">' + (situacao || '—') + '</span>';
+    if (s.includes('conclu')) return '<span class="fisc-prazo fisc-prazo--green">Concluído</span>';
+    return '<span class="fisc-prazo fisc-prazo--gray">' + (situacao || '-') + '</span>';
   }
 
   async function renderFiscalizacao() {
@@ -856,7 +867,7 @@
 
     let html = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Fiscalizacao de Entidades'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Fiscalização de Entidades'}])}
         <div class="page__header">
           <h1 class="page__title">${data.titulo}</h1>
           <p class="page__subtitle">${data.descricao}</p>
@@ -874,33 +885,33 @@
       html += `
         <div class="info-section" style="border-left:4px solid var(--primary);background:var(--primary-50)">
           <h2 class="info-section__title">Painel de Acompanhamento</h2>
-          <p class="info-section__text">O painel com dados ao vivo das fiscalizacoes sera ativado em breve. Quando configurado, voce podera acompanhar em tempo real o status de cada fiscalizacao em andamento.</p>
+          <p class="info-section__text">O painel com dados ao vivo das fiscalizações será ativado em breve. Quando configurado, você poderá acompanhar em tempo real o status de cada fiscalização em andamento.</p>
         </div>`;
     }
 
     // Static info
     html += `
         <div class="info-section">
-          <h2 class="info-section__title">Sobre a Fiscalizacao</h2>
+          <h2 class="info-section__title">Sobre a Fiscalização</h2>
           <p class="info-section__text">${data.sobre_fiscalizacao}</p>
           <p class="info-section__text mt-1"><strong>Base legal:</strong> ${data.base_legal}</p>
-          <p class="info-section__text mt-1"><strong>Prazo padrao:</strong> ${data.prazo_padrao}</p>
+          <p class="info-section__text mt-1"><strong>Prazo padrão:</strong> ${data.prazo_padrao}</p>
         </div>
 
         <div class="section-title mt-2"><h2>Etapas do Processo</h2></div>
         <div class="steps">${stepsHtml}</div>
 
         <div class="info-section mt-2">
-          <h2 class="info-section__title">Itens Verificados na Fiscalizacao</h2>
-          <ul class="competencias-list">${itensHtml}</ul>
+          <h2 class="info-section__title">Itens Verificados na Fiscalização</h2>
+          <ul class="competências-list">${itensHtml}</ul>
         </div>
 
-        <div class="section-title mt-2"><h2>Resultados Possiveis</h2></div>
+        <div class="section-title mt-2"><h2>Resultados Possíveis</h2></div>
         <div class="fisc-resultados">${resultadosHtml}</div>
 
         <div class="info-section mt-2">
           <h2 class="info-section__title">Contato</h2>
-          <p class="info-section__text">Para duvidas sobre fiscalizacoes:</p>
+          <p class="info-section__text">Para dúvidas sobre fiscalizações:</p>
           <ul class="mt-1">
             <li><strong>E-mail:</strong> ${data.contato_fiscalizacao.email}</li>
             <li><strong>Telefone:</strong> ${data.contato_fiscalizacao.telefone}</li>
@@ -919,7 +930,7 @@
         document.getElementById('fiscDashboard').innerHTML = `
           <div class="info-section" style="border-left:4px solid #ef4444;background:#fef2f2">
             <h2 class="info-section__title">Erro ao carregar dados</h2>
-            <p class="info-section__text">Nao foi possivel acessar a planilha. Verifique se ela esta publicada na web.</p>
+            <p class="info-section__text">Não foi possível acessar a planilha. Verifique se ela está publicada na web.</p>
           </div>`;
         console.error('Erro ao carregar planilha:', e);
       }
@@ -933,8 +944,8 @@
     if (!rows.length) {
       container.innerHTML = `
         <div class="info-section" style="border-left:4px solid var(--accent);background:#f0fdf4">
-          <h2 class="info-section__title">Painel de Acompanhamento — Conectado</h2>
-          <p class="info-section__text">A planilha de controle esta conectada ao blog. Quando as primeiras fiscalizacoes forem registradas, os dados aparecerao automaticamente aqui com estatisticas e tabela de acompanhamento.</p>
+          <h2 class="info-section__title">Painel de Acompanhamento - Conectado</h2>
+          <p class="info-section__text">A planilha de controle está conectada ao blog. Quando as primeiras fiscalizações forem registradas, os dados aparecerão automaticamente aqui com estatísticas e tabela de acompanhamento.</p>
         </div>`;
       return;
     }
@@ -947,7 +958,7 @@
       return s.includes('designado') || s.includes('aguardando');
     }).length;
     const recebidos = rows.filter(r => (r['Status'] || '').toLowerCase().includes('recebido')).length;
-    const atrasados = rows.filter(r => (r['Situação Prazo'] || r['Situacao Prazo'] || '').toLowerCase().includes('atrasado')).length;
+    const atrasados = rows.filter(r => (r['Situação Prazo'] || r['Situação Prazo'] || '').toLowerCase().includes('atrasado')).length;
     const taxa = total > 0 ? Math.round((concluidas / total) * 100) : 0;
 
     let html = `
@@ -962,9 +973,9 @@
         </div>
         <div class="fisc-stat fisc-stat--recebido">
           <div class="fisc-stat__number">${recebidos}</div>
-          <div class="fisc-stat__label">Relatorios recebidos</div>
+          <div class="fisc-stat__label">Relatórios recebidos</div>
         </div>
-        <div class="fisc-stat fisc-stat--concluido">
+        <div class="fisc-stat fisc-stat--concluído">
           <div class="fisc-stat__number">${concluidas}</div>
           <div class="fisc-stat__label">Concluidas</div>
         </div>
@@ -974,11 +985,11 @@
         </div>
         <div class="fisc-stat fisc-stat--taxa">
           <div class="fisc-stat__number">${taxa}%</div>
-          <div class="fisc-stat__label">Taxa de conclusao</div>
+          <div class="fisc-stat__label">Taxa de conclusão</div>
         </div>
       </div>
 
-      <div class="section-title mt-2"><h2>Fiscalizacoes</h2></div>
+      <div class="section-title mt-2"><h2>Fiscalizações</h2></div>
 
       <div class="fisc-controls">
         <input type="text" id="fiscSearch" class="fisc-search" placeholder="Buscar por entidade ou conselheiro...">
@@ -986,7 +997,7 @@
           <button class="fisc-filter active" data-filter="todos">Todos</button>
           <button class="fisc-filter" data-filter="andamento">Em andamento</button>
           <button class="fisc-filter" data-filter="recebido">Recebido</button>
-          <button class="fisc-filter" data-filter="concluido">Concluido</button>
+          <button class="fisc-filter" data-filter="concluído">Concluído</button>
           <button class="fisc-filter" data-filter="atrasado">Atrasado</button>
         </div>
       </div>
@@ -997,10 +1008,10 @@
             <tr>
               <th>Entidade</th>
               <th>Conselheiro</th>
-              <th>Designacao</th>
+              <th>Designação</th>
               <th>Prazo</th>
               <th>Status</th>
-              <th>Situacao</th>
+              <th>Situação</th>
             </tr>
           </thead>
           <tbody id="fiscTableBody"></tbody>
@@ -1033,10 +1044,10 @@
         });
       } else if (filter === 'recebido') {
         filtered = filtered.filter(r => (getCol(r, ['Status']) || '').toLowerCase().includes('recebido'));
-      } else if (filter === 'concluido') {
+      } else if (filter === 'concluído') {
         filtered = filtered.filter(r => (getCol(r, ['Status']) || '').toLowerCase().includes('conclu'));
       } else if (filter === 'atrasado') {
-        filtered = filtered.filter(r => (getCol(r, ['Situação Prazo', 'Situacao Prazo']) || '').toLowerCase().includes('atrasado'));
+        filtered = filtered.filter(r => (getCol(r, ['Situação Prazo', 'Situação Prazo']) || '').toLowerCase().includes('atrasado'));
       }
 
       // Search
@@ -1049,7 +1060,7 @@
       }
 
       if (!filtered.length) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray-400)">Nenhuma fiscalizacao encontrada.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--gray-400)">Nenhuma fiscalização encontrada.</td></tr>';
         countEl.textContent = '0 resultados';
         return;
       }
@@ -1057,22 +1068,22 @@
       tbody.innerHTML = filtered.map(r => {
         const entidade = getCol(r, ['Entidade']);
         const conselheiro = getCol(r, ['Conselheiro']);
-        const designacao = getCol(r, ['Data Designação', 'Data Designacao']);
+        const designação = getCol(r, ['Data Designação', 'Data Designação']);
         const prazo = getCol(r, ['Prazo']);
         const status = getCol(r, ['Status']);
-        const situacao = getCol(r, ['Situação Prazo', 'Situacao Prazo']);
+        const situacao = getCol(r, ['Situação Prazo', 'Situação Prazo']);
 
         return `<tr>
           <td class="fisc-td-entidade">${entidade}</td>
           <td>${conselheiro}</td>
-          <td>${designacao}</td>
+          <td>${designação}</td>
           <td>${prazo}</td>
           <td>${fiscStatusBadge(status)}</td>
           <td>${fiscPrazoBadge(situacao)}</td>
         </tr>`;
       }).join('');
 
-      countEl.textContent = filtered.length + ' fiscalizac' + (filtered.length !== 1 ? 'oes' : 'ao') + ' encontrada' + (filtered.length !== 1 ? 's' : '');
+      countEl.textContent = filtered.length + ' fiscalizaç' + (filtered.length !== 1 ? 'ões' : 'ão') + ' encontrada' + (filtered.length !== 1 ? 's' : '');
     }
 
     // Initial render
@@ -1112,7 +1123,7 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Inscricao de Entidades'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Inscrição de Entidades'}])}
         <div class="page__header">
           <h1 class="page__title">${data.titulo}</h1>
           <p class="page__subtitle">${data.descricao}</p>
@@ -1126,14 +1137,14 @@
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
               <div>
                 <strong style="display:block;font-size:1rem">${cs.eprotocolo.titulo}</strong>
-                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.eprotocolo.instrucao}</span>
+                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.eprotocolo.instrução}</span>
               </div>
             </a>
-            <a href="${cs.orientacoes.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--accent);color:var(--white);border-radius:var(--radius-lg);text-decoration:none;transition:var(--transition);font-weight:600" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='var(--accent)'">
+            <a href="${cs.orientações.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--accent);color:var(--white);border-radius:var(--radius-lg);text-decoration:none;transition:var(--transition);font-weight:600" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='var(--accent)'">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
               <div>
-                <strong style="display:block;font-size:1rem">${cs.orientacoes.titulo}</strong>
-                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.orientacoes.descricao}</span>
+                <strong style="display:block;font-size:1rem">${cs.orientações.titulo}</strong>
+                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.orientações.descricao}</span>
               </div>
             </a>
           </div>
@@ -1144,15 +1155,15 @@
           <p class="info-section__text">${data.quem_deve_se_inscrever}</p>
         </div>
         <div class="info-section">
-          <h2 class="info-section__title">Tipos de Inscricao</h2>
+          <h2 class="info-section__title">Tipos de Inscrição</h2>
           <table class="doc-table">
-            <thead><tr><th>Tipo</th><th>Descricao</th></tr></thead>
+            <thead><tr><th>Tipo</th><th>Descrição</th></tr></thead>
             <tbody>${data.tipos_inscricao.map(t => '<tr><td><strong>' + t.tipo + '</strong></td><td>' + t.descricao + '</td></tr>').join('')}</tbody>
           </table>
         </div>
         <div class="info-section">
-          <h2 class="info-section__title">Documentos Necessarios</h2>
-          <ul class="competencias-list">${data.documentos_necessarios.map(d => '<li>' + d + '</li>').join('')}</ul>
+          <h2 class="info-section__title">Documentos Necessários</h2>
+          <ul class="competências-list">${data.documentos_necessarios.map(d => '<li>' + d + '</li>').join('')}</ul>
         </div>
         <div class="section-title mt-2"><h2>Passo a Passo</h2></div>
         <div class="steps">${stepsHtml}</div>
@@ -1176,10 +1187,10 @@
   async function renderContato() {
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label:'Contato'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Contato'}])}
         <div class="page__header">
           <h1 class="page__title">Fale Conosco</h1>
-          <p class="page__subtitle">Entre em contato com o CAS/DF. Responderemos o mais breve possivel.</p>
+          <p class="page__subtitle">Entre em contato com o CAS/DF. Responderemos o mais breve possível.</p>
         </div>
         <div class="layout-sidebar">
           <aside class="sidebar">
@@ -1187,8 +1198,8 @@
             <div style="padding:.5rem .75rem;font-size:.85rem;color:var(--gray-600);line-height:1.8">
               <p><strong>E-mail</strong><br>cas.df@sedes.df.gov.br</p>
               <p class="mt-1"><strong>Telefone</strong><br>(61) 3223-1532</p>
-              <p class="mt-1"><strong>Endereco</strong><br>SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasilia/DF<br>CEP 70770-501</p>
-              <p class="mt-1"><strong>Horario</strong><br>Seg a Sex, 9h as 17h</p>
+              <p class="mt-1"><strong>Endereco</strong><br>SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasília/DF<br>CEP 70770-501</p>
+              <p class="mt-1"><strong>Horario</strong><br>Seg a Sex, 9h às 17h</p>
             </div>
           </aside>
           <div>
@@ -1207,10 +1218,10 @@
                   <label class="form__label" for="assunto">Assunto *</label>
                   <select class="form__select" id="assunto" name="assunto" required>
                     <option value="">Selecione...</option>
-                    <option value="Inscricao de Entidade">Inscricao de Entidade</option>
-                    <option value="Informacoes sobre Reunioes">Informacoes sobre Reunioes</option>
-                    <option value="Denuncias e Fiscalizacao">Denuncias e Fiscalizacao</option>
-                    <option value="Duvidas Gerais">Duvidas Gerais</option>
+                    <option value="Inscrição de Entidade">Inscrição de Entidade</option>
+                    <option value="Informações sobre Reuniões">Informações sobre Reuniões</option>
+                    <option value="Denúncias e Fiscalização">Denúncias e Fiscalização</option>
+                    <option value="Dúvidas Gerais">Dúvidas Gerais</option>
                     <option value="Outro">Outro</option>
                   </select>
                 </div>
@@ -1267,14 +1278,14 @@
       try {
         const sobre = await loadJSON('sobre.json');
         if (JSON.stringify(sobre).toLowerCase().includes(q)) {
-          results.push({ titulo: 'Sobre o CAS/DF', resumo: sobre.descricao.slice(0, 150) + '...', link: '#/sobre', tipo: 'Pagina' });
+          results.push({ titulo: 'Sobre o CAS/DF', resumo: sobre.descricao.slice(0, 150) + '...', link: '#/sobre', tipo: 'Página' });
         }
       } catch {}
 
       try {
         const plan = await loadJSON('planejamento.json');
         if (JSON.stringify(plan).toLowerCase().includes(q)) {
-          results.push({ titulo: plan.titulo, resumo: plan.missao.slice(0, 150) + '...', link: '#/planejamento', tipo: 'Pagina' });
+          results.push({ titulo: plan.titulo, resumo: plan.missao.slice(0, 150) + '...', link: '#/planejamento', tipo: 'Página' });
         }
       } catch {}
 
@@ -1283,7 +1294,7 @@
         docs.resolucoes.anos.forEach(ano => {
           ano.documentos.forEach(d => {
             if ((d.titulo + ' ' + d.numero).toLowerCase().includes(q)) {
-              results.push({ titulo: 'Resolucao ' + d.numero + ' — ' + d.titulo, resumo: 'Aprovada em ' + formatDate(d.data), link: '#/resolucoes', tipo: 'Resolucao' });
+              results.push({ titulo: 'Resolução ' + d.numero + ' - ' + d.titulo, resumo: 'Aprovada em ' + formatDate(d.data), link: '#/resolucoes', tipo: 'Resolução' });
             }
           });
         });
@@ -1300,7 +1311,7 @@
         const ent = await loadJSON('entidades.json');
         ent.entidades.forEach(e => {
           if ((e.nome + ' ' + e.regiao + ' ' + e.cnpj + ' ' + e.endereco + ' ' + e.email).toLowerCase().includes(q)) {
-            results.push({ titulo: e.nome, resumo: 'Inscricao ' + e.inscricao + ' — Regiao: ' + e.regiao, link: '#/entidades', tipo: 'Entidade' });
+            results.push({ titulo: e.nome, resumo: 'Inscrição ' + e.inscricao + ' - Região: ' + e.regiao, link: '#/entidades', tipo: 'Entidade' });
           }
         });
       } catch {}
@@ -1318,9 +1329,9 @@
 
     app.innerHTML = `
       <div class="page fade-in">
-        ${breadcrumb([{href:'#/', label:'Inicio'}, {label: displayTerm ? 'Busca: "' + displayTerm + '"' : 'Todas as publicacoes'}])}
+        ${breadcrumb([{href:'#/', label:'Início'}, {label: displayTerm ? 'Busca: "' + displayTerm + '"' : 'Todas as públicações'}])}
         <div class="page__header">
-          <h1 class="page__title">${displayTerm ? 'Resultados da Busca' : 'Todas as Publicacoes'}</h1>
+          <h1 class="page__title">${displayTerm ? 'Resultados da Busca' : 'Todas as Publicações'}</h1>
           <p class="page__subtitle">${results.length} resultado${results.length !== 1 ? 's' : ''}${displayTerm ? ' para "' + displayTerm + '"' : ''}</p>
         </div>
         ${!results.length ? '<div class="no-results"><p class="no-results__icon">🔍</p><p>Nenhum resultado encontrado. Tente termos diferentes.</p></div>' :
@@ -1338,8 +1349,8 @@
     app.innerHTML = `
       <div class="page text-center" style="padding:4rem 1rem">
         <p style="font-size:4rem;font-weight:800;color:var(--gray-200)">404</p>
-        <p class="page__subtitle" style="margin-top:.5rem">Pagina nao encontrada</p>
-        <a href="#/" class="btn btn--primary mt-2">Voltar ao Inicio</a>
+        <p class="page__subtitle" style="margin-top:.5rem">Página não encontrada</p>
+        <a href="#/" class="btn btn--primary mt-2">Voltar ao Início</a>
       </div>`;
   }
 

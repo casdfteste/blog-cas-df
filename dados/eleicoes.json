@@ -1,40 +1,40 @@
 {
-  "titulo": "Eleicoes do CAS/DF",
-  "descricao": "O CAS/DF realiza eleicoes periodicas para a composicao de seus membros representantes da sociedade civil, conforme legislacao vigente.",
+  "titulo": "Eleições do CAS/DF",
+  "descricao": "O CAS/DF realiza eleições periódicas para a composição de seus membros representantes da sociedade civil, conforme legislação vigente.",
   "gestoes": [
     {
-      "periodo": "2024–2026",
+      "periodo": "2024-2026",
       "status": "Vigente",
       "mesa_diretora": {
         "presidente": "A definir",
         "vice_presidente": "A definir",
         "segmento_presidente": "Sociedade Civil"
       },
-      "composicao": "O CAS/DF e composto por 12 membros titulares e seus respectivos suplentes, sendo 6 representantes do governo e 6 da sociedade civil.",
+      "composicao": "O CAS/DF é composto por 12 membros titulares e seus respectivos suplentes, sendo 6 representantes do governo e 6 da sociedade civil.",
       "edital": "#",
       "resultado": "#"
     },
     {
-      "periodo": "2022–2024",
+      "periodo": "2022-2024",
       "status": "Encerrada",
       "mesa_diretora": {
         "presidente": "A definir",
         "vice_presidente": "A definir",
         "segmento_presidente": "Governamental"
       },
-      "composicao": "Gestao composta por 12 membros titulares e suplentes.",
+      "composicao": "Gestão composta por 12 membros titulares e suplentes.",
       "edital": "#",
       "resultado": "#"
     }
   ],
   "processo_eleitoral": {
-    "descricao": "A eleicao dos representantes da sociedade civil ocorre em assembleia propria, convocada por edital publicado no DODF. Podem participar entidades e organizacoes de assistencia social inscritas no CAS/DF, trabalhadores do setor e usuarios.",
+    "descricao": "A eleição dos representantes da sociedade civil ocorre em assembleia propria, convocada por edital publicado no DODF. Podem participar entidades e organizações de assistência social inscritas no CAS/DF, trabalhadores do setor e usuarios.",
     "etapas": [
-      "Publicacao do edital de convocacao",
-      "Periodo de habilitacao de candidatos",
-      "Assembleia de eleicao",
-      "Homologacao pelo plenario",
-      "Publicacao no DODF"
+      "Publicação do edital de convocação",
+      "Período de habilitação de candidatos",
+      "Assembleia de eleição",
+      "Homologação pelo plenário",
+      "Publicação no DODF"
     ]
   }
 }

@@ -1,46 +1,58 @@
 {
-  "titulo": "Planejamento Estrategico Institucional (PEI)",
-  "periodo": "2024–2027",
-  "missao": "Deliberar, normatizar, fiscalizar e avaliar a politica de assistencia social no Distrito Federal, fortalecendo o controle social e a participacao popular.",
-  "visao": "Ser referencia nacional como conselho de assistencia social atuante, transparente e comprometido com a garantia dos direitos socioassistenciais.",
+  "titulo": "Planejamento Estratégico Institucional (PEI)",
+  "periodo": "2024-2027",
+  "missao": "Deliberar, normatizar, fiscalizar e avaliar a política de assistência social no Distrito Federal, fortalecendo o controle social e a participação popular.",
+  "visao": "Ser referência nacional como conselho de assistência social atuante, transparente e comprometido com a garantia dos direitos socioassistenciais.",
   "valores": [
-    "Transparencia",
-    "Participacao social",
-    "Etica",
+    "Transparência",
+    "Participação social",
+    "Ética",
     "Compromisso com os direitos socioassistenciais",
     "Respeito a diversidade"
   ],
   "objetivos_estrategicos": [
     {
-      "objetivo": "Fortalecer o controle social da politica de assistencia social no DF",
+      "objetivo": "Fortalecer o controle social da política de assistência social no DF",
       "acoes": [
-        "Capacitar conselheiros sobre legislacao e politicas do SUAS",
-        "Ampliar a participacao da sociedade civil nas reunioes e conferencias",
-        "Divulgar as deliberacoes do conselho para a populacao"
+        "Capacitar conselheiros sobre legislação e políticas do SUAS",
+        "Ampliar a participação da sociedade civil nas reuniões e conferências",
+        "Divulgar as deliberações do conselho para a população"
       ]
     },
     {
-      "objetivo": "Aprimorar o monitoramento e fiscalizacao das entidades inscritas",
+      "objetivo": "Aprimorar o monitoramento e fiscalização das entidades inscritas",
       "acoes": [
-        "Realizar visitas periodicas de monitoramento",
-        "Atualizar criterios de inscricao e renovacao",
+        "Realizar visitas periódicas de monitoramento",
+        "Atualizar critérios de inscrição e renovação",
         "Implementar sistema de acompanhamento das entidades"
       ]
     },
     {
-      "objetivo": "Melhorar a comunicacao e transparencia do CAS/DF",
+      "objetivo": "Melhorar a comunicação e transparência do CAS/DF",
       "acoes": [
         "Manter o blog institucional atualizado",
-        "Transmitir reunioes ao vivo quando possivel",
-        "Publicar resolucoes e atas em ate 15 dias"
+        "Transmitir reuniões ao vivo quando possível",
+        "Publicar resoluções e atas em até 15 dias"
       ]
     }
   ],
   "indicadores": [
-    {"indicador": "Numero de reunioes ordinarias realizadas", "meta": "12 por ano"},
-    {"indicador": "Percentual de entidades monitoradas", "meta": "100% em 2 anos"},
-    {"indicador": "Capacitacoes realizadas", "meta": "Minimo 2 por ano"},
-    {"indicador": "Publicacoes no blog", "meta": "Minimo 2 por mes"}
+    {
+      "indicador": "Número de reuniões ordinárias realizadas",
+      "meta": "12 por ano"
+    },
+    {
+      "indicador": "Percentual de entidades monitoradas",
+      "meta": "100% em 2 anos"
+    },
+    {
+      "indicador": "Capacitações realizadas",
+      "meta": "Mínimo 2 por ano"
+    },
+    {
+      "indicador": "Publicações no blog",
+      "meta": "Mínimo 2 por mês"
+    }
   ],
-  "monitoramento": "O acompanhamento do PEI sera realizado semestralmente pela Comissao de Politica de Assistencia Social, com relatorio apresentado ao plenario."
+  "monitoramento": "O acompanhamento do PEI será realizado semestralmente pela Comissão de Política de Assistência Social, com relatório apresentado ao plenário."
 }

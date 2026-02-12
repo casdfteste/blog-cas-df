@@ -29,6 +29,9 @@
     else if (section === 'documentos') await renderDocsAdmin(app);
     else if (section === 'entidades') await renderEntidadesAdmin(app);
     else if (section === 'reunioes') await renderReunioesAdmin(app);
+    else if (section === 'conferencias') await renderConferenciasAdmin(app);
+    else if (section === 'eleicoes') await renderEleicoesAdmin(app);
+    else if (section === 'sobre') await renderSobreAdmin(app);
     else if (section === 'config') renderConfig(app);
     else renderDashboard(app);
   };
@@ -76,15 +79,15 @@
     app.innerHTML = `
       <div class="page fade-in" style="max-width:560px;margin:2rem auto">
         <div class="info-section">
-          <h2 class="info-section__title">Configuracao Inicial</h2>
-          <p class="info-section__text">Para que o painel possa salvar as alteracoes diretamente no blog, e necessario configurar um <strong>Token de Acesso do GitHub</strong> (Personal Access Token).</p>
+          <h2 class="info-section__title">Configuração Inicial</h2>
+          <p class="info-section__text">Para que o painel possa salvar as alterações diretamente no blog, é necessário configurar um <strong>Token de Acesso do GitHub</strong> (Personal Access Token).</p>
           <div class="info-section mt-1" style="background:var(--primary-50);padding:1.25rem;border-radius:var(--radius)">
             <p class="info-section__text"><strong>Como gerar o token:</strong></p>
             <ol style="margin:.75rem 0 0 1.25rem;font-size:.88rem;color:var(--gray-600);line-height:1.8">
               <li>Acesse <a href="https://github.com/settings/tokens/new" target="_blank" rel="noopener">github.com/settings/tokens/new</a></li>
               <li>Em "Note", coloque: <strong>Blog CAS/DF Admin</strong></li>
               <li>Em "Expiration", escolha: <strong>No expiration</strong> (ou a validade desejada)</li>
-              <li>Marque a permissao: <strong>repo</strong> (acesso completo ao repositorio)</li>
+              <li>Marque a permissão: <strong>repo</strong> (acesso completo ao repositorio)</li>
               <li>Clique em <strong>Generate token</strong></li>
               <li>Copie o token gerado e cole abaixo</li>
             </ol>
@@ -114,11 +117,11 @@
           window.__renderAdmin(app, 'dashboard');
         } else {
           err.className = 'form__message form__message--error';
-          err.textContent = 'Token invalido ou sem permissao. Verifique e tente novamente.';
+          err.textContent = 'Token inválido ou sem permissão. Verifique e tente novamente.';
         }
       } catch {
         err.className = 'form__message form__message--error';
-        err.textContent = 'Erro de conexao. Verifique sua internet.';
+        err.textContent = 'Erro de conexão. Verifique sua internet.';
       }
     });
   }
@@ -156,11 +159,14 @@
   function adminLayout(app, active, content) {
     const menu = [
       { id: 'dashboard', label: 'Painel', icon: '📊' },
-      { id: 'posts', label: 'Posts / Noticias', icon: '📝' },
-      { id: 'documentos', label: 'Resolucoes e Atas', icon: '📄' },
+      { id: 'posts', label: 'Posts / Notícias', icon: '📝' },
+      { id: 'documentos', label: 'Resoluções e Atas', icon: '📄' },
       { id: 'entidades', label: 'Entidades', icon: '🏢' },
-      { id: 'reunioes', label: 'Reunioes', icon: '📅' },
-      { id: 'config', label: 'Configuracoes', icon: '⚙️' },
+      { id: 'reunioes', label: 'Reuniões', icon: '📅' },
+      { id: 'conferencias', label: 'Conferências', icon: '🎤' },
+      { id: 'eleicoes', label: 'Eleições', icon: '🗳️' },
+      { id: 'sobre', label: 'Sobre / Conselheiros', icon: '👥' },
+      { id: 'config', label: 'Configurações', icon: '⚙️' },
     ];
 
     app.innerHTML = `
@@ -202,26 +208,40 @@
     } catch {}
 
     adminLayout(app, 'dashboard', `
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:2rem">
         <div class="stat"><div class="stat__number">${postsCount}</div><div class="stat__label">Posts publicados</div></div>
         <div class="stat"><div class="stat__number">${docsCount}</div><div class="stat__label">Documentos</div></div>
         <div class="stat"><div class="stat__number">${entCount}</div><div class="stat__label">Entidades inscritas</div></div>
       </div>
       <div class="info-section">
-        <h2 class="info-section__title">Acoes Rapidas</h2>
+        <h2 class="info-section__title">Ações Rápidas</h2>
         <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.5rem">
           <a href="#/admin/posts/novo" class="btn btn--primary">+ Novo Post</a>
-          <a href="#/admin/documentos" class="btn btn--accent">+ Resolucao / Ata</a>
+          <a href="#/admin/documentos" class="btn btn--accent">+ Resolução / Ata</a>
           <a href="#/admin/entidades" class="btn" style="background:var(--gray-700);color:white">+ Entidade</a>
+          <a href="#/admin/sobre" class="btn" style="background:var(--primary-50);color:var(--primary)">Editar Conselheiros</a>
+          <a href="#/admin/eleicoes" class="btn" style="background:var(--primary-50);color:var(--primary)">Editar Gestão</a>
         </div>
+      </div>
+      <div class="info-section">
+        <h2 class="info-section__title">Seções do Painel</h2>
+        <ul>
+          <li><strong>Posts / Notícias:</strong> Criar, editar e excluir publicações do blog</li>
+          <li><strong>Resoluções e Atas:</strong> Cadastrar documentos oficiais com links para PDF</li>
+          <li><strong>Entidades:</strong> Gerenciar entidades inscritas no CAS/DF</li>
+          <li><strong>Reuniões:</strong> Adicionar pautas e atualizar calendario</li>
+          <li><strong>Conferências:</strong> Registrar conferências distritais, nacionais e regionais</li>
+          <li><strong>Eleições:</strong> Atualizar dados da gestao e mesa diretora</li>
+          <li><strong>Sobre / Conselheiros:</strong> Editar nomes, presidencia e dados institucionais</li>
+        </ul>
       </div>
       <div class="info-section">
         <h2 class="info-section__title">Como funciona</h2>
         <ul>
-          <li>Use os formularios para adicionar ou editar conteudo</li>
-          <li>Ao clicar <strong>"Salvar"</strong>, as alteracoes sao publicadas automaticamente no blog</li>
-          <li>O blog atualiza em ate 1 minuto apos salvar</li>
-          <li>Para adicionar <strong>fotos</strong>, faca upload no Google Drive e cole o link no formulario</li>
+          <li>Use os formulários para adicionar ou editar conteudo</li>
+          <li>Ao clicar <strong>"Salvar"</strong>, as alterações sao publicadas automaticamente no blog</li>
+          <li>O blog atualiza em ate 1 minuto após salvar</li>
+          <li>Para adicionar <strong>fotos</strong>, faca upload no Google Drive e cole o link no formulário</li>
           <li>Para adicionar <strong>documentos PDF</strong>, faca upload no Google Drive e cole o link compartilhavel</li>
         </ul>
       </div>
@@ -268,7 +288,7 @@
       const { content: posts, sha } = await ghGet('dados/posts.json');
       const updated = posts.filter(p => p.id !== id);
       await ghPut('dados/posts.json', updated, sha, 'Excluir post #' + id);
-      alert('Post excluido com sucesso!');
+      alert('Post excluído com sucesso!');
       location.hash = '#/admin/posts';
       location.reload();
     } catch (e) {
@@ -290,7 +310,7 @@
     try {
       const { content: posts } = await ghGet('dados/posts.json');
       const post = posts.find(p => p.id === id);
-      if (!post) { adminLayout(app, 'posts', '<p>Post nao encontrado.</p>'); return; }
+      if (!post) { adminLayout(app, 'posts', '<p>Post não encontrado.</p>'); return; }
       adminLayout(app, 'posts', postFormHTML(post, 'Editar Post'));
       setupPostFormHandlers(true);
     } catch (e) {
@@ -308,7 +328,7 @@
         <form id="postForm" class="form" style="max-width:100%">
           <input type="hidden" id="postId" value="${post.id}">
           <div class="form__group">
-            <label class="form__label">Titulo *</label>
+            <label class="form__label">Título *</label>
             <input class="form__input" type="text" id="postTitulo" value="${post.titulo}" required>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
@@ -318,7 +338,7 @@
             </div>
             <div class="form__group">
               <label class="form__label">Categoria *</label>
-              <input class="form__input" type="text" id="postCategoria" value="${post.categoria}" placeholder="Ex: Capacitacao, Resolucoes" required>
+              <input class="form__input" type="text" id="postCategoria" value="${post.categoria}" placeholder="Ex: Capacitação, Resoluções" required>
             </div>
             <div class="form__group">
               <label class="form__label">Autor</label>
@@ -330,25 +350,25 @@
             <textarea class="form__textarea" id="postResumo" rows="3" required style="min-height:80px">${post.resumo}</textarea>
           </div>
           <div class="form__group">
-            <label class="form__label">Conteudo * (HTML)</label>
+            <label class="form__label">Conteúdo * (HTML)</label>
             <div style="display:flex;gap:.3rem;margin-bottom:.5rem;flex-wrap:wrap">
               <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="wrapTag('b')"><b>N</b></button>
               <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="wrapTag('em')"><em>I</em></button>
-              <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="insertTag('p')">Paragrafo</button>
+              <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="insertTag('p')">Parágrafo</button>
               <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="insertTag('ul')">Lista</button>
-              <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="insertTag('h3')">Subtitulo</button>
+              <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="insertTag('h3')">Subtítulo</button>
               <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="insertTag('a')">Link</button>
               <button type="button" class="btn" style="font-size:.72rem;padding:.25rem .5rem;background:var(--gray-100);color:var(--gray-700)" onclick="insertTag('img')">Imagem</button>
             </div>
             <textarea class="form__textarea" id="postConteudo" rows="12" required style="font-family:monospace;font-size:.85rem">${post.conteudo.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
           </div>
           <div class="form__group">
-            <label class="form__label">URL da Imagem de Capa (opcional — link do Google Drive ou URL externa)</label>
+            <label class="form__label">URL da Imagem de Capa (opcional - link do Google Drive ou URL externa)</label>
             <input class="form__input" type="text" id="postImagem" value="${post.imagem || ''}" placeholder="https://drive.google.com/...">
           </div>
           <div class="form__group" style="display:flex;align-items:center;gap:.5rem">
             <input type="checkbox" id="postDestaque" ${post.destaque ? 'checked' : ''} style="width:18px;height:18px">
-            <label for="postDestaque" style="font-weight:500;color:var(--gray-700)">Marcar como Destaque na pagina inicial</label>
+            <label for="postDestaque" style="font-weight:500;color:var(--gray-700)">Marcar como Destaque na página inicial</label>
           </div>
           <div style="display:flex;gap:.75rem;margin-top:1rem">
             <button type="submit" class="btn btn--primary" id="postSaveBtn">Salvar e Publicar</button>
@@ -374,9 +394,9 @@
     let insert = '';
     if (tag === 'p') insert = '<p>Texto aqui</p>\n';
     else if (tag === 'ul') insert = '<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n';
-    else if (tag === 'h3') insert = '<h3>Subtitulo</h3>\n';
+    else if (tag === 'h3') insert = '<h3>Subtítulo</h3>\n';
     else if (tag === 'a') insert = '<a href="https://..." target="_blank">Texto do link</a>';
-    else if (tag === 'img') insert = '<img src="https://URL_DA_IMAGEM" alt="Descricao da imagem">';
+    else if (tag === 'img') insert = '<img src="https://URL_DA_IMAGEM" alt="Descrição da imagem">';
     ta.value = ta.value.substring(0, pos) + insert + ta.value.substring(pos);
     ta.focus();
   };
@@ -414,7 +434,7 @@
         await ghPut('dados/posts.json', updated, sha, (isEdit ? 'Editar' : 'Novo') + ' post: ' + postData.titulo);
 
         msg.className = 'form__message form__message--success';
-        msg.textContent = 'Post salvo com sucesso! O blog sera atualizado em instantes.';
+        msg.textContent = 'Post salvo com sucesso! O blog será atualizado em instantes.';
 
         if (!isEdit) {
           setTimeout(() => { location.hash = '#/admin/posts'; }, 1500);
@@ -438,19 +458,19 @@
       const atasCount = docs.atas.periodos.reduce((s, p) => s + p.documentos.length, 0);
 
       adminLayout(app, 'documentos', `
-        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Resolucoes e Atas</h2>
+        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Resoluções e Atas</h2>
 
         <div class="info-section">
-          <h2 class="info-section__title">Adicionar Resolucao</h2>
+          <h2 class="info-section__title">Adicionar Resolução</h2>
           <form id="resForm" class="form" style="max-width:100%">
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
-              <div class="form__group"><label class="form__label">Numero *</label><input class="form__input" type="text" id="resNumero" placeholder="001/2025" required></div>
+              <div class="form__group"><label class="form__label">Número *</label><input class="form__input" type="text" id="resNumero" placeholder="001/2025" required></div>
               <div class="form__group"><label class="form__label">Data *</label><input class="form__input" type="date" id="resData" required></div>
               <div class="form__group"><label class="form__label">Ano *</label><input class="form__input" type="number" id="resAno" value="2025" required></div>
             </div>
-            <div class="form__group"><label class="form__label">Titulo *</label><input class="form__input" type="text" id="resTitulo" required></div>
+            <div class="form__group"><label class="form__label">Título *</label><input class="form__input" type="text" id="resTitulo" required></div>
             <div class="form__group"><label class="form__label">Link do documento (Google Drive) *</label><input class="form__input" type="url" id="resLink" placeholder="https://drive.google.com/..." required></div>
-            <button type="submit" class="btn btn--primary">Salvar Resolucao</button>
+            <button type="submit" class="btn btn--primary">Salvar Resolução</button>
             <div id="resMsg" class="form__message" style="margin-top:.75rem"></div>
           </form>
         </div>
@@ -460,9 +480,9 @@
           <form id="ataForm" class="form" style="max-width:100%">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
               <div class="form__group"><label class="form__label">Data *</label><input class="form__input" type="date" id="ataData" required></div>
-              <div class="form__group"><label class="form__label">Periodo/Ano *</label><input class="form__input" type="text" id="ataPeriodo" value="2025" required></div>
+              <div class="form__group"><label class="form__label">Período/Ano *</label><input class="form__input" type="text" id="ataPeriodo" value="2025" required></div>
             </div>
-            <div class="form__group"><label class="form__label">Titulo *</label><input class="form__input" type="text" id="ataTitulo" placeholder="Ata da Xa Reuniao Ordinaria de 2025" required></div>
+            <div class="form__group"><label class="form__label">Título *</label><input class="form__input" type="text" id="ataTitulo" placeholder="Ata da Xa Reunião Ordinária de 2025" required></div>
             <div class="form__group"><label class="form__label">Link do documento (Google Drive) *</label><input class="form__input" type="url" id="ataLink" placeholder="https://drive.google.com/..." required></div>
             <button type="submit" class="btn btn--accent">Salvar Ata</button>
             <div id="ataMsg" class="form__message" style="margin-top:.75rem"></div>
@@ -475,7 +495,7 @@
         </div>
       `);
 
-      // Resolucao form handler
+      // Resolução form handler
       document.getElementById('resForm').addEventListener('submit', async (ev) => {
         ev.preventDefault();
         const msg = document.getElementById('resMsg');
@@ -492,9 +512,9 @@
           if (!anoObj) { anoObj = { ano, documentos: [] }; d.resolucoes.anos.unshift(anoObj); }
           anoObj.documentos.unshift(novaRes);
           d.resolucoes.anos.sort((a, b) => b.ano - a.ano);
-          await ghPut('dados/documentos.json', d, s, 'Nova resolucao: ' + novaRes.numero);
+          await ghPut('dados/documentos.json', d, s, 'Nova resolução: ' + novaRes.numero);
           msg.className = 'form__message form__message--success';
-          msg.textContent = 'Resolucao salva com sucesso!';
+          msg.textContent = 'Resolução salva com sucesso!';
           document.getElementById('resForm').reset();
         } catch (err) {
           msg.className = 'form__message form__message--error';
@@ -546,15 +566,15 @@
             <div class="form__group"><label class="form__label">Nome da Entidade *</label><input class="form__input" type="text" id="entNome" required></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
               <div class="form__group"><label class="form__label">CNPJ *</label><input class="form__input" type="text" id="entCnpj" required></div>
-              <div class="form__group"><label class="form__label">Inscricao (numero) *</label><input class="form__input" type="text" id="entInscricao" placeholder="009/2025" required></div>
+              <div class="form__group"><label class="form__label">Inscrição (numero) *</label><input class="form__input" type="text" id="entInscricao" placeholder="009/2025" required></div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
               <div class="form__group"><label class="form__label">Validade *</label><input class="form__input" type="date" id="entValidade" required></div>
-              <div class="form__group"><label class="form__label">Regiao Administrativa *</label><input class="form__input" type="text" id="entRegiao" placeholder="Ex: Ceilandia, Taguatinga" required></div>
+              <div class="form__group"><label class="form__label">Região Administrativa *</label><input class="form__input" type="text" id="entRegiao" placeholder="Ex: Ceilandia, Taguatinga" required></div>
             </div>
-            <div class="form__group"><label class="form__label">Servicos (separados por virgula)</label><input class="form__input" type="text" id="entServicos" placeholder="Protecao Social Basica, Convivencia e Fortalecimento de Vinculos"></div>
+            <div class="form__group"><label class="form__label">Serviços (separados por virgula)</label><input class="form__input" type="text" id="entServicos" placeholder="Proteção Social Básica, Convivência e Fortalecimento de Vínculos"></div>
             <div class="form__group">
-              <label class="form__label">Situacao</label>
+              <label class="form__label">Situação</label>
               <select class="form__select" id="entSituacao">
                 <option value="Regular">Regular</option>
                 <option value="Em monitoramento">Em monitoramento</option>
@@ -567,7 +587,7 @@
 
         <div class="info-section">
           <h2 class="info-section__title">Entidades cadastradas</h2>
-          ${data.entidades.map(e => '<div style="padding:.5rem 0;border-bottom:1px solid var(--gray-100);font-size:.88rem"><strong>' + e.nome + '</strong> — ' + e.regiao + ' <span class="entity-status entity-status--' + (e.situacao === 'Regular' ? 'regular' : 'monitoramento') + '">' + e.situacao + '</span></div>').join('')}
+          ${data.entidades.map(e => '<div style="padding:.5rem 0;border-bottom:1px solid var(--gray-100);font-size:.88rem"><strong>' + e.nome + '</strong> - ' + e.regiao + ' <span class="entity-status entity-status--' + (e.situacao === 'Regular' ? 'regular' : 'monitoramento') + '">' + e.situacao + '</span></div>').join('')}
         </div>
       `);
 
@@ -581,7 +601,7 @@
             cnpj: document.getElementById('entCnpj').value.trim(),
             inscricao: document.getElementById('entInscricao').value.trim(),
             validade: document.getElementById('entValidade').value,
-            servicos: document.getElementById('entServicos').value.split(',').map(s => s.trim()).filter(Boolean),
+            serviços: document.getElementById('entServicos').value.split(',').map(s => s.trim()).filter(Boolean),
             regiao: document.getElementById('entRegiao').value.trim(),
             situacao: document.getElementById('entSituacao').value
           };
@@ -603,25 +623,25 @@
     }
   }
 
-  // ===== Reunioes Admin =====
+  // ===== Reuniões Admin =====
   async function renderReunioesAdmin(app) {
     try {
       const { content: data } = await ghGet('dados/reunioes.json');
 
       adminLayout(app, 'reunioes', `
-        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Reunioes do CAS/DF</h2>
+        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Reuniões do CAS/DF</h2>
 
         <div class="info-section">
-          <h2 class="info-section__title">Adicionar Pauta de Reuniao</h2>
+          <h2 class="info-section__title">Adicionar Pauta de Reunião</h2>
           <form id="pautaForm" class="form" style="max-width:100%">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
               <div class="form__group"><label class="form__label">Data *</label><input class="form__input" type="date" id="pautaData" required></div>
               <div class="form__group"><label class="form__label">Tipo</label>
-                <select class="form__select" id="pautaTipo"><option value="Ordinaria">Ordinaria</option><option value="Extraordinaria">Extraordinaria</option></select>
+                <select class="form__select" id="pautaTipo"><option value="Ordinária">Ordinária</option><option value="Extraordinária">Extraordinária</option></select>
               </div>
             </div>
             <div class="form__group"><label class="form__label">Itens da pauta (um por linha) *</label>
-              <textarea class="form__textarea" id="pautaItens" rows="6" placeholder="Aprovacao da ata anterior&#10;Apresentacao do relatorio&#10;Informes da Presidencia" required></textarea>
+              <textarea class="form__textarea" id="pautaItens" rows="6" placeholder="Aprovação da ata anterior&#10;Apresentação do relatório&#10;Informes da Presidência" required></textarea>
             </div>
             <button type="submit" class="btn btn--primary">Salvar Pauta</button>
             <div id="pautaMsg" class="form__message" style="margin-top:.75rem"></div>
@@ -629,11 +649,11 @@
         </div>
 
         <div class="info-section">
-          <h2 class="info-section__title">Atualizar Status do Calendario</h2>
-          <p class="info-section__text mb-1">Clique em uma reuniao agendada para marca-la como realizada:</p>
+          <h2 class="info-section__title">Atualizar Status do Calendário</h2>
+          <p class="info-section__text mb-1">Clique em uma reunião agendada para marcá-la como realizada:</p>
           <div style="display:flex;flex-wrap:wrap;gap:.5rem">
             ${data.calendario_2025.map((c, i) => `
-              <button class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:${c.status === 'Realizada' ? '#dcfce7' : 'var(--primary-50)'};color:${c.status === 'Realizada' ? 'var(--accent-dark)' : 'var(--primary)'}" onclick="window.__markReuniao(${i})">${c.mes} — ${c.status}</button>
+              <button class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:${c.status === 'Realizada' ? '#dcfce7' : 'var(--primary-50)'};color:${c.status === 'Realizada' ? 'var(--accent-dark)' : 'var(--primary)'}" onclick="window.__markReuniao(${i})">${c.mes} - ${c.status}</button>
             `).join('')}
           </div>
         </div>
@@ -651,7 +671,7 @@
           };
           d.pautas_recentes.unshift(novaPauta);
           if (d.pautas_recentes.length > 5) d.pautas_recentes = d.pautas_recentes.slice(0, 5);
-          await ghPut('dados/reunioes.json', d, s, 'Nova pauta: reuniao ' + novaPauta.data);
+          await ghPut('dados/reunioes.json', d, s, 'Nova pauta: reunião' + novaPauta.data);
           msg.className = 'form__message form__message--success';
           msg.textContent = 'Pauta salva com sucesso!';
           document.getElementById('pautaForm').reset();
@@ -671,8 +691,8 @@
       const { content: d, sha: s } = await ghGet('dados/reunioes.json');
       if (d.calendario_2025[index].status === 'Agendada') {
         d.calendario_2025[index].status = 'Realizada';
-        await ghPut('dados/reunioes.json', d, s, 'Marcar reuniao ' + d.calendario_2025[index].mes + ' como realizada');
-        alert('Reuniao de ' + d.calendario_2025[index].mes + ' marcada como realizada!');
+        await ghPut('dados/reunioes.json', d, s, 'Marcar reunião ' + d.calendario_2025[index].mes + ' como realizada');
+        alert('Reunião de ' + d.calendario_2025[index].mes + ' marcada como realizada!');
         location.reload();
       }
     } catch (e) {
@@ -680,21 +700,400 @@
     }
   };
 
+  // ===== Conferências Admin =====
+  async function renderConferenciasAdmin(app) {
+    try {
+      const { content: data } = await ghGet('dados/conferencias.json');
+
+      adminLayout(app, 'conferencias', `
+        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Conferências (${data.conferencias.length})</h2>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Adicionar Conferência</h2>
+          <form id="confForm" class="form" style="max-width:100%">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Tipo *</label>
+                <select class="form__select" id="confTipo"><option value="Distrital">Distrital</option><option value="Nacional">Nacional</option><option value="Regional">Regional</option></select>
+              </div>
+              <div class="form__group"><label class="form__label">Status *</label>
+                <select class="form__select" id="confStatus"><option value="Realizada">Realizada</option><option value="Agendada">Agendada</option><option value="Aguardando convocação">Aguardando convocação</option></select>
+              </div>
+            </div>
+            <div class="form__group"><label class="form__label">Nome *</label><input class="form__input" type="text" id="confNome" placeholder="XII Conferência Distrital de Assistência Social" required></div>
+            <div class="form__group"><label class="form__label">Tema *</label><input class="form__input" type="text" id="confTema" required></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Data *</label><input class="form__input" type="text" id="confData" placeholder="Outubro de 2024" required></div>
+              <div class="form__group"><label class="form__label">Local *</label><input class="form__input" type="text" id="confLocal" placeholder="Centro de Convenções..." required></div>
+            </div>
+            <div class="form__group"><label class="form__label">Link das deliberações (Google Drive)</label><input class="form__input" type="text" id="confLink" placeholder="https://drive.google.com/..."></div>
+            <button type="submit" class="btn btn--primary">Salvar Conferência</button>
+            <div id="confMsg" class="form__message" style="margin-top:.75rem"></div>
+          </form>
+        </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Conferências cadastradas</h2>
+          ${data.conferencias.map((c, i) => '<div style="padding:.75rem 0;border-bottom:1px solid var(--gray-100);font-size:.88rem;display:flex;justify-content:space-between;align-items:center"><div><strong>' + c.nome + '</strong><br><span style="color:var(--gray-400)">' + c.data + ' - ' + c.status + '</span></div><button class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:#fee2e2;color:#991b1b" onclick="window.__deleteConf(' + i + ')">Excluir</button></div>').join('')}
+        </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Adicionar Etapa Regional</h2>
+          <form id="regForm" class="form" style="max-width:100%">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Região *</label><input class="form__input" type="text" id="regRegiao" placeholder="Ceilandia e Samambaia" required></div>
+              <div class="form__group"><label class="form__label">Data *</label><input class="form__input" type="text" id="regData" placeholder="Agosto/2024" required></div>
+              <div class="form__group"><label class="form__label">Status *</label>
+                <select class="form__select" id="regStatus"><option value="Realizada">Realizada</option><option value="Agendada">Agendada</option></select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--accent">Salvar Etapa Regional</button>
+            <div id="regMsg" class="form__message" style="margin-top:.75rem"></div>
+          </form>
+        </div>
+      `);
+
+      document.getElementById('confForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const msg = document.getElementById('confMsg');
+        try {
+          const { content: d, sha: s } = await ghGet('dados/conferencias.json');
+          d.conferencias.unshift({
+            tipo: document.getElementById('confTipo').value,
+            nome: document.getElementById('confNome').value.trim(),
+            tema: document.getElementById('confTema').value.trim(),
+            data: document.getElementById('confData').value.trim(),
+            local: document.getElementById('confLocal').value.trim(),
+            status: document.getElementById('confStatus').value,
+            deliberacoes_link: document.getElementById('confLink').value.trim() || '#'
+          });
+          await ghPut('dados/conferencias.json', d, s, 'Nova conferência: ' + document.getElementById('confNome').value.trim());
+          msg.className = 'form__message form__message--success';
+          msg.textContent = 'Conferência salva com sucesso!';
+          document.getElementById('confForm').reset();
+        } catch (err) {
+          msg.className = 'form__message form__message--error';
+          msg.textContent = 'Erro: ' + err.message;
+        }
+      });
+
+      document.getElementById('regForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const msg = document.getElementById('regMsg');
+        try {
+          const { content: d, sha: s } = await ghGet('dados/conferencias.json');
+          if (!d.regionais) d.regionais = { descricao: 'Etapas regionais preparatórias', etapas_2024: [] };
+          if (!d.regionais.etapas_2024) d.regionais.etapas_2024 = [];
+          d.regionais.etapas_2024.push({
+            regiao: document.getElementById('regRegiao').value.trim(),
+            data: document.getElementById('regData').value.trim(),
+            status: document.getElementById('regStatus').value
+          });
+          await ghPut('dados/conferencias.json', d, s, 'Nova etapa regional');
+          msg.className = 'form__message form__message--success';
+          msg.textContent = 'Etapa regional salva!';
+          document.getElementById('regForm').reset();
+        } catch (err) {
+          msg.className = 'form__message form__message--error';
+          msg.textContent = 'Erro: ' + err.message;
+        }
+      });
+    } catch (e) {
+      adminLayout(app, 'conferencias', '<p>Erro: ' + e.message + '</p>');
+    }
+  }
+
+  window.__deleteConf = async function (index) {
+    if (!confirm('Excluir esta conferência?')) return;
+    try {
+      const { content: d, sha: s } = await ghGet('dados/conferencias.json');
+      d.conferencias.splice(index, 1);
+      await ghPut('dados/conferencias.json', d, s, 'Excluir conferência');
+      alert('Conferência excluída!');
+      location.reload();
+    } catch (e) { alert('Erro: ' + e.message); }
+  };
+
+  // ===== Eleições Admin =====
+  async function renderEleicoesAdmin(app) {
+    try {
+      const { content: data } = await ghGet('dados/eleicoes.json');
+
+      adminLayout(app, 'eleicoes', `
+        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Eleições e Gestões (${data.gestoes.length})</h2>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Editar Gestão Vigente</h2>
+          <form id="gestaoForm" class="form" style="max-width:100%">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Período *</label><input class="form__input" type="text" id="gesPeriodo" value="${data.gestoes[0] ? data.gestoes[0].periodo : ''}" placeholder="2024-2026" required></div>
+              <div class="form__group"><label class="form__label">Status</label>
+                <select class="form__select" id="gesStatus"><option value="Vigente" ${data.gestoes[0] && data.gestoes[0].status === 'Vigente' ? 'selected' : ''}>Vigente</option><option value="Encerrada" ${data.gestoes[0] && data.gestoes[0].status === 'Encerrada' ? 'selected' : ''}>Encerrada</option></select>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Presidente *</label><input class="form__input" type="text" id="gesPresidente" value="${data.gestoes[0] ? data.gestoes[0].mesa_diretora.presidente : ''}" required></div>
+              <div class="form__group"><label class="form__label">Vice-Presidente *</label><input class="form__input" type="text" id="gesVice" value="${data.gestoes[0] ? data.gestoes[0].mesa_diretora.vice_presidente : ''}" required></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Segmento da Presidência</label>
+                <select class="form__select" id="gesSegmento"><option value="Sociedade Civil" ${data.gestoes[0] && data.gestoes[0].mesa_diretora.segmento_presidente === 'Sociedade Civil' ? 'selected' : ''}>Sociedade Civil</option><option value="Governamental" ${data.gestoes[0] && data.gestoes[0].mesa_diretora.segmento_presidente === 'Governamental' ? 'selected' : ''}>Governamental</option></select>
+              </div>
+              <div class="form__group"><label class="form__label">Composição</label><input class="form__input" type="text" id="gesComposicao" value="${data.gestoes[0] ? data.gestoes[0].composicao : ''}"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Link do Edital</label><input class="form__input" type="text" id="gesEdital" value="${data.gestoes[0] ? data.gestoes[0].edital || '' : ''}" placeholder="https://drive.google.com/..."></div>
+              <div class="form__group"><label class="form__label">Link do Resultado</label><input class="form__input" type="text" id="gesResultado" value="${data.gestoes[0] ? data.gestoes[0].resultado || '' : ''}" placeholder="https://drive.google.com/..."></div>
+            </div>
+            <button type="submit" class="btn btn--primary">Salvar Gestão</button>
+            <div id="gesMsg" class="form__message" style="margin-top:.75rem"></div>
+          </form>
+        </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Histórico de Gestões</h2>
+          ${data.gestoes.map(g => '<div style="padding:.75rem 0;border-bottom:1px solid var(--gray-100);font-size:.88rem"><strong>Gestão ' + g.periodo + '</strong> <span class="' + (g.status === 'Vigente' ? 'green-badge' : 'badge badge--yellow') + '">' + g.status + '</span><br><span style="color:var(--gray-400)">Presidente: ' + g.mesa_diretora.presidente + ' | Vice: ' + g.mesa_diretora.vice_presidente + '</span></div>').join('')}
+        </div>
+      `);
+
+      document.getElementById('gestaoForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const msg = document.getElementById('gesMsg');
+        try {
+          const { content: d, sha: s } = await ghGet('dados/eleicoes.json');
+          const gestao = {
+            periodo: document.getElementById('gesPeriodo').value.trim(),
+            status: document.getElementById('gesStatus').value,
+            mesa_diretora: {
+              presidente: document.getElementById('gesPresidente').value.trim(),
+              vice_presidente: document.getElementById('gesVice').value.trim(),
+              segmento_presidente: document.getElementById('gesSegmento').value
+            },
+            composicao: document.getElementById('gesComposicao').value.trim(),
+            edital: document.getElementById('gesEdital').value.trim() || '#',
+            resultado: document.getElementById('gesResultado').value.trim() || '#'
+          };
+          if (d.gestoes.length > 0 && d.gestoes[0].periodo === gestao.periodo) {
+            d.gestoes[0] = gestao;
+          } else {
+            d.gestoes.unshift(gestao);
+          }
+          await ghPut('dados/eleicoes.json', d, s, 'Atualizar gestão ' + gestao.periodo);
+          msg.className = 'form__message form__message--success';
+          msg.textContent = 'Gestão salva com sucesso!';
+        } catch (err) {
+          msg.className = 'form__message form__message--error';
+          msg.textContent = 'Erro: ' + err.message;
+        }
+      });
+    } catch (e) {
+      adminLayout(app, 'eleicoes', '<p>Erro: ' + e.message + '</p>');
+    }
+  }
+
+  // ===== Sobre / Conselheiros Admin =====
+  async function renderSobreAdmin(app) {
+    try {
+      const { content: data } = await ghGet('dados/sobre.json');
+
+      let scHtml = data.conselheiros.sociedade_civil.map((c, i) =>
+        '<div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:.5rem;margin-bottom:.5rem">' +
+        '<input class="form__input sc-nome" value="' + c.nome + '" style="font-size:.85rem;padding:.4rem .6rem">' +
+        '<input class="form__input sc-seg" value="' + c.segmento + '" style="font-size:.85rem;padding:.4rem .6rem">' +
+        '<select class="form__select sc-tipo" style="font-size:.85rem;padding:.4rem .6rem"><option ' + (c.tipo === 'Titular' ? 'selected' : '') + '>Titular</option><option ' + (c.tipo === 'Suplente' ? 'selected' : '') + '>Suplente</option></select>' +
+        '</div>'
+      ).join('');
+
+      let govHtml = data.conselheiros.governamental.map((c, i) =>
+        '<div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:.5rem;margin-bottom:.5rem">' +
+        '<input class="form__input gov-nome" value="' + c.nome + '" style="font-size:.85rem;padding:.4rem .6rem">' +
+        '<input class="form__input gov-orgao" value="' + c.orgao + '" style="font-size:.85rem;padding:.4rem .6rem">' +
+        '<select class="form__select gov-tipo" style="font-size:.85rem;padding:.4rem .6rem"><option ' + (c.tipo === 'Titular' ? 'selected' : '') + '>Titular</option><option ' + (c.tipo === 'Suplente' ? 'selected' : '') + '>Suplente</option></select>' +
+        '</div>'
+      ).join('');
+
+      adminLayout(app, 'sobre', `
+        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Sobre o CAS/DF - Dados Institucionais</h2>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Presidência</h2>
+          <form id="presForm" class="form" style="max-width:100%">
+            <div class="form__group"><label class="form__label">Nome do(a) Presidente *</label><input class="form__input" type="text" id="presNome" value="${data.presidencia.nome}" required></div>
+            <div class="form__group"><label class="form__label">Descrição</label><textarea class="form__textarea" id="presDesc" rows="3" style="min-height:70px">${data.presidencia.descricao}</textarea></div>
+            <button type="submit" class="btn btn--primary">Salvar Presidência</button>
+            <div id="presMsg" class="form__message" style="margin-top:.75rem"></div>
+          </form>
+        </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Conselheiros - Sociedade Civil (${data.conselheiros.sociedade_civil.length})</h2>
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:.5rem;margin-bottom:.75rem;font-size:.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase"><span>Nome</span><span>Segmento</span><span>Tipo</span></div>
+          <div id="scList">${scHtml}</div>
+          <div style="display:flex;gap:.5rem;margin-top:.75rem">
+            <button type="button" class="btn" style="font-size:.82rem;background:var(--primary-50);color:var(--primary)" onclick="window.__addConselheiro('sc')">+ Adicionar</button>
+            <button type="button" class="btn btn--primary" style="font-size:.82rem" onclick="window.__saveConselheiros()">Salvar Conselheiros</button>
+          </div>
+          <div id="scMsg" class="form__message" style="margin-top:.75rem"></div>
+        </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Conselheiros - Governamental (${data.conselheiros.governamental.length})</h2>
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:.5rem;margin-bottom:.75rem;font-size:.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase"><span>Nome</span><span>Órgão</span><span>Tipo</span></div>
+          <div id="govList">${govHtml}</div>
+          <div style="margin-top:.75rem">
+            <button type="button" class="btn" style="font-size:.82rem;background:var(--primary-50);color:var(--primary)" onclick="window.__addConselheiro('gov')">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Descrição Institucional</h2>
+          <form id="descForm" class="form" style="max-width:100%">
+            <div class="form__group"><label class="form__label">Descrição do CAS/DF</label><textarea class="form__textarea" id="sobreDesc" rows="4">${data.descricao}</textarea></div>
+            <div class="form__group"><label class="form__label">Base Legal</label><input class="form__input" type="text" id="sobreBase" value="${data.base_legal}"></div>
+            <button type="submit" class="btn btn--primary">Salvar Descrição</button>
+            <div id="descMsg" class="form__message" style="margin-top:.75rem"></div>
+          </form>
+        </div>
+      `);
+
+      // Presidência form
+      document.getElementById('presForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const msg = document.getElementById('presMsg');
+        try {
+          const { content: d, sha: s } = await ghGet('dados/sobre.json');
+          d.presidencia.nome = document.getElementById('presNome').value.trim();
+          d.presidencia.descricao = document.getElementById('presDesc').value.trim();
+          await ghPut('dados/sobre.json', d, s, 'Atualizar presidência');
+          msg.className = 'form__message form__message--success';
+          msg.textContent = 'Presidência atualizada!';
+        } catch (err) {
+          msg.className = 'form__message form__message--error';
+          msg.textContent = 'Erro: ' + err.message;
+        }
+      });
+
+      // Descrição form
+      document.getElementById('descForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const msg = document.getElementById('descMsg');
+        try {
+          const { content: d, sha: s } = await ghGet('dados/sobre.json');
+          d.descricao = document.getElementById('sobreDesc').value.trim();
+          d.base_legal = document.getElementById('sobreBase').value.trim();
+          await ghPut('dados/sobre.json', d, s, 'Atualizar descrição institucional');
+          msg.className = 'form__message form__message--success';
+          msg.textContent = 'Descrição atualizada!';
+        } catch (err) {
+          msg.className = 'form__message form__message--error';
+          msg.textContent = 'Erro: ' + err.message;
+        }
+      });
+
+    } catch (e) {
+      adminLayout(app, 'sobre', '<p>Erro: ' + e.message + '</p>');
+    }
+  }
+
+  window.__addConselheiro = function (type) {
+    const list = document.getElementById(type === 'sc' ? 'scList' : 'govList');
+    const secondCol = type === 'sc' ? 'Segmento' : 'Órgão';
+    const secondClass = type === 'sc' ? 'sc-seg' : 'gov-orgao';
+    const nomeClass = type === 'sc' ? 'sc-nome' : 'gov-nome';
+    const tipoClass = type === 'sc' ? 'sc-tipo' : 'gov-tipo';
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:2fr 1fr 1fr;gap:.5rem;margin-bottom:.5rem';
+    row.innerHTML = '<input class="form__input ' + nomeClass + '" placeholder="Nome" style="font-size:.85rem;padding:.4rem .6rem">' +
+      '<input class="form__input ' + secondClass + '" placeholder="' + secondCol + '" style="font-size:.85rem;padding:.4rem .6rem">' +
+      '<select class="form__select ' + tipoClass + '" style="font-size:.85rem;padding:.4rem .6rem"><option>Titular</option><option>Suplente</option></select>';
+    list.appendChild(row);
+  };
+
+  window.__saveConselheiros = async function () {
+    const msg = document.getElementById('scMsg');
+    try {
+      const { content: d, sha: s } = await ghGet('dados/sobre.json');
+
+      const scNomes = document.querySelectorAll('.sc-nome');
+      const scSegs = document.querySelectorAll('.sc-seg');
+      const scTipos = document.querySelectorAll('.sc-tipo');
+      d.conselheiros.sociedade_civil = [];
+      scNomes.forEach((el, i) => {
+        if (el.value.trim()) {
+          d.conselheiros.sociedade_civil.push({
+            nome: el.value.trim(),
+            segmento: scSegs[i].value.trim(),
+            tipo: scTipos[i].value
+          });
+        }
+      });
+
+      const govNomes = document.querySelectorAll('.gov-nome');
+      const govOrgaos = document.querySelectorAll('.gov-orgao');
+      const govTipos = document.querySelectorAll('.gov-tipo');
+      d.conselheiros.governamental = [];
+      govNomes.forEach((el, i) => {
+        if (el.value.trim()) {
+          d.conselheiros.governamental.push({
+            nome: el.value.trim(),
+            orgao: govOrgaos[i].value.trim(),
+            tipo: govTipos[i].value
+          });
+        }
+      });
+
+      await ghPut('dados/sobre.json', d, s, 'Atualizar conselheiros');
+      msg.className = 'form__message form__message--success';
+      msg.textContent = 'Conselheiros salvos com sucesso!';
+    } catch (err) {
+      msg.className = 'form__message form__message--error';
+      msg.textContent = 'Erro: ' + err.message;
+    }
+  };
+
   // ===== Config =====
-  function renderConfig(app) {
+  async function renderConfig(app) {
+    let ig = '', yt = '', fb = '';
+    try {
+      const { content: cfg } = await ghGet('dados/config.json');
+      ig = cfg.redes_sociais.instagram || '';
+      yt = cfg.redes_sociais.youtube || '';
+      fb = cfg.redes_sociais.facebook || '';
+    } catch (e) {}
+
     adminLayout(app, 'config', `
-      <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Configuracoes</h2>
+      <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Configurações</h2>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Redes Sociais</h2>
+        <form id="socialForm" class="form" style="max-width:100%">
+          <div class="form__group">
+            <label class="form__label">Instagram</label>
+            <input class="form__input" type="url" id="cfgInstagram" value="${ig}" placeholder="https://www.instagram.com/...">
+          </div>
+          <div class="form__group">
+            <label class="form__label">YouTube</label>
+            <input class="form__input" type="url" id="cfgYoutube" value="${yt}" placeholder="https://www.youtube.com/...">
+          </div>
+          <div class="form__group">
+            <label class="form__label">Facebook</label>
+            <input class="form__input" type="url" id="cfgFacebook" value="${fb}" placeholder="https://www.facebook.com/...">
+          </div>
+          <button type="submit" class="btn btn--primary">Salvar Redes Sociais</button>
+          <div id="socialMsg" class="form__message" style="margin-top:.75rem"></div>
+        </form>
+      </div>
+
       <div class="info-section">
         <h2 class="info-section__title">Token do GitHub</h2>
-        <p class="info-section__text">Token atual: <code style="background:var(--gray-100);padding:.15rem .4rem;border-radius:4px">${token ? token.slice(0, 8) + '...' + token.slice(-4) : 'Nao configurado'}</code></p>
+        <p class="info-section__text">Token atual: <code style="background:var(--gray-100);padding:.15rem .4rem;border-radius:4px">${token ? token.slice(0, 8) + '...' + token.slice(-4) : 'Não configurado'}</code></p>
         <button class="btn mt-1" style="background:var(--gray-200);color:var(--gray-600);font-size:.82rem" onclick="localStorage.removeItem('gh_token');location.reload()">Alterar Token</button>
       </div>
       <div class="info-section">
         <h2 class="info-section__title">Sobre o Painel</h2>
         <ul>
-          <li>Repositorio: <strong>${REPO}</strong></li>
+          <li>Repositório: <strong>${REPO}</strong></li>
           <li>Branch: <strong>${BRANCH}</strong></li>
-          <li>As alteracoes sao salvas diretamente no GitHub</li>
+          <li>As alterações são salvas diretamente no GitHub</li>
           <li>O blog atualiza automaticamente via GitHub Pages</li>
         </ul>
       </div>
@@ -702,11 +1101,42 @@
         <h2 class="info-section__title">Dicas para Fotos e Documentos</h2>
         <ul>
           <li><strong>Fotos:</strong> Faca upload no Google Drive, clique com botao direito > "Compartilhar" > copie o link e cole no campo de imagem</li>
-          <li><strong>PDFs (resolucoes, atas):</strong> Faca upload no Google Drive, copie o link compartilhavel e cole no formulario</li>
-          <li><strong>Videos:</strong> Publique no YouTube e copie o link para adicionar na pagina de Lives</li>
+          <li><strong>PDFs (resolucoes, atas):</strong> Faca upload no Google Drive, copie o link compartilhavel e cole no formulário</li>
+          <li><strong>Videos:</strong> Publique no YouTube e copie o link para adicionar na página de Lives</li>
         </ul>
       </div>
     `);
+
+    document.getElementById('socialForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const msg = document.getElementById('socialMsg');
+      try {
+        let cfg, sha;
+        try {
+          const res = await ghGet('dados/config.json');
+          cfg = res.content;
+          sha = res.sha;
+        } catch (e) {
+          cfg = { redes_sociais: {} };
+          sha = undefined;
+        }
+        cfg.redes_sociais = {
+          instagram: document.getElementById('cfgInstagram').value.trim(),
+          youtube: document.getElementById('cfgYoutube').value.trim(),
+          facebook: document.getElementById('cfgFacebook').value.trim()
+        };
+        if (sha) {
+          await ghPut('dados/config.json', cfg, sha, 'Atualizar redes sociais');
+        } else {
+          await ghPut('dados/config.json', cfg, undefined, 'Criar config com redes sociais');
+        }
+        msg.className = 'form__message form__message--success';
+        msg.textContent = 'Redes sociais atualizadas! O blog será atualizado em instantes.';
+      } catch (err) {
+        msg.className = 'form__message form__message--error';
+        msg.textContent = 'Erro: ' + err.message;
+      }
+    });
   }
 
 })();
