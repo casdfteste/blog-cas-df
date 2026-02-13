@@ -33,6 +33,7 @@
     else if (section === 'conferencias') await renderConferenciasAdmin(app);
     else if (section === 'eleicoes') await renderEleicoesAdmin(app);
     else if (section === 'sobre') await renderSobreAdmin(app);
+    else if (section === 'planejamento') await renderPlanejamentoAdmin(app);
     else if (section === 'legislacao') await renderLegislacaoAdmin(app);
     else if (section === 'config') renderConfig(app);
     else if (section === 'manual') renderManual(app);
@@ -174,6 +175,7 @@
       { id: 'conferencias', label: 'Conferências', icon: '🎤' },
       { id: 'eleicoes', label: 'Eleições', icon: '🗳️' },
       { id: 'sobre', label: 'Sobre / Conselheiros', icon: '👥' },
+      { id: 'planejamento', label: 'Planejamento (PEI)', icon: '📋' },
       { id: 'legislacao', label: 'Legislação', icon: '⚖️' },
       { id: 'config', label: 'Configurações', icon: '⚙️' },
       { id: 'manual', label: 'Manual', icon: '📖' },
@@ -1128,6 +1130,18 @@
         </div>
 
         <div class="info-section">
+          <h2 class="info-section__title">Secretaria Executiva - Equipe</h2>
+          <p class="info-section__text mb-1">Membros da equipe da Secretaria Executiva do CAS/DF.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem;font-size:.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase"><span>Nome</span><span>Cargo / Função</span></div>
+          <div id="secList">${(data.secretaria_executiva.membros || []).map(m => '<div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem"><input class="form__input sec-nome" value="' + m.nome + '" style="font-size:.85rem;padding:.4rem .6rem"><input class="form__input sec-cargo" value="' + m.cargo + '" style="font-size:.85rem;padding:.4rem .6rem"></div>').join('')}</div>
+          <div style="display:flex;gap:.5rem;margin-top:.75rem">
+            <button type="button" class="btn" style="font-size:.82rem;background:var(--primary-50);color:var(--primary)" onclick="window.__addSecMembro()">+ Adicionar Membro</button>
+            <button type="button" class="btn btn--primary" style="font-size:.82rem" onclick="window.__saveSecMembros()">Salvar Equipe</button>
+          </div>
+          <div id="secMsg" class="form__message" style="margin-top:.75rem"></div>
+        </div>
+
+        <div class="info-section">
           <h2 class="info-section__title">Conselheiros - Sociedade Civil (${data.conselheiros.sociedade_civil.length})</h2>
           <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:.5rem;margin-bottom:.75rem;font-size:.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase"><span>Nome</span><span>Segmento</span><span>Tipo</span></div>
           <div id="scList">${scHtml}</div>
@@ -1230,6 +1244,39 @@
     }
   }
 
+  window.__addSecMembro = function () {
+    const list = document.getElementById('secList');
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem';
+    row.innerHTML = '<input class="form__input sec-nome" placeholder="Nome" style="font-size:.85rem;padding:.4rem .6rem">' +
+      '<input class="form__input sec-cargo" placeholder="Cargo / Função" style="font-size:.85rem;padding:.4rem .6rem">';
+    list.appendChild(row);
+  };
+
+  window.__saveSecMembros = async function () {
+    const msg = document.getElementById('secMsg');
+    try {
+      const { content: d, sha: s } = await ghGet('dados/sobre.json');
+      const nomes = document.querySelectorAll('.sec-nome');
+      const cargos = document.querySelectorAll('.sec-cargo');
+      d.secretaria_executiva.membros = [];
+      nomes.forEach((el, i) => {
+        if (el.value.trim()) {
+          d.secretaria_executiva.membros.push({
+            nome: el.value.trim(),
+            cargo: cargos[i].value.trim()
+          });
+        }
+      });
+      await ghPut('dados/sobre.json', d, s, 'Atualizar equipe da Secretaria Executiva');
+      msg.className = 'form__message form__message--success';
+      msg.textContent = 'Equipe da Secretaria Executiva salva com sucesso!';
+    } catch (err) {
+      msg.className = 'form__message form__message--error';
+      msg.textContent = 'Erro: ' + err.message;
+    }
+  };
+
   window.__addConselheiro = function (type) {
     const list = document.getElementById(type === 'sc' ? 'scList' : 'govList');
     const secondCol = type === 'sc' ? 'Segmento' : 'Órgão';
@@ -1280,6 +1327,165 @@
       await ghPut('dados/sobre.json', d, s, 'Atualizar conselheiros');
       msg.className = 'form__message form__message--success';
       msg.textContent = 'Conselheiros salvos com sucesso!';
+    } catch (err) {
+      msg.className = 'form__message form__message--error';
+      msg.textContent = 'Erro: ' + err.message;
+    }
+  };
+
+  // ===== Planejamento (PEI) Admin =====
+  async function renderPlanejamentoAdmin(app) {
+    let data, sha;
+    try {
+      const res = await ghGet('dados/planejamento.json');
+      data = res.content;
+      sha = res.sha;
+    } catch (e) {
+      data = { titulo: '', periodo: '', missao: '', visao: '', valores: [], objetivos_estrategicos: [], indicadores: [], monitoramento: '' };
+      sha = undefined;
+    }
+
+    let objHtml = (data.objetivos_estrategicos || []).map((obj, i) =>
+      '<div style="padding:.75rem;background:var(--gray-50);border-radius:var(--radius);margin-bottom:.75rem">' +
+      '<div class="form__group" style="margin:0 0 .5rem"><label class="form__label" style="font-size:.72rem">Objetivo ' + (i + 1) + '</label><input class="form__input pei-obj" value="' + (obj.objetivo || '') + '" style="font-size:.85rem;padding:.4rem .6rem"></div>' +
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Ações (uma por linha)</label><textarea class="form__textarea pei-acoes" rows="3" style="font-size:.85rem;padding:.4rem .6rem;min-height:60px">' + (obj.acoes || obj['ações'] || []).join('\n') + '</textarea></div>' +
+      '</div>'
+    ).join('');
+
+    let indHtml = (data.indicadores || []).map((ind, i) =>
+      '<div style="display:grid;grid-template-columns:2fr 1fr;gap:.5rem;margin-bottom:.5rem">' +
+      '<input class="form__input pei-ind" value="' + (ind.indicador || '') + '" style="font-size:.85rem;padding:.4rem .6rem">' +
+      '<input class="form__input pei-meta" value="' + (ind.meta || '') + '" style="font-size:.85rem;padding:.4rem .6rem">' +
+      '</div>'
+    ).join('');
+
+    adminLayout(app, 'planejamento', `
+      <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Planejamento Estratégico Institucional (PEI)</h2>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Dados Gerais</h2>
+        <form id="peiForm" class="form" style="max-width:100%">
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:1rem">
+            <div class="form__group"><label class="form__label">Título</label><input class="form__input" type="text" id="peiTitulo" value="${data.titulo}"></div>
+            <div class="form__group"><label class="form__label">Período</label><input class="form__input" type="text" id="peiPeriodo" value="${data.periodo}" placeholder="2024-2027"></div>
+          </div>
+          <div class="form__group"><label class="form__label">Missão</label><textarea class="form__textarea" id="peiMissao" rows="3" style="min-height:70px">${data.missao}</textarea></div>
+          <div class="form__group"><label class="form__label">Visão</label><textarea class="form__textarea" id="peiVisao" rows="3" style="min-height:70px">${data.visao}</textarea></div>
+          <div class="form__group"><label class="form__label">Valores (um por linha)</label><textarea class="form__textarea" id="peiValores" rows="4" style="min-height:80px">${(data.valores || []).join('\n')}</textarea></div>
+          <div class="form__group"><label class="form__label">Monitoramento</label><textarea class="form__textarea" id="peiMonitoramento" rows="3" style="min-height:70px">${data.monitoramento}</textarea></div>
+          <button type="submit" class="btn btn--primary">Salvar Dados Gerais</button>
+          <div id="peiMsg" class="form__message" style="margin-top:.75rem"></div>
+        </form>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Objetivos Estratégicos (${(data.objetivos_estrategicos || []).length})</h2>
+        <div id="objList">${objHtml}</div>
+        <div style="display:flex;gap:.5rem;margin-top:.75rem">
+          <button type="button" class="btn" style="font-size:.82rem;background:var(--primary-50);color:var(--primary)" onclick="window.__addPeiObj()">+ Adicionar Objetivo</button>
+          <button type="button" class="btn btn--primary" style="font-size:.82rem" onclick="window.__savePeiObjs()">Salvar Objetivos</button>
+        </div>
+        <div id="objMsg" class="form__message" style="margin-top:.75rem"></div>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Indicadores e Metas (${(data.indicadores || []).length})</h2>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:.5rem;margin-bottom:.75rem;font-size:.75rem;font-weight:700;color:var(--gray-400);text-transform:uppercase"><span>Indicador</span><span>Meta</span></div>
+        <div id="indList">${indHtml}</div>
+        <div style="display:flex;gap:.5rem;margin-top:.75rem">
+          <button type="button" class="btn" style="font-size:.82rem;background:var(--primary-50);color:var(--primary)" onclick="window.__addPeiInd()">+ Adicionar Indicador</button>
+          <button type="button" class="btn btn--primary" style="font-size:.82rem" onclick="window.__savePeiInds()">Salvar Indicadores</button>
+        </div>
+        <div id="indMsg" class="form__message" style="margin-top:.75rem"></div>
+      </div>
+    `);
+
+    // Dados gerais form
+    document.getElementById('peiForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const msg = document.getElementById('peiMsg');
+      try {
+        let d, s;
+        try { const res = await ghGet('dados/planejamento.json'); d = res.content; s = res.sha; }
+        catch (e) { d = {}; s = undefined; }
+        d.titulo = document.getElementById('peiTitulo').value.trim();
+        d.periodo = document.getElementById('peiPeriodo').value.trim();
+        d.missao = document.getElementById('peiMissao').value.trim();
+        d.visao = document.getElementById('peiVisao').value.trim();
+        d.valores = document.getElementById('peiValores').value.split('\n').map(l => l.trim()).filter(Boolean);
+        d.monitoramento = document.getElementById('peiMonitoramento').value.trim();
+        if (s) await ghPut('dados/planejamento.json', d, s, 'Atualizar PEI - dados gerais');
+        else await ghPut('dados/planejamento.json', d, undefined, 'Criar planejamento.json');
+        msg.className = 'form__message form__message--success';
+        msg.textContent = 'Dados gerais do PEI salvos com sucesso!';
+      } catch (err) {
+        msg.className = 'form__message form__message--error';
+        msg.textContent = 'Erro: ' + err.message;
+      }
+    });
+  }
+
+  window.__addPeiObj = function () {
+    const list = document.getElementById('objList');
+    const row = document.createElement('div');
+    row.style.cssText = 'padding:.75rem;background:var(--gray-50);border-radius:var(--radius);margin-bottom:.75rem';
+    const idx = list.children.length + 1;
+    row.innerHTML = '<div class="form__group" style="margin:0 0 .5rem"><label class="form__label" style="font-size:.72rem">Objetivo ' + idx + '</label><input class="form__input pei-obj" placeholder="Descrição do objetivo" style="font-size:.85rem;padding:.4rem .6rem"></div>' +
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Ações (uma por linha)</label><textarea class="form__textarea pei-acoes" rows="3" placeholder="Ação 1&#10;Ação 2&#10;Ação 3" style="font-size:.85rem;padding:.4rem .6rem;min-height:60px"></textarea></div>';
+    list.appendChild(row);
+  };
+
+  window.__savePeiObjs = async function () {
+    const msg = document.getElementById('objMsg');
+    try {
+      const { content: d, sha: s } = await ghGet('dados/planejamento.json');
+      const objs = document.querySelectorAll('.pei-obj');
+      const acoes = document.querySelectorAll('.pei-acoes');
+      d.objetivos_estrategicos = [];
+      objs.forEach((el, i) => {
+        if (el.value.trim()) {
+          d.objetivos_estrategicos.push({
+            objetivo: el.value.trim(),
+            acoes: acoes[i].value.split('\n').map(l => l.trim()).filter(Boolean)
+          });
+        }
+      });
+      await ghPut('dados/planejamento.json', d, s, 'Atualizar objetivos estratégicos do PEI');
+      msg.className = 'form__message form__message--success';
+      msg.textContent = 'Objetivos salvos com sucesso!';
+    } catch (err) {
+      msg.className = 'form__message form__message--error';
+      msg.textContent = 'Erro: ' + err.message;
+    }
+  };
+
+  window.__addPeiInd = function () {
+    const list = document.getElementById('indList');
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:2fr 1fr;gap:.5rem;margin-bottom:.5rem';
+    row.innerHTML = '<input class="form__input pei-ind" placeholder="Indicador" style="font-size:.85rem;padding:.4rem .6rem">' +
+      '<input class="form__input pei-meta" placeholder="Meta" style="font-size:.85rem;padding:.4rem .6rem">';
+    list.appendChild(row);
+  };
+
+  window.__savePeiInds = async function () {
+    const msg = document.getElementById('indMsg');
+    try {
+      const { content: d, sha: s } = await ghGet('dados/planejamento.json');
+      const inds = document.querySelectorAll('.pei-ind');
+      const metas = document.querySelectorAll('.pei-meta');
+      d.indicadores = [];
+      inds.forEach((el, i) => {
+        if (el.value.trim()) {
+          d.indicadores.push({
+            indicador: el.value.trim(),
+            meta: metas[i].value.trim()
+          });
+        }
+      });
+      await ghPut('dados/planejamento.json', d, s, 'Atualizar indicadores do PEI');
+      msg.className = 'form__message form__message--success';
+      msg.textContent = 'Indicadores salvos com sucesso!';
     } catch (err) {
       msg.className = 'form__message form__message--error';
       msg.textContent = 'Erro: ' + err.message;

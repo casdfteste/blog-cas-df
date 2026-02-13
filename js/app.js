@@ -372,6 +372,12 @@
         </div>`;
     } else if (active === 'secretaria') {
       const sec = data.secretaria_executiva;
+      let membrosHtml = '';
+      if (sec.membros && sec.membros.length) {
+        membrosHtml = '<div class="info-section"><h2 class="info-section__title">Equipe</h2><table class="doc-table"><thead><tr><th>Nome</th><th>Cargo / Função</th></tr></thead><tbody>' +
+          sec.membros.map(m => '<tr><td>' + m.nome + '</td><td>' + m.cargo + '</td></tr>').join('') +
+          '</tbody></table></div>';
+      }
       content = `
         <div class="info-section">
           <h2 class="info-section__title">${sec.titulo}</h2>
@@ -381,7 +387,8 @@
             <li><strong>Telefone:</strong> ${sec.contato.telefone}</li>
             <li><strong>Endereco:</strong> ${sec.contato.endereco}</li>
           </ul>
-        </div>`;
+        </div>
+        ${membrosHtml}`;
     } else if (active === 'conselheiros') {
       content = `
         <div class="info-section">
@@ -476,7 +483,7 @@
     let objHtml = data.objetivos_estrategicos.map(obj => `
       <div class="info-section">
         <h2 class="info-section__title">${obj.objetivo}</h2>
-        <ul>${obj.ações.map(a => '<li>' + a + '</li>').join('')}</ul>
+        <ul>${(obj.acoes || obj['ações'] || []).map(a => '<li>' + a + '</li>').join('')}</ul>
       </div>`).join('');
 
     app.innerHTML = `
