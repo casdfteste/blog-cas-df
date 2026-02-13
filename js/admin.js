@@ -1156,6 +1156,16 @@
             <div id="descMsg" class="form__message" style="margin-top:.75rem"></div>
           </form>
         </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Coordenação das Comissões (${data.comissoes.length})</h2>
+          <p class="info-section__text mb-1">Defina o(a) coordenador(a) e vice-coordenador(a) de cada comissão.</p>
+          <form id="comissoesForm" class="form" style="max-width:100%">
+            ${data.comissoes.map((c, i) => '<div style="padding:1rem;background:var(--gray-50);border-radius:var(--radius);margin-bottom:.75rem"><h3 style="font-size:.95rem;font-weight:600;color:var(--primary);margin-bottom:.75rem">' + c.nome + ' <span class="badge badge--blue">' + c.sigla + '</span></h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem"><div class="form__group" style="margin:0"><label class="form__label">Coordenador(a)</label><input class="form__input com-coord" value="' + (c.coordenador || '') + '" placeholder="Nome do(a) coordenador(a)" style="font-size:.85rem;padding:.4rem .6rem"></div><div class="form__group" style="margin:0"><label class="form__label">Vice-Coordenador(a)</label><input class="form__input com-vice" value="' + (c.vice_coordenador || '') + '" placeholder="Nome do(a) vice" style="font-size:.85rem;padding:.4rem .6rem"></div></div><p style="font-size:.78rem;color:var(--gray-400);margin-top:.5rem">' + (c.membros ? c.membros.length + ' membros' : '0 membros') + '</p></div>').join('')}
+            <button type="submit" class="btn btn--primary">Salvar Coordenações</button>
+            <div id="comMsg" class="form__message" style="margin-top:.75rem"></div>
+          </form>
+        </div>
       `);
 
       // Presidência form
@@ -1186,6 +1196,29 @@
           await ghPut('dados/sobre.json', d, s, 'Atualizar descrição institucional');
           msg.className = 'form__message form__message--success';
           msg.textContent = 'Descrição atualizada!';
+        } catch (err) {
+          msg.className = 'form__message form__message--error';
+          msg.textContent = 'Erro: ' + err.message;
+        }
+      });
+
+      // Comissões coordenação form
+      document.getElementById('comissoesForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const msg = document.getElementById('comMsg');
+        try {
+          const { content: d, sha: s } = await ghGet('dados/sobre.json');
+          const coords = document.querySelectorAll('.com-coord');
+          const vices = document.querySelectorAll('.com-vice');
+          coords.forEach((el, i) => {
+            if (d.comissoes[i]) {
+              d.comissoes[i].coordenador = el.value.trim();
+              d.comissoes[i].vice_coordenador = vices[i].value.trim();
+            }
+          });
+          await ghPut('dados/sobre.json', d, s, 'Atualizar coordenação das comissões');
+          msg.className = 'form__message form__message--success';
+          msg.textContent = 'Coordenações salvas com sucesso!';
         } catch (err) {
           msg.className = 'form__message form__message--error';
           msg.textContent = 'Erro: ' + err.message;

@@ -60,24 +60,98 @@
   },
   "comissoes": [
     {
-      "nome": "Comissão de Política de Assistência Social",
+      "nome": "Comissão de Orçamento e Finanças",
+      "sigla": "COF",
+      "descricao": "Acompanha a execução orçamentária do Fundo de Assistência Social do DF.",
+      "coordenador": "",
+      "vice_coordenador": "",
+      "membros": [
+        { "nome": "Gabriela Fogaça Alves Pinheiro", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Natanael de Marcena Costa", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Gislaine Andrea Almeida Medeiros", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Francisco Rodrigues Corrêa", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Antônio Célio Rodrigues Pimentel", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Losangelis Viveiros Gregório da Cunha", "representacao": "Sociedade Civil", "titularidade": "1ª Suplente" },
+        { "nome": "Flávia da Guia Gonçalves", "representacao": "Sociedade Civil", "titularidade": "1ª Suplente" },
+        { "nome": "Lorena Marinho da Silva", "representacao": "Sociedade Civil", "titularidade": "2ª Suplente" },
+        { "nome": "Marcus Vinicius de Souza Bernardes", "representacao": "Sociedade Civil", "titularidade": "3ª Suplente" },
+        { "nome": "Alessandra Rodrigues Dourado", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Débora Garcia Guimarães", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Anderson Lopes de Jesus", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Ana Maria Gomes de Oliveira", "representacao": "Governo", "titularidade": "Suplente" }
+      ]
+    },
+    {
+      "nome": "Comissão de Políticas de Assistência Social",
       "sigla": "CPAS",
-      "descricao": "Responsavel pela análise e proposição de políticas de assistência social no DF."
+      "descricao": "Responsável pela análise e proposição de políticas de assistência social no DF.",
+      "coordenador": "",
+      "vice_coordenador": "",
+      "membros": [
+        { "nome": "Natanael de Marcena Costa", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Clemilson Correia de Oliveira", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Amanda Mota Meireles", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Luizabete Batista Tavares", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Lorena Natália dos Santos Mota", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Adriana Alves Chaves", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Gislaine Andrea Almeida Medeiros", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Gabriela Fogaça Alves Pinheiro", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Losangelis Viveiros Gregório da Cunha", "representacao": "Sociedade Civil", "titularidade": "1º Suplente" },
+        { "nome": "Cristiane Pereira Rodrigues Neves", "representacao": "Sociedade Civil", "titularidade": "2º Suplente" },
+        { "nome": "Ana Luíza Ribeiro Câmara", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Lígia Pereira de Souza", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Flávia da Guia Gonçalves", "representacao": "Sociedade Civil", "titularidade": "1º Suplente" }
+      ]
     },
     {
-      "nome": "Comissão de Financiamento e Orçamento",
-      "sigla": "CFO",
-      "descricao": "Acompanha a execução orçamentária do Fundo de Assistência Social do DF."
+      "nome": "Comissão de Legislação e Normas",
+      "sigla": "CLN",
+      "descricao": "Responsável pela análise de processos de inscrição de entidades e normatização.",
+      "coordenador": "",
+      "vice_coordenador": "",
+      "membros": [
+        { "nome": "Gislaine Andrea Almeida Medeiros", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Denise da Costa Eleutério", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Adacto Artur Dornas de Oliveira", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Denise Drummond", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Daniela Dias Freias", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Karen Christina Cavalcante de Abreu", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Igor Jovita Shiratori", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Cristiane Pereira Rodrigues Neves", "representacao": "Sociedade Civil", "titularidade": "2º Suplente" }
+      ]
     },
     {
-      "nome": "Comissão de Normas e Inscrição de Entidades",
-      "sigla": "CNIE",
-      "descricao": "Responsavel pela análise de processos de inscrição de entidades de assistência social."
+      "nome": "Comissão de Ética e Fiscalização",
+      "sigla": "CEF",
+      "descricao": "Realiza visitas, monitoramento e fiscalização das entidades inscritas no CAS/DF.",
+      "coordenador": "",
+      "vice_coordenador": "",
+      "membros": [
+        { "nome": "Gisele Bittencourt de Souza Silva", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Adacto Artur Dornas de Oliveira", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Telma dos Santos Teixeira", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Andrea Vanessa Carvalho de Miranda", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Franceni Aparecida Faria Machado", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Ana Elizabeth de Andrade Farias Santos Sales", "representacao": "Governo", "titularidade": "Titular" },
+        { "nome": "Diogo Santos de Paula", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Anderson Lopes", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Bruno Cezar Santos", "representacao": "Sociedade Civil", "titularidade": "1ª Suplente" }
+      ]
     },
     {
-      "nome": "Comissão de Monitoramento e Fiscalização",
-      "sigla": "CMF",
-      "descricao": "Realiza visitas e monitoramento das entidades inscritas no CAS/DF."
+      "nome": "Comissão de Fiscalização do CadÚnico",
+      "sigla": "CCAD",
+      "descricao": "Fiscaliza a gestão e operacionalização do Cadastro Único para Programas Sociais no DF.",
+      "coordenador": "",
+      "vice_coordenador": "",
+      "membros": [
+        { "nome": "Luiz dos Santos Videro Neto", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Maria Vicentina Lopes de Lucena", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Gislaine Andrea Almeida Medeiros", "representacao": "Sociedade Civil", "titularidade": "Titular" },
+        { "nome": "Suyane Karla de Souza Gontijo", "representacao": "Sociedade Civil", "titularidade": "2ª Suplente" },
+        { "nome": "Ana Luíza Ribeiro Câmara", "representacao": "Governo", "titularidade": "Suplente" },
+        { "nome": "Afonso Abreu Mendes Júnior", "representacao": "Governo", "titularidade": "Suplente" }
+      ]
     }
   ]
 }

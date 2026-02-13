@@ -399,11 +399,22 @@
           </table>
         </div>`;
     } else if (active === 'comissoes') {
-      content = data.comissoes.map(c => `
-        <div class="info-section">
-          <h2 class="info-section__title">${c.nome} <span class="badge badge--blue">${c.sigla}</span></h2>
-          <p class="info-section__text">${c.descricao}</p>
-        </div>`).join('');
+      content = data.comissoes.map(c => {
+        let coordHtml = '';
+        if (c.coordenador || c.vice_coordenador) {
+          coordHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.75rem 0 1rem">' +
+            (c.coordenador ? '<div style="padding:.75rem 1rem;background:var(--primary-50);border-radius:var(--radius);border-left:3px solid var(--primary)"><p style="font-size:.72rem;text-transform:uppercase;font-weight:700;color:var(--gray-400);margin-bottom:.25rem">Coordenador(a)</p><p style="font-weight:600;color:var(--primary)">' + c.coordenador + '</p></div>' : '') +
+            (c.vice_coordenador ? '<div style="padding:.75rem 1rem;background:var(--gray-50);border-radius:var(--radius);border-left:3px solid var(--gray-300)"><p style="font-size:.72rem;text-transform:uppercase;font-weight:700;color:var(--gray-400);margin-bottom:.25rem">Vice-Coordenador(a)</p><p style="font-weight:600;color:var(--gray-600)">' + c.vice_coordenador + '</p></div>' : '') +
+            '</div>';
+        }
+        let membrosHtml = '';
+        if (c.membros && c.membros.length) {
+          membrosHtml = '<table class="doc-table" style="margin-top:.5rem"><thead><tr><th>Nome</th><th>Representação</th><th>Titularidade</th></tr></thead><tbody>' +
+            c.membros.map(m => '<tr><td>' + m.nome + '</td><td>' + m.representacao + '</td><td>' + m.titularidade + '</td></tr>').join('') +
+            '</tbody></table>';
+        }
+        return '<div class="info-section"><h2 class="info-section__title">' + c.nome + ' <span class="badge badge--blue">' + c.sigla + '</span></h2><p class="info-section__text">' + c.descricao + '</p>' + coordHtml + membrosHtml + '</div>';
+      }).join('');
     }
 
     app.innerHTML = `
