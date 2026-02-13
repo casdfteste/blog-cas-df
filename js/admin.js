@@ -135,7 +135,11 @@
     });
     if (!res.ok) throw new Error('Erro ao carregar ' + path);
     const data = await res.json();
-    const content = JSON.parse(atob(data.content));
+    const binary = atob(data.content);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const text = new TextDecoder('utf-8').decode(bytes);
+    const content = JSON.parse(text);
     return { content, sha: data.sha };
   }
 
