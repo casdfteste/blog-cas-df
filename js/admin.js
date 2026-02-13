@@ -23,6 +23,7 @@
     }
     const section = sub || 'dashboard';
     if (section === 'dashboard') await renderDashboard(app);
+    else if (section === 'homepage') await renderHomepageAdmin(app);
     else if (section === 'posts') await renderPostsAdmin(app);
     else if (section === 'posts/novo') renderPostForm(app);
     else if (section.startsWith('posts/editar/')) renderPostEdit(app, parseInt(section.split('/')[2]));
@@ -165,6 +166,7 @@
   function adminLayout(app, active, content) {
     const menu = [
       { id: 'dashboard', label: 'Painel', icon: '📊' },
+      { id: 'homepage', label: 'Página Inicial', icon: '🏠' },
       { id: 'posts', label: 'Posts / Notícias', icon: '📝' },
       { id: 'documentos', label: 'Resoluções e Atas', icon: '📄' },
       { id: 'entidades', label: 'Entidades', icon: '🏢' },
@@ -224,6 +226,7 @@
       <div class="info-section">
         <h2 class="info-section__title">Ações Rápidas</h2>
         <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.5rem">
+          <a href="#/admin/homepage" class="btn" style="background:var(--accent);color:white">🏠 Editar Página Inicial</a>
           <a href="#/admin/posts/novo" class="btn btn--primary">+ Novo Post</a>
           <a href="#/admin/documentos" class="btn btn--accent">+ Resolução / Ata</a>
           <a href="#/admin/entidades" class="btn" style="background:var(--gray-700);color:white">+ Entidade</a>
@@ -255,6 +258,198 @@
       </div>
     `);
   }
+
+  // ===== Homepage Admin =====
+  async function renderHomepageAdmin(app) {
+    let heroData, destaques, sha;
+    try {
+      const res = await ghGet('dados/homepage.json');
+      heroData = res.content.hero;
+      destaques = res.content.destaques_customizados || [];
+      sha = res.sha;
+    } catch (e) {
+      heroData = {
+        badge: 'SUAS - Sistema Único de Assistência Social',
+        titulo: 'Conselho de Assistência Social do Distrito Federal',
+        descricao: 'Órgão colegiado deliberativo, normativo, fiscalizador e permanente. Controle social, transparência e participação popular na política de assistência social do DF.',
+        botao1: { texto: 'Conheça o CAS/DF', link: '#/sobre' },
+        botao2: { texto: 'Inscrição de Entidades', link: '#/inscricao' }
+      };
+      destaques = [];
+      sha = undefined;
+    }
+
+    let destaquesHtml = destaques.map((d, i) =>
+      '<div style="display:grid;grid-template-columns:60px 1fr 1fr auto;gap:.5rem;margin-bottom:.75rem;align-items:start;padding:.75rem;background:var(--gray-50);border-radius:var(--radius)">' +
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Ícone</label><input class="form__input dest-icone" value="' + (d.icone || '📌') + '" style="font-size:1.2rem;padding:.3rem;text-align:center"></div>' +
+      '<div><div class="form__group" style="margin:0 0 .4rem"><label class="form__label" style="font-size:.72rem">Título</label><input class="form__input dest-titulo" value="' + (d.titulo || '') + '" style="font-size:.85rem;padding:.4rem .6rem"></div>' +
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Descrição</label><input class="form__input dest-descricao" value="' + (d.descricao || '') + '" style="font-size:.85rem;padding:.4rem .6rem"></div></div>' +
+      '<div><div class="form__group" style="margin:0 0 .4rem"><label class="form__label" style="font-size:.72rem">Link</label><input class="form__input dest-link" value="' + (d.link || '') + '" placeholder="#/pagina" style="font-size:.85rem;padding:.4rem .6rem"></div>' +
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Cor</label><select class="form__select dest-cor" style="font-size:.85rem;padding:.4rem .6rem"><option value="primary"' + (d.cor === 'primary' ? ' selected' : '') + '>Azul</option><option value="accent"' + (d.cor === 'accent' ? ' selected' : '') + '>Verde</option><option value="yellow"' + (d.cor === 'yellow' ? ' selected' : '') + '>Amarelo</option></select></div></div>' +
+      '<button type="button" class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:#fee2e2;color:#991b1b;margin-top:1.1rem" onclick="window.__removeDestaque(' + i + ')">Excluir</button>' +
+      '</div>'
+    ).join('');
+
+    adminLayout(app, 'homepage', `
+      <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Página Inicial</h2>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Banner Hero</h2>
+        <form id="heroForm" class="form" style="max-width:100%">
+          <div class="form__group">
+            <label class="form__label">Badge (texto pequeno acima do título)</label>
+            <input class="form__input" type="text" id="heroBadge" value="${heroData.badge}">
+          </div>
+          <div class="form__group">
+            <label class="form__label">Título *</label>
+            <input class="form__input" type="text" id="heroTitulo" value="${heroData.titulo}" required>
+          </div>
+          <div class="form__group">
+            <label class="form__label">Descrição *</label>
+            <textarea class="form__textarea" id="heroDescricao" rows="3" style="min-height:80px" required>${heroData.descricao}</textarea>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form__group">
+              <label class="form__label">Botão 1 - Texto</label>
+              <input class="form__input" type="text" id="heroBotao1Texto" value="${heroData.botao1.texto}">
+            </div>
+            <div class="form__group">
+              <label class="form__label">Botão 1 - Link</label>
+              <input class="form__input" type="text" id="heroBotao1Link" value="${heroData.botao1.link}" placeholder="#/sobre">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form__group">
+              <label class="form__label">Botão 2 - Texto</label>
+              <input class="form__input" type="text" id="heroBotao2Texto" value="${heroData.botao2.texto}">
+            </div>
+            <div class="form__group">
+              <label class="form__label">Botão 2 - Link</label>
+              <input class="form__input" type="text" id="heroBotao2Link" value="${heroData.botao2.link}" placeholder="#/inscricao">
+            </div>
+          </div>
+          <button type="submit" class="btn btn--primary">Salvar Hero</button>
+          <div id="heroMsg" class="form__message" style="margin-top:.75rem"></div>
+        </form>
+      </div>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Destaques Customizados</h2>
+        <p class="info-section__text mb-1">Cards de destaque exibidos entre as estatísticas e os posts. Use para destacar eventos, conferências, resoluções importantes, etc.</p>
+        <div id="destaquesList">${destaquesHtml}</div>
+        <div style="display:flex;gap:.75rem;margin-top:.75rem">
+          <button type="button" class="btn" style="font-size:.82rem;background:var(--primary-50);color:var(--primary)" onclick="window.__addDestaque()">+ Adicionar Destaque</button>
+          <button type="button" class="btn btn--primary" style="font-size:.82rem" onclick="window.__saveDestaques()">Salvar Destaques</button>
+        </div>
+        <div id="destMsg" class="form__message" style="margin-top:.75rem"></div>
+      </div>
+    `);
+
+    // Hero form handler
+    document.getElementById('heroForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const msg = document.getElementById('heroMsg');
+      try {
+        let data, s;
+        try {
+          const res = await ghGet('dados/homepage.json');
+          data = res.content;
+          s = res.sha;
+        } catch (e) {
+          data = { hero: {}, destaques_customizados: [] };
+          s = undefined;
+        }
+        data.hero = {
+          badge: document.getElementById('heroBadge').value.trim(),
+          titulo: document.getElementById('heroTitulo').value.trim(),
+          descricao: document.getElementById('heroDescricao').value.trim(),
+          botao1: {
+            texto: document.getElementById('heroBotao1Texto').value.trim(),
+            link: document.getElementById('heroBotao1Link').value.trim() || '#/sobre'
+          },
+          botao2: {
+            texto: document.getElementById('heroBotao2Texto').value.trim(),
+            link: document.getElementById('heroBotao2Link').value.trim() || '#/inscricao'
+          }
+        };
+        if (s) {
+          await ghPut('dados/homepage.json', data, s, 'Atualizar hero da página inicial');
+        } else {
+          await ghPut('dados/homepage.json', data, undefined, 'Criar homepage.json');
+        }
+        msg.className = 'form__message form__message--success';
+        msg.textContent = 'Hero atualizado com sucesso!';
+      } catch (err) {
+        msg.className = 'form__message form__message--error';
+        msg.textContent = 'Erro: ' + err.message;
+      }
+    });
+  }
+
+  window.__addDestaque = function () {
+    const list = document.getElementById('destaquesList');
+    const i = list.children.length;
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:60px 1fr 1fr auto;gap:.5rem;margin-bottom:.75rem;align-items:start;padding:.75rem;background:var(--gray-50);border-radius:var(--radius)';
+    row.innerHTML =
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Ícone</label><input class="form__input dest-icone" value="📌" style="font-size:1.2rem;padding:.3rem;text-align:center"></div>' +
+      '<div><div class="form__group" style="margin:0 0 .4rem"><label class="form__label" style="font-size:.72rem">Título</label><input class="form__input dest-titulo" placeholder="Título do destaque" style="font-size:.85rem;padding:.4rem .6rem"></div>' +
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Descrição</label><input class="form__input dest-descricao" placeholder="Descrição breve" style="font-size:.85rem;padding:.4rem .6rem"></div></div>' +
+      '<div><div class="form__group" style="margin:0 0 .4rem"><label class="form__label" style="font-size:.72rem">Link</label><input class="form__input dest-link" placeholder="#/pagina" style="font-size:.85rem;padding:.4rem .6rem"></div>' +
+      '<div class="form__group" style="margin:0"><label class="form__label" style="font-size:.72rem">Cor</label><select class="form__select dest-cor" style="font-size:.85rem;padding:.4rem .6rem"><option value="primary">Azul</option><option value="accent">Verde</option><option value="yellow">Amarelo</option></select></div></div>' +
+      '<button type="button" class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:#fee2e2;color:#991b1b;margin-top:1.1rem" onclick="this.parentElement.remove()">Excluir</button>';
+    list.appendChild(row);
+  };
+
+  window.__removeDestaque = function (index) {
+    const list = document.getElementById('destaquesList');
+    if (list.children[index]) list.children[index].remove();
+  };
+
+  window.__saveDestaques = async function () {
+    const msg = document.getElementById('destMsg');
+    try {
+      let data, s;
+      try {
+        const res = await ghGet('dados/homepage.json');
+        data = res.content;
+        s = res.sha;
+      } catch (e) {
+        data = { hero: {}, destaques_customizados: [] };
+        s = undefined;
+      }
+
+      const icones = document.querySelectorAll('.dest-icone');
+      const titulos = document.querySelectorAll('.dest-titulo');
+      const descricoes = document.querySelectorAll('.dest-descricao');
+      const links = document.querySelectorAll('.dest-link');
+      const cores = document.querySelectorAll('.dest-cor');
+
+      data.destaques_customizados = [];
+      icones.forEach((el, i) => {
+        if (titulos[i].value.trim()) {
+          data.destaques_customizados.push({
+            icone: el.value.trim() || '📌',
+            titulo: titulos[i].value.trim(),
+            descricao: descricoes[i].value.trim(),
+            link: links[i].value.trim(),
+            cor: cores[i].value
+          });
+        }
+      });
+
+      if (s) {
+        await ghPut('dados/homepage.json', data, s, 'Atualizar destaques customizados');
+      } else {
+        await ghPut('dados/homepage.json', data, undefined, 'Criar homepage.json com destaques');
+      }
+      msg.className = 'form__message form__message--success';
+      msg.textContent = 'Destaques salvos com sucesso!';
+    } catch (err) {
+      msg.className = 'form__message form__message--error';
+      msg.textContent = 'Erro: ' + err.message;
+    }
+  };
 
   // ===== Posts Admin =====
   async function renderPostsAdmin(app) {

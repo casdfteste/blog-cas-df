@@ -1,0 +1,10 @@
+{
+  "hero": {
+    "badge": "SUAS - Sistema Único de Assistência Social",
+    "titulo": "Conselho de Assistência Social do Distrito Federal",
+    "descricao": "Órgão colegiado deliberativo, normativo, fiscalizador e permanente. Controle social, transparência e participação popular na política de assistência social do DF.",
+    "botao1": { "texto": "Conheça o CAS/DF", "link": "#/sobre" },
+    "botao2": { "texto": "Inscrição de Entidades", "link": "#/inscricao" }
+  },
+  "destaques_customizados": []
+}

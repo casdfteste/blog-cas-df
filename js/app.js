@@ -203,6 +203,18 @@
     const docs = await loadJSON('documentos.json');
     const reunioes = await loadJSON('reunioes.json');
 
+    let homepage;
+    try { homepage = await loadJSON('homepage.json'); } catch (e) { homepage = null; }
+
+    const hero = homepage && homepage.hero ? homepage.hero : {
+      badge: 'SUAS - Sistema Único de Assistência Social',
+      titulo: 'Conselho de Assistência Social do Distrito Federal',
+      descricao: 'Órgão colegiado deliberativo, normativo, fiscalizador e permanente. Controle social, transparência e participação popular na política de assistência social do DF.',
+      botao1: { texto: 'Conheça o CAS/DF', link: '#/sobre' },
+      botao2: { texto: 'Inscrição de Entidades', link: '#/inscricao' }
+    };
+    const destaques = homepage && homepage.destaques_customizados ? homepage.destaques_customizados : [];
+
     const sorted = [...posts].sort((a, b) => new Date(b.data) - new Date(a.data));
     const featured = sorted.filter(p => p.destaque).slice(0, 2);
     const totalRes = docs.resolucoes.anos.reduce((sum, a) => sum + a.documentos.length, 0);
@@ -214,12 +226,12 @@
     html += `
       <div class="hero">
         <div class="hero__content">
-          <span class="hero__badge">SUAS - Sistema Único de Assistência Social</span>
-          <h1 class="hero__title">Conselho de Assistência Social do Distrito Federal</h1>
-          <p class="hero__text">Órgão colegiado deliberativo, normativo, fiscalizador e permanente. Controle social, transparência e participação popular na política de assistência social do DF.</p>
+          <span class="hero__badge">${hero.badge}</span>
+          <h1 class="hero__title">${hero.titulo}</h1>
+          <p class="hero__text">${hero.descricao}</p>
           <div class="hero__actions">
-            <a href="#/sobre" class="hero__btn hero__btn--primary">Conheça o CAS/DF</a>
-            <a href="#/inscricao" class="hero__btn hero__btn--outline">Inscrição de Entidades</a>
+            <a href="${hero.botao1.link}" class="hero__btn hero__btn--primary">${hero.botao1.texto}</a>
+            <a href="${hero.botao2.link}" class="hero__btn hero__btn--outline">${hero.botao2.texto}</a>
           </div>
         </div>
       </div>`;
@@ -245,9 +257,28 @@
         </div>
       </div>`;
 
+    // Custom highlights
+    if (destaques.length) {
+      html += '<div class="section-title"><h2>Destaques</h2></div>';
+      html += '<div class="cards">';
+      destaques.forEach(d => {
+        const corClass = d.cor || 'primary';
+        html += `
+          <article class="card">
+            <div class="card__cover" style="font-size:2rem;background:var(--${corClass === 'accent' ? 'accent' : corClass === 'yellow' ? 'warning' : 'primary'}-50,var(--primary-50))">${d.icone || '📌'}</div>
+            <div class="card__body">
+              <h3 class="card__title">${d.link ? '<a href="' + d.link + '">' + d.titulo + '</a>' : d.titulo}</h3>
+              <p class="card__excerpt">${d.descricao}</p>
+              ${d.link ? '<a href="' + d.link + '" class="card__link">Saiba mais →</a>' : ''}
+            </div>
+          </article>`;
+      });
+      html += '</div>';
+    }
+
     // Featured posts
     if (featured.length) {
-      html += '<div class="section-title"><h2>Destaques</h2></div>';
+      html += '<div class="section-title"><h2>' + (destaques.length ? 'Posts em Destaque' : 'Destaques') + '</h2></div>';
       html += '<div class="cards">';
       featured.forEach(p => { html += postCard(p, true); });
       html += '</div>';
