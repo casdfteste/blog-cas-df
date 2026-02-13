@@ -448,6 +448,34 @@
 
   // ===== REGIMENTO INTERNO =====
   async function renderRegimento() {
+    let reg;
+    try {
+      const config = await loadJSON('config.json');
+      reg = config.regimento || {};
+    } catch (e) { reg = {}; }
+
+    const descricao = reg.descricao || 'O Regimento Interno do CAS/DF estabelece as normas de organização, funcionamento e procedimentos do Conselho de Assistência Social do Distrito Federal.';
+    const topicos = reg.topicos || [];
+    const linkPdf = reg.link_pdf || '';
+
+    let topicosHtml = topicos.length ? '<p class="info-section__text mt-1">O regimento disciplina:</p><ul class="competências-list mt-1">' + topicos.map(t => '<li>' + t + '</li>').join('') + '</ul>' : '';
+
+    let downloadHtml = '';
+    if (linkPdf) {
+      downloadHtml = `
+        <div class="info-section">
+          <h2 class="info-section__title">Download</h2>
+          <p class="info-section__text">O texto completo do Regimento Interno está disponível para consulta e download.</p>
+          <p class="mt-1"><a href="${linkPdf}" class="btn btn--primary" target="_blank" rel="noopener">Baixar Regimento Interno (PDF)</a></p>
+        </div>`;
+    } else {
+      downloadHtml = `
+        <div class="info-section">
+          <h2 class="info-section__title">Download</h2>
+          <p class="info-section__text">O documento do Regimento Interno será disponibilizado em breve.</p>
+        </div>`;
+    }
+
     app.innerHTML = `
       <div class="page fade-in">
         ${breadcrumb([{href:'#/', label:'Início'}, {href:'#/sobre', label:'Sobre o CAS/DF'}, {label:'Regimento Interno'}])}
@@ -457,22 +485,10 @@
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Sobre o Regimento</h2>
-          <p class="info-section__text">O Regimento Interno do CAS/DF estabelece as normas de organização, funcionamento e procedimentos do Conselho de Assistência Social do Distrito Federal, em conformidade com a Lei Distrital n. 4.176/2008 e a legislação federal aplicável.</p>
-          <p class="info-section__text mt-1">O regimento disciplina:</p>
-          <ul class="competências-list mt-1">
-            <li>Composição e mandato dos conselheiros</li>
-            <li>Competências do plenário, da mesa diretora e das comissoes</li>
-            <li>Periodicidade e quórum das reuniões</li>
-            <li>Processo de votação e deliberação</li>
-            <li>Procedimentos de inscrição de entidades</li>
-            <li>Disposições sobre eleição da mesa diretora</li>
-          </ul>
+          <p class="info-section__text">${descricao}</p>
+          ${topicosHtml}
         </div>
-        <div class="info-section">
-          <h2 class="info-section__title">Download</h2>
-          <p class="info-section__text">O texto completo do Regimento Interno está disponível para consulta e download.</p>
-          <p class="mt-1"><a href="#" class="btn btn--primary" target="_blank">Baixar Regimento Interno (PDF)</a></p>
-        </div>
+        ${downloadHtml}
       </div>`;
   }
 

@@ -1646,16 +1646,41 @@
 
   // ===== Config =====
   async function renderConfig(app) {
-    let ig = '', yt = '', fb = '';
+    let ig = '', yt = '', fb = '', regDescricao = '', regTopicos = '', regLink = '';
     try {
       const { content: cfg } = await ghGet('dados/config.json');
       ig = cfg.redes_sociais.instagram || '';
       yt = cfg.redes_sociais.youtube || '';
       fb = cfg.redes_sociais.facebook || '';
+      if (cfg.regimento) {
+        regDescricao = cfg.regimento.descricao || '';
+        regTopicos = (cfg.regimento.topicos || []).join('\n');
+        regLink = cfg.regimento.link_pdf || '';
+      }
     } catch (e) {}
 
     adminLayout(app, 'config', `
       <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Configurações</h2>
+
+      <div class="info-section">
+        <h2 class="info-section__title">Regimento Interno</h2>
+        <form id="regForm" class="form" style="max-width:100%">
+          <div class="form__group">
+            <label class="form__label">Link do PDF (Google Drive ou URL externa)</label>
+            <input class="form__input" type="text" id="regLink" value="${regLink}" placeholder="https://drive.google.com/...">
+          </div>
+          <div class="form__group">
+            <label class="form__label">Descrição</label>
+            <textarea class="form__textarea" id="regDescricao" rows="3" style="min-height:70px">${regDescricao}</textarea>
+          </div>
+          <div class="form__group">
+            <label class="form__label">Tópicos do regimento (um por linha)</label>
+            <textarea class="form__textarea" id="regTopicos" rows="5" style="min-height:90px">${regTopicos}</textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Salvar Regimento</button>
+          <div id="regMsg" class="form__message" style="margin-top:.75rem"></div>
+        </form>
+      </div>
 
       <div class="info-section">
         <h2 class="info-section__title">Redes Sociais</h2>
@@ -1726,6 +1751,38 @@
         }
         msg.className = 'form__message form__message--success';
         msg.textContent = 'Redes sociais atualizadas! O blog será atualizado em instantes.';
+      } catch (err) {
+        msg.className = 'form__message form__message--error';
+        msg.textContent = 'Erro: ' + err.message;
+      }
+    });
+
+    // Regimento form
+    document.getElementById('regForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const msg = document.getElementById('regMsg');
+      try {
+        let cfg, sha;
+        try {
+          const res = await ghGet('dados/config.json');
+          cfg = res.content;
+          sha = res.sha;
+        } catch (e) {
+          cfg = { redes_sociais: {} };
+          sha = undefined;
+        }
+        cfg.regimento = {
+          descricao: document.getElementById('regDescricao').value.trim(),
+          topicos: document.getElementById('regTopicos').value.split('\n').map(l => l.trim()).filter(Boolean),
+          link_pdf: document.getElementById('regLink').value.trim()
+        };
+        if (sha) {
+          await ghPut('dados/config.json', cfg, sha, 'Atualizar regimento interno');
+        } else {
+          await ghPut('dados/config.json', cfg, undefined, 'Criar config com regimento');
+        }
+        msg.className = 'form__message form__message--success';
+        msg.textContent = 'Regimento atualizado! O blog será atualizado em instantes.';
       } catch (err) {
         msg.className = 'form__message form__message--error';
         msg.textContent = 'Erro: ' + err.message;
