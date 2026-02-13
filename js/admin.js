@@ -1073,8 +1073,10 @@
           cat.documentos.map((d, i) =>
             '<div style="padding:.5rem 0;border-bottom:1px solid var(--gray-100);font-size:.88rem;display:flex;justify-content:space-between;align-items:center">' +
             '<div><strong>' + d.numero + '</strong> - ' + d.titulo + '<br><span style="color:var(--gray-400)">' + d.data + '</span></div>' +
+            '<div style="display:flex;gap:.5rem;flex-shrink:0">' +
+            '<button class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:var(--primary-50);color:var(--primary)" onclick="window.__editLeg(\'' + cat.id + '\',' + i + ')">Editar</button>' +
             '<button class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:#fee2e2;color:#991b1b" onclick="window.__deleteLeg(\'' + cat.id + '\',' + i + ')">Excluir</button>' +
-            '</div>'
+            '</div></div>'
           ).join('')) +
         '</div>'
       ).join('');
@@ -1082,9 +1084,11 @@
       adminLayout(app, 'legislacao', `
         <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Legislação (${totalDocs} documentos)</h2>
 
-        <div class="info-section">
-          <h2 class="info-section__title">Adicionar Documento de Legislação</h2>
+        <div class="info-section" id="legFormSection">
+          <h2 class="info-section__title" id="legFormTitle">Adicionar Documento de Legislação</h2>
           <form id="legForm" class="form" style="max-width:100%">
+            <input type="hidden" id="legEditCat" value="">
+            <input type="hidden" id="legEditIdx" value="-1">
             <div class="form__group">
               <label class="form__label">Categoria *</label>
               <select class="form__select" id="legCategoria" required>${catOptions}</select>
@@ -1095,8 +1099,11 @@
             </div>
             <div class="form__group"><label class="form__label">Título *</label><input class="form__input" type="text" id="legTitulo" placeholder="Ex: LOAS - Lei Orgânica da Assistência Social" required></div>
             <div class="form__group"><label class="form__label">Descrição</label><textarea class="form__textarea" id="legDescricao" rows="3" style="min-height:70px" placeholder="Breve descrição do documento..."></textarea></div>
-            <div class="form__group"><label class="form__label">Link do documento (Google Drive ou URL externa)</label><input class="form__input" type="url" id="legLink" placeholder="https://drive.google.com/..."></div>
-            <button type="submit" class="btn btn--primary">Salvar Documento</button>
+            <div class="form__group"><label class="form__label">Link do documento (Google Drive ou URL externa)</label><input class="form__input" type="text" id="legLink" placeholder="https://drive.google.com/..."></div>
+            <div style="display:flex;gap:.75rem">
+              <button type="submit" class="btn btn--primary" id="legSaveBtn">Salvar Documento</button>
+              <button type="button" class="btn" id="legCancelBtn" style="display:none;background:var(--gray-200);color:var(--gray-600)" onclick="window.__cancelEditLeg()">Cancelar Edição</button>
+            </div>
             <div id="legMsg" class="form__message" style="margin-top:.75rem"></div>
           </form>
         </div>
@@ -1110,23 +1117,42 @@
       document.getElementById('legForm').addEventListener('submit', async (ev) => {
         ev.preventDefault();
         const msg = document.getElementById('legMsg');
+        const editCat = document.getElementById('legEditCat').value;
+        const editIdx = parseInt(document.getElementById('legEditIdx').value);
+        const isEdit = editCat && editIdx >= 0;
+
         try {
           const { content: d, sha: s } = await ghGet('dados/legislacao.json');
           const catId = document.getElementById('legCategoria').value;
           const cat = d.categorias.find(c => c.id === catId);
           if (!cat) throw new Error('Categoria não encontrada');
-          const novoDoc = {
+          const doc = {
             numero: document.getElementById('legNumero').value.trim(),
             titulo: document.getElementById('legTitulo').value.trim(),
             descricao: document.getElementById('legDescricao').value.trim(),
             data: document.getElementById('legData').value,
             link: document.getElementById('legLink').value.trim() || '#'
           };
-          cat.documentos.unshift(novoDoc);
-          await ghPut('dados/legislacao.json', d, s, 'Nova legislação: ' + novoDoc.numero);
-          msg.className = 'form__message form__message--success';
-          msg.textContent = 'Documento salvo com sucesso!';
-          document.getElementById('legForm').reset();
+
+          if (isEdit) {
+            const origCat = d.categorias.find(c => c.id === editCat);
+            if (editCat === catId && origCat) {
+              origCat.documentos[editIdx] = doc;
+            } else {
+              if (origCat) origCat.documentos.splice(editIdx, 1);
+              cat.documentos.unshift(doc);
+            }
+            await ghPut('dados/legislacao.json', d, s, 'Editar legislação: ' + doc.numero);
+            msg.className = 'form__message form__message--success';
+            msg.textContent = 'Documento atualizado com sucesso!';
+          } else {
+            cat.documentos.unshift(doc);
+            await ghPut('dados/legislacao.json', d, s, 'Nova legislação: ' + doc.numero);
+            msg.className = 'form__message form__message--success';
+            msg.textContent = 'Documento salvo com sucesso!';
+          }
+
+          setTimeout(() => { location.hash = '#/admin/legislacao'; location.reload(); }, 1200);
         } catch (err) {
           msg.className = 'form__message form__message--error';
           msg.textContent = 'Erro: ' + err.message;
@@ -1137,6 +1163,38 @@
       adminLayout(app, 'legislacao', '<p>Erro: ' + e.message + '</p>');
     }
   }
+
+  window.__editLeg = async function (catId, index) {
+    try {
+      const { content: data } = await ghGet('dados/legislacao.json');
+      const cat = data.categorias.find(c => c.id === catId);
+      if (!cat || !cat.documentos[index]) return;
+      const d = cat.documentos[index];
+
+      document.getElementById('legEditCat').value = catId;
+      document.getElementById('legEditIdx').value = index;
+      document.getElementById('legCategoria').value = catId;
+      document.getElementById('legNumero').value = d.numero;
+      document.getElementById('legTitulo').value = d.titulo;
+      document.getElementById('legDescricao').value = d.descricao || '';
+      document.getElementById('legData').value = d.data;
+      document.getElementById('legLink').value = d.link === '#' ? '' : d.link;
+
+      document.getElementById('legFormTitle').textContent = 'Editar Documento: ' + d.numero;
+      document.getElementById('legSaveBtn').textContent = 'Salvar Alterações';
+      document.getElementById('legCancelBtn').style.display = '';
+      document.getElementById('legFormSection').scrollIntoView({ behavior: 'smooth' });
+    } catch (e) { alert('Erro ao carregar documento: ' + e.message); }
+  };
+
+  window.__cancelEditLeg = function () {
+    document.getElementById('legEditCat').value = '';
+    document.getElementById('legEditIdx').value = '-1';
+    document.getElementById('legForm').reset();
+    document.getElementById('legFormTitle').textContent = 'Adicionar Documento de Legislação';
+    document.getElementById('legSaveBtn').textContent = 'Salvar Documento';
+    document.getElementById('legCancelBtn').style.display = 'none';
+  };
 
   window.__deleteLeg = async function (catId, index) {
     if (!confirm('Excluir este documento de legislação?')) return;
