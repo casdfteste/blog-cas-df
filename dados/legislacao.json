@@ -1,0 +1,151 @@
+{
+  "titulo": "Legislação",
+  "descricao": "Base legal que rege o funcionamento do Conselho de Assistência Social do Distrito Federal (CAS/DF), incluindo leis distritais, federais e resoluções do CNAS.",
+  "categorias": [
+    {
+      "id": "codigo-etica",
+      "titulo": "Código de Ética",
+      "descricao": "Código de ética dos conselheiros de assistência social, que estabelece os princípios e normas de conduta para o exercício da função de conselheiro.",
+      "icone": "📜",
+      "documentos": [
+        {
+          "numero": "Resolução CNAS nº 8/2012",
+          "titulo": "Código de Ética dos Conselheiros de Assistência Social",
+          "descricao": "Institui o Código de Ética dos Conselheiros de Assistência Social, estabelecendo princípios, deveres e vedações.",
+          "data": "2012-04-18",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "id": "cas-df",
+      "titulo": "Leis Distritais - CAS/DF",
+      "descricao": "Legislação distrital de criação e regulamentação do Conselho de Assistência Social do Distrito Federal.",
+      "icone": "🏛️",
+      "documentos": [
+        {
+          "numero": "Lei Distrital nº 997/1995",
+          "titulo": "Criação do Conselho de Assistência Social do Distrito Federal",
+          "descricao": "Lei que cria o Conselho de Assistência Social do Distrito Federal (CAS/DF) como órgão colegiado deliberativo, normativo, fiscalizador e permanente.",
+          "data": "1995-12-29",
+          "link": "#"
+        },
+        {
+          "numero": "Lei Distrital nº 4.176/2008",
+          "titulo": "Reestruturação do CAS/DF",
+          "descricao": "Dispõe sobre a reestruturação do Conselho de Assistência Social do Distrito Federal, adequando-o à Política Nacional de Assistência Social (PNAS/2004) e à NOB/SUAS.",
+          "data": "2008-07-16",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "id": "fas-df",
+      "titulo": "Leis Distritais - FAS/DF",
+      "descricao": "Legislação de criação e regulamentação do Fundo de Assistência Social do Distrito Federal (FAS/DF).",
+      "icone": "💰",
+      "documentos": [
+        {
+          "numero": "Lei Distrital nº 997/1995",
+          "titulo": "Criação do Fundo de Assistência Social do Distrito Federal",
+          "descricao": "Cria o Fundo de Assistência Social do Distrito Federal (FAS/DF) vinculado à Secretaria de Estado responsável pela política de assistência social.",
+          "data": "1995-12-29",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "id": "federais",
+      "titulo": "Legislações Federais (CNAS)",
+      "descricao": "Principais legislações federais que regem a política de assistência social no Brasil e impactam diretamente o funcionamento do CAS/DF.",
+      "icone": "🇧🇷",
+      "documentos": [
+        {
+          "numero": "Lei Federal nº 8.742/1993",
+          "titulo": "LOAS - Lei Orgânica da Assistência Social",
+          "descricao": "Dispõe sobre a organização da Assistência Social no Brasil, estabelecendo princípios, diretrizes e a estrutura do Sistema Único de Assistência Social (SUAS).",
+          "data": "1993-12-07",
+          "link": "#"
+        },
+        {
+          "numero": "Resolução CNAS nº 145/2004",
+          "titulo": "PNAS - Política Nacional de Assistência Social",
+          "descricao": "Aprova a Política Nacional de Assistência Social, que organiza a gestão das ações na área de assistência social em todo o território nacional.",
+          "data": "2004-10-15",
+          "link": "#"
+        },
+        {
+          "numero": "Resolução CNAS nº 33/2012",
+          "titulo": "NOB/SUAS - Norma Operacional Básica do SUAS",
+          "descricao": "Aprova a Norma Operacional Básica do Sistema Único de Assistência Social, que regulamenta a gestão, o financiamento e o controle social do SUAS.",
+          "data": "2012-12-12",
+          "link": "#"
+        },
+        {
+          "numero": "Resolução CNAS nº 237/2006",
+          "titulo": "Diretrizes para Estruturação dos Conselhos de Assistência Social",
+          "descricao": "Estabelece diretrizes para a estruturação, reformulação e funcionamento dos Conselhos de Assistência Social.",
+          "data": "2006-12-14",
+          "link": "#"
+        },
+        {
+          "numero": "Lei Federal nº 12.435/2011",
+          "titulo": "Alteração da LOAS - Organização do SUAS",
+          "descricao": "Altera a Lei nº 8.742/1993, dispondo sobre a organização da Assistência Social e instituindo formalmente o SUAS.",
+          "data": "2011-07-06",
+          "link": "#"
+        },
+        {
+          "numero": "Lei Federal nº 13.146/2015",
+          "titulo": "Estatuto da Pessoa com Deficiência",
+          "descricao": "Institui a Lei Brasileira de Inclusão da Pessoa com Deficiência (Estatuto da Pessoa com Deficiência), com impacto direto nas políticas de assistência social.",
+          "data": "2015-07-06",
+          "link": "#"
+        }
+      ]
+    },
+    {
+      "id": "resolucoes-cnas",
+      "titulo": "Resoluções do CNAS",
+      "descricao": "Resoluções do Conselho Nacional de Assistência Social (CNAS) que impactam diretamente o funcionamento e as atribuições do CAS/DF.",
+      "icone": "📋",
+      "documentos": [
+        {
+          "numero": "Resolução CNAS nº 14/2014",
+          "titulo": "Tipificação Nacional de Serviços Socioassistenciais",
+          "descricao": "Atualiza a Resolução nº 109/2009 que aprova a Tipificação Nacional de Serviços Socioassistenciais.",
+          "data": "2014-05-15",
+          "link": "#"
+        },
+        {
+          "numero": "Resolução CNAS nº 109/2009",
+          "titulo": "Tipificação Nacional de Serviços Socioassistenciais",
+          "descricao": "Aprova a Tipificação Nacional de Serviços Socioassistenciais, organizando os serviços por níveis de proteção social.",
+          "data": "2009-11-11",
+          "link": "#"
+        },
+        {
+          "numero": "Resolução CNAS nº 21/2016",
+          "titulo": "Requisitos para Celebração de Parcerias",
+          "descricao": "Estabelece requisitos para celebração de parcerias entre entidades de assistência social e o poder público.",
+          "data": "2016-05-19",
+          "link": "#"
+        },
+        {
+          "numero": "Resolução CNAS nº 11/2015",
+          "titulo": "Caracterização dos Usuários e Entidades de Assistência Social",
+          "descricao": "Caracteriza os usuários, seus direitos e sua participação na Política Pública de Assistência Social e no SUAS.",
+          "data": "2015-06-23",
+          "link": "#"
+        },
+        {
+          "numero": "Resolução CNAS nº 6/2019",
+          "titulo": "Regulamentação do Artigo 19 da LOAS",
+          "descricao": "Dispõe sobre as competências dos Conselhos de Assistência Social, regulamentando o artigo 19 da LOAS.",
+          "data": "2019-02-21",
+          "link": "#"
+        }
+      ]
+    }
+  ]
+}

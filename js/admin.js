@@ -32,6 +32,7 @@
     else if (section === 'conferencias') await renderConferenciasAdmin(app);
     else if (section === 'eleicoes') await renderEleicoesAdmin(app);
     else if (section === 'sobre') await renderSobreAdmin(app);
+    else if (section === 'legislacao') await renderLegislacaoAdmin(app);
     else if (section === 'config') renderConfig(app);
     else if (section === 'manual') renderManual(app);
     else renderDashboard(app);
@@ -167,6 +168,7 @@
       { id: 'conferencias', label: 'Conferências', icon: '🎤' },
       { id: 'eleicoes', label: 'Eleições', icon: '🗳️' },
       { id: 'sobre', label: 'Sobre / Conselheiros', icon: '👥' },
+      { id: 'legislacao', label: 'Legislação', icon: '⚖️' },
       { id: 'config', label: 'Configurações', icon: '⚙️' },
       { id: 'manual', label: 'Manual', icon: '📖' },
     ];
@@ -1052,6 +1054,100 @@
     }
   };
 
+  // ===== Legislação Admin =====
+  async function renderLegislacaoAdmin(app) {
+    try {
+      const { content: data } = await ghGet('dados/legislacao.json');
+      const totalDocs = data.categorias.reduce((s, c) => s + c.documentos.length, 0);
+
+      const catOptions = data.categorias.map(c => '<option value="' + c.id + '">' + c.titulo + '</option>').join('');
+
+      let listHtml = data.categorias.map(cat =>
+        '<div style="margin-bottom:1.5rem">' +
+        '<h3 style="font-size:.95rem;font-weight:600;color:var(--gray-700);margin-bottom:.5rem">' + cat.icone + ' ' + cat.titulo + ' (' + cat.documentos.length + ')</h3>' +
+        (cat.documentos.length === 0 ? '<p style="font-size:.85rem;color:var(--gray-400)">Nenhum documento cadastrado.</p>' :
+          cat.documentos.map((d, i) =>
+            '<div style="padding:.5rem 0;border-bottom:1px solid var(--gray-100);font-size:.88rem;display:flex;justify-content:space-between;align-items:center">' +
+            '<div><strong>' + d.numero + '</strong> - ' + d.titulo + '<br><span style="color:var(--gray-400)">' + d.data + '</span></div>' +
+            '<button class="btn" style="font-size:.78rem;padding:.35rem .75rem;background:#fee2e2;color:#991b1b" onclick="window.__deleteLeg(\'' + cat.id + '\',' + i + ')">Excluir</button>' +
+            '</div>'
+          ).join('')) +
+        '</div>'
+      ).join('');
+
+      adminLayout(app, 'legislacao', `
+        <h2 style="font-size:1.2rem;font-weight:700;color:var(--primary);margin-bottom:1rem">Legislação (${totalDocs} documentos)</h2>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Adicionar Documento de Legislação</h2>
+          <form id="legForm" class="form" style="max-width:100%">
+            <div class="form__group">
+              <label class="form__label">Categoria *</label>
+              <select class="form__select" id="legCategoria" required>${catOptions}</select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+              <div class="form__group"><label class="form__label">Número *</label><input class="form__input" type="text" id="legNumero" placeholder="Ex: Lei Federal nº 8.742/1993" required></div>
+              <div class="form__group"><label class="form__label">Data *</label><input class="form__input" type="date" id="legData" required></div>
+            </div>
+            <div class="form__group"><label class="form__label">Título *</label><input class="form__input" type="text" id="legTitulo" placeholder="Ex: LOAS - Lei Orgânica da Assistência Social" required></div>
+            <div class="form__group"><label class="form__label">Descrição</label><textarea class="form__textarea" id="legDescricao" rows="3" style="min-height:70px" placeholder="Breve descrição do documento..."></textarea></div>
+            <div class="form__group"><label class="form__label">Link do documento (Google Drive ou URL externa)</label><input class="form__input" type="url" id="legLink" placeholder="https://drive.google.com/..."></div>
+            <button type="submit" class="btn btn--primary">Salvar Documento</button>
+            <div id="legMsg" class="form__message" style="margin-top:.75rem"></div>
+          </form>
+        </div>
+
+        <div class="info-section">
+          <h2 class="info-section__title">Documentos Cadastrados</h2>
+          ${listHtml}
+        </div>
+      `);
+
+      document.getElementById('legForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const msg = document.getElementById('legMsg');
+        try {
+          const { content: d, sha: s } = await ghGet('dados/legislacao.json');
+          const catId = document.getElementById('legCategoria').value;
+          const cat = d.categorias.find(c => c.id === catId);
+          if (!cat) throw new Error('Categoria não encontrada');
+          const novoDoc = {
+            numero: document.getElementById('legNumero').value.trim(),
+            titulo: document.getElementById('legTitulo').value.trim(),
+            descricao: document.getElementById('legDescricao').value.trim(),
+            data: document.getElementById('legData').value,
+            link: document.getElementById('legLink').value.trim() || '#'
+          };
+          cat.documentos.unshift(novoDoc);
+          await ghPut('dados/legislacao.json', d, s, 'Nova legislação: ' + novoDoc.numero);
+          msg.className = 'form__message form__message--success';
+          msg.textContent = 'Documento salvo com sucesso!';
+          document.getElementById('legForm').reset();
+        } catch (err) {
+          msg.className = 'form__message form__message--error';
+          msg.textContent = 'Erro: ' + err.message;
+        }
+      });
+
+    } catch (e) {
+      adminLayout(app, 'legislacao', '<p>Erro: ' + e.message + '</p>');
+    }
+  }
+
+  window.__deleteLeg = async function (catId, index) {
+    if (!confirm('Excluir este documento de legislação?')) return;
+    try {
+      const { content: d, sha: s } = await ghGet('dados/legislacao.json');
+      const cat = d.categorias.find(c => c.id === catId);
+      if (cat) {
+        cat.documentos.splice(index, 1);
+        await ghPut('dados/legislacao.json', d, s, 'Excluir documento de legislação');
+        alert('Documento excluído!');
+        location.reload();
+      }
+    } catch (e) { alert('Erro: ' + e.message); }
+  };
+
   // ===== Config =====
   async function renderConfig(app) {
     let ig = '', yt = '', fb = '';
@@ -1297,6 +1393,7 @@
             <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Sobre o CAS/DF</td><td style="padding:.5rem"><code>sobre.json</code></td></tr>
             <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Fiscalização</td><td style="padding:.5rem"><code>fiscalizacao.json</code></td></tr>
             <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Inscrição</td><td style="padding:.5rem"><code>inscricao.json</code></td></tr>
+            <tr style="border-bottom:1px solid var(--gray-100)"><td style="padding:.5rem">Legislação</td><td style="padding:.5rem"><code>legislacao.json</code></td></tr>
             <tr><td style="padding:.5rem">Planejamento</td><td style="padding:.5rem"><code>planejamento.json</code></td></tr>
           </tbody>
         </table>

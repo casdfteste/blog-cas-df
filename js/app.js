@@ -67,6 +67,12 @@
       else if (route === '/entidades') await renderEntidades();
       else if (route === '/fiscalizacao') await renderFiscalizacao();
       else if (route === '/inscricao') await renderInscricao();
+      else if (route === '/legislacao') await renderLegislacao();
+      else if (route === '/legislacao/codigo-etica') await renderLegislacao('codigo-etica');
+      else if (route === '/legislacao/cas-df') await renderLegislacao('cas-df');
+      else if (route === '/legislacao/fas-df') await renderLegislacao('fas-df');
+      else if (route === '/legislacao/federais') await renderLegislacao('federais');
+      else if (route === '/legislacao/resolucoes-cnas') await renderLegislacao('resolucoes-cnas');
       else if (route === '/contato') await renderContato();
       else if (route === '/admin' || route.startsWith('/admin/')) {
         const sub = route === '/admin' ? 'dashboard' : route.slice(7);
@@ -1183,6 +1189,68 @@
       </div>`;
   }
 
+  // ===== LEGISLACAO =====
+  async function renderLegislacao(sub) {
+    const data = await loadJSON('legislacao.json');
+    const active = sub || 'all';
+
+    const bc = [{href:'#/', label:'Início'}, {href:'#/legislacao', label:'Legislação'}];
+    const activeCat = data.categorias.find(c => c.id === sub);
+    if (activeCat) bc.push({label: activeCat.titulo});
+
+    let content = '';
+
+    if (active === 'all') {
+      content = data.categorias.map(cat => `
+        <div class="info-section">
+          <h2 class="info-section__title">${cat.icone} ${cat.titulo}</h2>
+          <p class="info-section__text">${cat.descricao}</p>
+          <p class="mt-1"><a href="#/legislacao/${cat.id}" class="btn btn--primary" style="font-size:.85rem">Ver ${cat.documentos.length} documento${cat.documentos.length !== 1 ? 's' : ''} →</a></p>
+        </div>`).join('');
+    } else if (activeCat) {
+      let docsHtml = '';
+      if (activeCat.documentos.length === 0) {
+        docsHtml = '<div class="no-results"><p class="no-results__icon">📂</p><p>Nenhum documento cadastrado nesta categoria.</p></div>';
+      } else {
+        docsHtml = activeCat.documentos.map(d => `
+          <div class="entity-card">
+            <div class="entity-card__header">
+              <p class="entity-card__name">${d.titulo}</p>
+              <span class="entity-card__numero">${d.numero}</span>
+            </div>
+            <p style="font-size:.88rem;color:var(--gray-500);margin:.5rem 0">${d.descricao}</p>
+            <div class="entity-card__info">
+              <span><strong>Data:</strong> ${formatDate(d.data)}</span>
+              <span>${d.link && d.link !== '#' ? '<a href="' + d.link + '" target="_blank" rel="noopener" class="btn btn--primary" style="font-size:.78rem;padding:.3rem .75rem">Abrir documento</a>' : '<span style="color:var(--gray-400);font-size:.85rem">Link não disponível</span>'}</span>
+            </div>
+          </div>`).join('');
+      }
+      content = `
+        <div class="info-section">
+          <h2 class="info-section__title">${activeCat.icone} ${activeCat.titulo}</h2>
+          <p class="info-section__text">${activeCat.descricao}</p>
+        </div>
+        ${docsHtml}`;
+    }
+
+    app.innerHTML = `
+      <div class="page fade-in">
+        ${breadcrumb(bc)}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}</p>
+        </div>
+        <div class="layout-sidebar">
+          <aside class="sidebar">
+            <p class="sidebar__title">Categorias</p>
+            <a href="#/legislacao" class="sidebar__link ${active === 'all' ? 'active' : ''}">Visão Geral</a>
+            ${data.categorias.map(c => '<a href="#/legislacao/' + c.id + '" class="sidebar__link ' + (active === c.id ? 'active' : '') + '">' + c.icone + ' ' + c.titulo + '</a>').join('')}
+          </aside>
+          <div>${content}</div>
+        </div>
+      </div>`;
+  }
+
   // ===== CONTATO =====
   async function renderContato() {
     app.innerHTML = `
@@ -1302,6 +1370,17 @@
           p.documentos.forEach(d => {
             if (d.titulo.toLowerCase().includes(q)) {
               results.push({ titulo: d.titulo, resumo: formatDate(d.data), link: '#/atas', tipo: 'Ata' });
+            }
+          });
+        });
+      } catch {}
+
+      try {
+        const leg = await loadJSON('legislacao.json');
+        leg.categorias.forEach(cat => {
+          cat.documentos.forEach(d => {
+            if ((d.titulo + ' ' + d.numero + ' ' + d.descricao).toLowerCase().includes(q)) {
+              results.push({ titulo: d.numero + ' - ' + d.titulo, resumo: d.descricao, link: '#/legislacao/' + cat.id, tipo: 'Legislação' });
             }
           });
         });
