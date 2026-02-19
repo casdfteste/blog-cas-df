@@ -118,14 +118,17 @@
     if (searchBtn) searchBtn.addEventListener('click', doSearch);
     if (searchInput) searchInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(); });
 
-    function doSearch() {
-      const q = searchInput.value.trim();
-      if (q.length >= 2) {
-        navigate('/busca/' + encodeURIComponent(q));
-        searchInput.value = '';
-        nav.classList.remove('open');
-      }
-    }
+   function doSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const q = searchInput.value.trim();
+    if (q.length >= 2) {
+      navigate('/busca/' + encodeURIComponent(q)); // Isso agora vai chamar o renderBusca que criamos
+      searchInput.value = '';
+      const nav = document.getElementById('nav');
+      if (nav) nav.classList.remove('open');
+    }
+  }
+    
   }
 
   function setupBackToTop() {
