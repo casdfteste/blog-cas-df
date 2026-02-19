@@ -9,9 +9,9 @@
   <meta property="og:description" content="Blog oficial do CAS/DF. Controle social, transparência e participação popular na política de assistência social do DF.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://casdfteste.github.io/blog-cas-df/">
-  
+
   <link rel="icon" href="images/logo-casdf-circular.jpg">
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
     #accessibility-bar { position: fixed; top: 50%; right: 0; transform: translateY(-50%); background: #fff; border: 1px solid #ccc; border-radius: 8px 0 0 8px; display: flex; flex-direction: column; gap: 8px; padding: 10px; z-index: 2000; box-shadow: -2px 0 10px rgba(0,0,0,0.1); }
     #accessibility-bar button { cursor: pointer; border: 1px solid #0056b3; background: white; color: #0056b3; border-radius: 4px; padding: 8px; font-weight: bold; width: 40px; transition: all 0.2s; }
     #accessibility-bar button:hover { background: #0056b3; color: white; }
-    
+
     /* Classes de Alto Contraste */
     body.high-contrast { background-color: #000 !important; color: #ffff00 !important; }
     body.high-contrast .header, body.high-contrast .nav, body.high-contrast .footer, body.high-contrast .main { background-color: #000 !important; color: #ffff00 !important; }
@@ -41,10 +41,10 @@
 </head>
 <body>
 
-  <div id="accessibility-bar">
-    <button onclick="changeFontSize(1)" title="Aumentar Fonte">A+</button>
-    <button onclick="changeFontSize(-1)" title="Diminuir Fonte">A-</button>
-    <button onclick="toggleContrast()" title="Alto Contraste">🌓</button>
+  <div id="accessibility-bar" role="toolbar" aria-label="Ferramentas de acessibilidade">
+    <button type="button" onclick="changeFontSize(1)" title="Aumentar Fonte" aria-label="Aumentar tamanho da fonte">A+</button>
+    <button type="button" onclick="changeFontSize(-1)" title="Diminuir Fonte" aria-label="Diminuir tamanho da fonte">A-</button>
+    <button type="button" onclick="toggleContrast()" title="Alto Contraste" aria-label="Alternar alto contraste">🌓</button>
   </div>
 
   <div class="header-banner">
@@ -55,7 +55,7 @@
 
   <header class="header" id="header">
     <div class="container header__inner">
-      <button class="header__toggle" id="menuToggle" aria-label="Abrir menu">
+      <button type="button" class="header__toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <a href="#/" class="header__logo">
@@ -65,29 +65,29 @@
           <small>Conselho de Assistência Social</small>
         </span>
       </a>
-      <div class="header__search">
+      <div class="header__search" role="search">
         <input type="text" id="searchInput" placeholder="Buscar no site..." aria-label="Buscar no site">
-        <button id="searchBtn" aria-label="Buscar">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <button type="button" id="searchBtn" aria-label="Buscar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </button>
       </div>
       <div class="header__social">
-        <a href="https://www.instagram.com/casdf" target="_blank" rel="noopener" aria-label="Instagram">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        <a href="https://www.instagram.com/casdf" target="_blank" rel="noopener noreferrer" aria-label="Instagram do CAS/DF">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
         </a>
-        <a href="https://www.youtube.com/@casdf" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <a href="https://www.youtube.com/@casdf" target="_blank" rel="noopener noreferrer" aria-label="YouTube do CAS/DF">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </a>
       </div>
     </div>
-<nav class="nav" id="nav">
+    <nav class="nav" id="nav" aria-label="Menu principal">
       <div class="container">
         <ul class="nav__list">
           <li><a href="#/" class="nav__link">Início</a></li>
           <li><a href="#/planejamento" class="nav__link">Planejamento</a></li>
-          
+
           <li class="nav__dropdown">
-            <a href="javascript:void(0)" class="nav__link">O Conselho ▾</a>
+            <a href="javascript:void(0)" class="nav__link" aria-haspopup="true" aria-expanded="false">O Conselho ▾</a>
             <ul class="nav__submenu">
               <li><a href="#/sobre">Sobre o CAS</a></li>
               <li><a href="#/resolucoes">Resoluções</a></li>
@@ -97,7 +97,7 @@
           </li>
 
           <li class="nav__dropdown">
-            <a href="javascript:void(0)" class="nav__link">Participação ▾</a>
+            <a href="javascript:void(0)" class="nav__link" aria-haspopup="true" aria-expanded="false">Participação ▾</a>
             <ul class="nav__submenu">
               <li><a href="#/reunioes">Reuniões</a></li>
               <li><a href="#/lives">Lives</a></li>
@@ -122,8 +122,8 @@
     </div>
   </main>
 
-  <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+  <button type="button" class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
   </button>
 
   <footer class="footer">
@@ -145,7 +145,7 @@
       <div class="footer__col">
         <h3>Links Úteis</h3>
         <ul class="footer__links">
-          <li><a href="https://www.sedes.df.gov.br" target="_blank">SEDES - DF</a></li>
+          <li><a href="https://www.sedes.df.gov.br" target="_blank" rel="noopener noreferrer">SEDES - DF</a></li>
           <li><a href="#/inscricao">Inscrição de Entidades</a></li>
           <li><a href="#/contato">Fale Conosco</a></li>
         </ul>
@@ -153,7 +153,7 @@
     </div>
     <div class="footer__bottom">
       <div class="container footer__bottom-inner">
-        <p>&copy; 2025 CAS/DF. Todos os direitos reservados.</p>
+        <p>&copy; 2026 CAS/DF. Todos os direitos reservados.</p>
         <a href="#/admin" style="font-size:.7rem; opacity:.5">Painel Admin</a>
       </div>
     </div>
