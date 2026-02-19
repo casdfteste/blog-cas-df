@@ -28,7 +28,6 @@
   window.addEventListener('DOMContentLoaded', () => {
     setupMenu();
     setupBackToTop();
-    loadSocialLinks();
     handleRoute(); // Chama a rota inicial
   });
 
@@ -933,84 +932,40 @@
     return '<span class="fisc-prazo fisc-prazo--gray">' + (situacao || '-') + '</span>';
   }
 
-async function renderFiscalizacao() {
-  const data = await loadJSON('fiscalizacao.json');
-  // Certifique-se de colar o link CSV abaixo
-  const sheetURL = 'COLE_AQUI_O_LINK_DO_CSV_GERADO_NA_PLANILHA';
+  async function renderFiscalizacao() {
+    const data = await loadJSON('fiscalizacao.json');
 
-  let stepsHtml = data.processo.map(p => `
-    <div class="step" style="display: flex; gap: 15px; margin-bottom: 20px;">
-      <div style="background: var(--blue-900); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">${p.passo}</div>
-      <div>
-        <p style="font-weight: bold; color: var(--blue-900); margin: 0;">${p.titulo}</p>
-        <p style="font-size: 0.9rem; color: #666; margin: 5px 0 0;">${p.descricao}</p>
-      </div>
-    </div>`).join('');
+    let stepsHtml = data.processo.map(p => `
+      <div class="step">
+        <div class="step__number">${p.passo}</div>
+        <div class="step__content">
+          <p class="step__title">${p.titulo}</p>
+          <p class="step__desc">${p.descricao}</p>
+        </div>
+      </div>`).join('');
 
-  app.innerHTML = `
-    <div class="page container fade-in" style="max-width: 1100px; margin: 0 auto; padding: 20px;">
-      <header style="border-bottom: 4px solid var(--blue-900); padding-bottom: 10px; margin-bottom: 30px;">
-        <h1 style="color: var(--blue-900);">${data.titulo}</h1>
-        <p style="color: #666;">${data.descricao}</p>
-      </header>
-
-      <div style="background: #fff; border: 1px solid #e2e8f0; border-left: 6px solid var(--blue-900); padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <h2 style="color: var(--blue-900); font-size: 1.25rem; margin-bottom: 20px;">📊 Monitoramento de Visitas (Tempo Real)</h2>
-        <div id="fiscDashboard"><p>Sincronizando com a base de dados...</p></div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-        <section>
-          <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Etapas do Processo</h2>
-          ${stepsHtml}
-        </section>
-        
-        <section>
-          <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Sobre a Fiscalização</h2>
-          <p style="line-height: 1.6;">${data.sobre_fiscalizacao}</p>
-          <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #e2e8f0;">
-             <p><strong>Base legal:</strong> ${data.base_legal}</p>
-             <p><strong>Prazo padrão:</strong> ${data.prazo_padrao}</p>
+    app.innerHTML = `
+      <div class="page fade-in">
+        ${breadcrumb([{href:'#/', label:'Início'}, {label:'Fiscalização'}])}
+        <div class="page__header">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">${data.descricao}</p>
+        </div>
+        <div id="fiscDashboard">
+          <div class="info-section" style="border-left:4px solid var(--primary);background:var(--primary-50)">
+            <p class="info-section__text">Carregando painel de fiscalização...</p>
           </div>
-        </section>
-      </div>
-    </div>`;
+        </div>
+        <div class="info-section">
+          <h2 class="info-section__title">Sobre a Fiscalização</h2>
+          <p class="info-section__text">${data.sobre_fiscalizacao}</p>
+          <p class="info-section__text mt-1"><strong>Base legal:</strong> ${data.base_legal}</p>
+          <p class="info-section__text"><strong>Prazo padrão:</strong> ${data.prazo_padrao}</p>
+        </div>
+        <div class="section-title mt-2"><h2>Etapas do Processo</h2></div>
+        <div class="steps">${stepsHtml}</div>
+      </div>`;
 
-  try {
-    const response = await fetch(sheetURL);
-    const csvText = await response.text();
-    const rows = csvText.split('\n').map(row => row.split(','));
-    
-    let tableHtml = `
-      <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse: collapse;">
-          <thead>
-            <tr style="background:#f1f5f9; text-align:left; border-bottom: 2px solid #e2e8f0;">
-              <th style="padding:12px;">Data</th>
-              <th style="padding:12px;">Entidade</th>
-              <th style="padding:12px;">Status</th>
-            </tr>
-          </thead>
-          <tbody>`;
-
-    for (let i = 1; i < rows.length; i++) {
-      const cols = rows[i];
-      if (cols.length >= 3) {
-        tableHtml += `
-          <tr style="border-bottom: 1px solid #eee;">
-            <td style="padding:12px; font-size:0.85rem; color:#64748b;">${cols[0].replace(/"/g, '')}</td>
-            <td style="padding:12px; font-weight:bold; color:var(--blue-900);">${cols[1].replace(/"/g, '')}</td>
-            <td style="padding:12px;"><span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:20px; font-size:0.75rem;">${cols[2].replace(/"/g, '')}</span></td>
-          </tr>`;
-      }
-    }
-    tableHtml += `</tbody></table></div>`;
-    document.getElementById('fiscDashboard').innerHTML = tableHtml;
-
-  } catch (e) {
-    document.getElementById('fiscDashboard').innerHTML = '<p style="text-align:center; color:#666;">Painel aguardando registros do formulário.</p>';
-  }
-}
     // Load live data if configured
     if (data.sheet_pub_key && data.sheet_gid) {
       try {
@@ -1020,12 +975,19 @@ async function renderFiscalizacao() {
         document.getElementById('fiscDashboard').innerHTML = `
           <div class="info-section" style="border-left:4px solid #ef4444;background:#fef2f2">
             <h2 class="info-section__title">Erro ao carregar dados</h2>
-            <p class="info-section__text">Não foi possível acessar a planilha. Verifique se ela está publicada na web.</p>
+            <p class="info-section__text">Não foi possível acessar a planilha.</p>
           </div>`;
         console.error('Erro ao carregar planilha:', e);
       }
+    } else {
+      document.getElementById('fiscDashboard').innerHTML = `
+        <div class="info-section" style="border-left:4px solid var(--accent);background:#f0fdf4">
+          <h2 class="info-section__title">Painel de Acompanhamento</h2>
+          <p class="info-section__text">Quando as fiscalizações forem registradas na planilha, os dados aparecerão automaticamente aqui.</p>
+        </div>`;
     }
   }
+
 
   function renderFiscDashboard(rows) {
     const container = document.getElementById('fiscDashboard');
@@ -1518,92 +1480,4 @@ async function renderFiscalizacao() {
   }
 
   // ===== RENDER: Busca Transparente (Inovação Digital CAS/DF) =====
-  async function renderBusca(term) {
-    const q = term.toLowerCase();
-    const results = [];
-    
-    const fontes = [
-      { file: 'posts.json', tipo: 'Notícia/Informativo' },
-      { file: 'documentos.json', tipo: 'Resolução ou Ata' },
-      { file: 'legislacao.json', tipo: 'Legislação Distrital/Federal' },
-      { file: 'entidades.json', tipo: 'Entidade Socioassistencial' },
-      { file: 'planejamento.json', tipo: 'Objetivo Estratégico (PEI)' }
-    ];
-
-    for (const fonte of fontes) {
-      try {
-        const data = await loadJSON(fonte.file);
-        if (data && JSON.stringify(data).toLowerCase().includes(q)) {
-          results.push({ 
-            titulo: `Resultados em: ${fonte.tipo}`, 
-            link: `#/${fonte.file.replace('.json','')}`, 
-            tipo: fonte.tipo 
-          });
-        }
-      } catch(e) { console.error("Erro na busca da fonte:", fonte.file); }
-    }
-
-    app.innerHTML = `
-      <div class="page fade-in container">
-        <header class="page-header" style="border-bottom: 2px solid var(--blue-900); margin-bottom: 2rem; padding-bottom: 1rem;">
-          <h1>Resultado da Pesquisa</h1>
-          <p>Termo buscado: <strong>"${term}"</strong></p>
-        </header>
-        
-        <div class="search-grid" style="display: grid; gap: 15px;">
-          ${results.length > 0 ? results.map(r => `
-            <div class="card" style="padding: 20px; border: 1px solid #eee; border-left: 5px solid var(--blue-900); background: #fff; border-radius: 8px;">
-              <span class="badge" style="background: #f0f4f8; color: var(--blue-900); font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: bold;">${r.tipo}</span>
-              <h3 style="margin: 10px 0;"><a href="${r.link}" style="text-decoration: none; color: var(--blue-900);">${r.titulo}</a></h3>
-              <p style="font-size: 0.9rem; color: #666;">Clique para acessar os documentos e informações desta categoria.</p>
-            </div>
-          `).join('') : `
-            <div style="text-align: center; padding: 3rem; color: #666;">
-              <p style="font-size: 3rem;">🔍</p>
-              <p>Nenhum registro encontrado para "${term}" nos arquivos oficiais.</p>
-            </div>
-          `}
-        </div>
-      </div>`;
-  }
-
-  // ===== RENDER: Planejamento Estratégico (PEI 2025-2027) =====
-  async function renderPlanejamento() {
-    const data = await loadJSON('planejamento.json');
-    if (!data) return render404();
-
-    app.innerHTML = `
-      <div class="page fade-in container">
-        <header class="page__header" style="border-bottom: 4px solid var(--blue-900); padding-bottom: 1.5rem; margin-bottom: 2rem;">
-          <h1 class="page__title">${data.titulo}</h1>
-          <p class="page__subtitle">Ciclo Estratégico: ${data.periodo}</p>
-        </header>
-
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem; margin-bottom: 2rem;">
-          <div style="border-left: 5px solid var(--blue-900); background: #f8fafc; padding: 1.5rem; border-radius: 8px;">
-            <h2 style="color:var(--blue-900);">🎯 Missão</h2>
-            <p>"${data.missao}"</p>
-          </div>
-          <div style="border-left: 5px solid #f6ad55; background: #f8fafc; padding: 1.5rem; border-radius: 8px;">
-            <h2 style="color:#f6ad55;">👁️ Visão</h2>
-            <p>"${data.visao}"</p>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <h2>Objetivos Estratégicos (BSC)</h2>
-          <div class="accordion-list">
-            ${data.objetivos_estrategicos.map(obj => `
-              <details style="background:white; border:1px solid #eee; margin-bottom:10px; border-radius:8px; padding:15px;">
-                <summary style="font-weight:700; cursor:pointer; color:var(--blue-900);">${obj.objetivo}</summary>
-                <div style="margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
-                  <ul>${obj.acoes.map(a => `<li>${a}</li>`).join('')}</ul>
-                </div>
-              </details>
-            `).join('')}
-          </div>
-        </div>
-      </div>`;
-  }
-
 })(); // Encerra o arquivo principal
