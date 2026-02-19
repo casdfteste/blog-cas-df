@@ -1824,3 +1824,108 @@ mark { background: #fef08a; color: inherit; padding: 1px 3px; border-radius: 3px
     gap: .4rem;
   }
 }
+
+/* --- ESTILO INSTITUCIONAL CAS/DF (PEI 2025-2027) --- */
+
+:root {
+  --blue-900: #003366; /* Azul GDF */
+  --blue-700: #005588;
+  --accent: #f6ad55;    /* Amarelo Institucional */
+  --gray-bg: #f8fafc;
+}
+
+/* Skeleton Screen - Animação de Carregamento */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.loading-skeleton { padding: 2rem 0; }
+.skeleton-item { 
+  background: #e2e8f0; 
+  border-radius: 8px; 
+  animation: pulse 1.5s infinite ease-in-out; 
+}
+
+/* Cards de Planejamento e Busca */
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Estilo do Planejamento Estratégico (Accordion) */
+details {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+details[open] {
+  border-color: var(--blue-900);
+  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.1);
+}
+
+summary {
+  padding: 1rem 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--blue-900);
+}
+
+summary::-webkit-details-marker { display: none; }
+
+details ul {
+  padding: 0 1.5rem 1.5rem 2.5rem;
+  color: #4a5568;
+}
+
+details li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Responsividade do Grid */
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Botão Estratégico no Menu */
+.btn-strategic {
+  background: var(--accent);
+  color: var(--blue-900) !important;
+  font-weight: 800 !important;
+  border: 2px solid var(--blue-900);
+  border-radius: 6px;
+  padding: 5px 15px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
