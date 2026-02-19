@@ -1933,21 +1933,25 @@ details li {
 .nav__list {
     display: flex !important;
     flex-direction: row !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important; /* ISSO impede que o menu ocupe o site todo */
     justify-content: center !important;
-    background-color: #003366 !important; /* Azul GDF */
+    background-color: #003366 !important; 
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
+    height: 50px !important; /* Limita a altura para não cobrir o conteúdo */
+    overflow: hidden !important; /* Garante que nada saia da barra */
 }
 
 .nav__link {
     color: white !important;
-    padding: 15px 20px !important;
+    padding: 0 15px !important;
+    line-height: 50px !important; /* Alinha o texto no centro da barra */
     display: block !important;
     text-decoration: none !important;
-    font-size: 0.9rem !important;
+    font-size: 0.85rem !important; /* Diminuir um pouco para caber tudo */
+    white-space: nowrap !important; /* Impede o texto de quebrar linha */
 }
 
 /* Esconde o menu vertical que apareceu na foto */
