@@ -83,11 +83,11 @@
     <nav class="nav" id="nav" aria-label="Menu principal">
       <div class="container">
         <ul class="nav__list">
-          <li><a href="#/" class="nav__link">Início</a></li>
-          <li><a href="#/planejamento" class="nav__link">Planejamento</a></li>
+          <li><a href="#/" class="nav__link" data-route="/">Início</a></li>
+          <li><a href="#/planejamento" class="nav__link" data-route="/planejamento">Planejamento</a></li>
 
           <li class="nav__dropdown">
-            <a href="javascript:void(0)" class="nav__link" aria-haspopup="true" aria-expanded="false">O Conselho ▾</a>
+            <a href="javascript:void(0)" class="nav__link" data-route="/sobre" aria-haspopup="true" aria-expanded="false">O Conselho ▾</a>
             <ul class="nav__submenu">
               <li><a href="#/sobre">Sobre o CAS</a></li>
               <li><a href="#/resolucoes">Resoluções</a></li>
@@ -97,7 +97,7 @@
           </li>
 
           <li class="nav__dropdown">
-            <a href="javascript:void(0)" class="nav__link" aria-haspopup="true" aria-expanded="false">Participação ▾</a>
+            <a href="javascript:void(0)" class="nav__link" data-route="/reunioes" aria-haspopup="true" aria-expanded="false">Participação ▾</a>
             <ul class="nav__submenu">
               <li><a href="#/reunioes">Reuniões</a></li>
               <li><a href="#/lives">Lives</a></li>
@@ -106,9 +106,9 @@
             </ul>
           </li>
 
-          <li><a href="#/fiscalizacao" class="nav__link">Fiscalização</a></li>
-          <li><a href="#/inscricao" class="nav__link">Inscrição</a></li>
-          <li><a href="#/contato" class="nav__link">Contato</a></li>
+          <li><a href="#/fiscalizacao" class="nav__link" data-route="/fiscalizacao">Fiscalização</a></li>
+          <li><a href="#/inscricao" class="nav__link" data-route="/inscricao">Inscrição</a></li>
+          <li><a href="#/contato" class="nav__link" data-route="/contato">Contato</a></li>
         </ul>
       </div>
     </nav>

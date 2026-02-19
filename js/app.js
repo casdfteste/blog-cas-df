@@ -112,7 +112,8 @@
     });
 
     document.querySelectorAll('.nav__dropdown').forEach(dd => {
-      dd.querySelector('.nav__link--dropdown').addEventListener('click', (e) => {
+      const link = dd.querySelector('.nav__link');
+      if (link) link.addEventListener('click', (e) => {
         if (window.innerWidth <= 768) {
           e.preventDefault();
           dd.classList.toggle('open');
@@ -120,7 +121,7 @@
       });
     });
 
-    document.querySelectorAll('.nav__submenu a, .nav__link:not(.nav__link--dropdown)').forEach(link => {
+    document.querySelectorAll('.nav__submenu a, .nav__link:not([aria-haspopup])').forEach(link => {
       link.addEventListener('click', () => {
         nav.classList.remove('open');
         document.querySelectorAll('.nav__dropdown').forEach(d => d.classList.remove('open'));
