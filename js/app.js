@@ -1490,7 +1490,7 @@
       </div>`;
   }
 
-  // ===== 404 =====
+// ===== 404 =====
   function render404() {
     app.innerHTML = `
       <div class="page text-center" style="padding:4rem 1rem">
@@ -1499,12 +1499,12 @@
         <a href="#/" class="btn btn--primary mt-2">Voltar ao Início</a>
       </div>`;
   }
-// ===== RENDER: Busca Transparente (Inovação Digital CAS/DF) =====
+
+  // ===== RENDER: Busca Transparente (Inovação Digital CAS/DF) =====
   async function renderBusca(term) {
     const q = term.toLowerCase();
     const results = [];
     
-    // Lista de fontes baseada na estrutura de dados do CAS/DF
     const fontes = [
       { file: 'posts.json', tipo: 'Notícia/Informativo' },
       { file: 'documentos.json', tipo: 'Resolução ou Ata' },
@@ -1513,7 +1513,6 @@
       { file: 'planejamento.json', tipo: 'Objetivo Estratégico (PEI)' }
     ];
 
-    // Busca ativa em todos os arquivos JSON do repositório
     for (const fonte of fontes) {
       try {
         const data = await loadJSON(fonte.file);
@@ -1550,4 +1549,44 @@
         </div>
       </div>`;
   }
-})();
+
+  // ===== RENDER: Planejamento Estratégico (PEI 2025-2027) =====
+  async function renderPlanejamento() {
+    const data = await loadJSON('planejamento.json');
+    if (!data) return render404();
+
+    app.innerHTML = `
+      <div class="page fade-in container">
+        <header class="page__header" style="border-bottom: 4px solid var(--blue-900); padding-bottom: 1.5rem; margin-bottom: 2rem;">
+          <h1 class="page__title">${data.titulo}</h1>
+          <p class="page__subtitle">Ciclo Estratégico: ${data.periodo}</p>
+        </header>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem; margin-bottom: 2rem;">
+          <div style="border-left: 5px solid var(--blue-900); background: #f8fafc; padding: 1.5rem; border-radius: 8px;">
+            <h2 style="color:var(--blue-900);">🎯 Missão</h2>
+            <p>"${data.missao}"</p>
+          </div>
+          <div style="border-left: 5px solid #f6ad55; background: #f8fafc; padding: 1.5rem; border-radius: 8px;">
+            <h2 style="color:#f6ad55;">👁️ Visão</h2>
+            <p>"${data.visao}"</p>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h2>Objetivos Estratégicos (BSC)</h2>
+          <div class="accordion-list">
+            ${data.objetivos_estrategicos.map(obj => `
+              <details style="background:white; border:1px solid #eee; margin-bottom:10px; border-radius:8px; padding:15px;">
+                <summary style="font-weight:700; cursor:pointer; color:var(--blue-900);">${obj.objetivo}</summary>
+                <div style="margin-top:15px; border-top:1px solid #eee; padding-top:15px;">
+                  <ul>${obj.acoes.map(a => `<li>${a}</li>`).join('')}</ul>
+                </div>
+              </details>
+            `).join('')}
+          </div>
+        </div>
+      </div>`;
+  }
+
+})(); // Encerra o arquivo principal
