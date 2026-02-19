@@ -1960,3 +1960,12 @@ details li {
 .nav__dropdown:hover .nav__submenu {
     display: block;
 }
+.nav {
+    position: relative;
+    z-index: 1000;
+    width: 100%;
+}
+
+.nav__dropdown {
+    position: relative;
+}
