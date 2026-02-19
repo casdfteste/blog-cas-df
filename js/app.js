@@ -24,69 +24,68 @@
     location.hash = path;
   }
 
-  window.addEventListener('hashchange', handleRoute);
-  window.addEventListener('DOMContentLoaded', () => {
-    setupMenu();
-    setupBackToTop();
-    loadSocialLinks();
-    handleRoute();
-  });
+ window.addEventListener('hashchange', handleRoute);
+  window.addEventListener('DOMContentLoaded', () => {
+    setupMenu();
+    setupBackToTop();
+    loadSocialLinks();
+    handleRoute(); // Chama a rota inicial
+  });
 
-  async function loadSocialLinks() {
-    try {
-      const config = await loadJSON('config.json');
-      const links = config.redes_sociais;
-      document.querySelectorAll('a[aria-label="Instagram"]').forEach(a => { a.href = links.instagram; });
-      document.querySelectorAll('a[aria-label="YouTube"]').forEach(a => { a.href = links.youtube; });
-      document.querySelectorAll('a[aria-label="Facebook"]').forEach(a => { a.href = links.facebook; });
-    } catch (e) { /* usa os links padrão do HTML */ }
-  }
+ async function handleRoute() {
+    const route = getRoute();
+    updateActiveNav(route);
+    
+    // Melhoria visual: Skeleton Screen institucional em vez de "Carregando..."
+    app.innerHTML = `
+      <div class="page fade-in container">
+        <div style="background:#eee; height:40px; width:30%; margin-bottom:20px; animation:pulse 1.5s infinite; border-radius:4px;"></div>
+        <div style="background:#eee; height:200px; width:100%; margin-bottom:20px; animation:pulse 1.5s infinite; border-radius:8px;"></div>
+      </div>`;
+      
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  async function handleRoute() {
-    const route = getRoute();
-    updateActiveNav(route);
-    app.innerHTML = '<div class="loading">Carregando...</div>';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Títulos dinâmicos para a aba do navegador (SEO Institucional)
+    const titulos = {
+      '/': 'Início - CAS/DF',
+      '/sobre': 'O Conselho - CAS/DF',
+      '/resolucoes': 'Resoluções e Atas - CAS/DF',
+      '/fiscalizacao': 'Fiscalização Digital - CAS/DF',
+      '/planejamento': 'PEI 2025-2027 - CAS/DF',
+      '/legislacao': 'Legislação - CAS/DF'
+    };
+    document.title = titulos[route] || 'CAS/DF - Conselho de Assistência Social';
 
-    try {
-      if (route === '/') await renderHome();
-      else if (route === '/sobre') await renderSobre();
-      else if (route === '/sobre/presidencia') await renderSobre('presidencia');
-      else if (route === '/sobre/secretaria') await renderSobre('secretaria');
-      else if (route === '/sobre/conselheiros') await renderSobre('conselheiros');
-      else if (route === '/sobre/comissoes') await renderSobre('comissoes');
-      else if (route === '/regimento') await renderRegimento();
-      else if (route === '/planejamento') await renderPlanejamento();
-      else if (route === '/resolucoes') await renderResolucoes();
-      else if (route === '/atas') await renderAtas();
-      else if (route === '/reunioes') await renderReunioes();
-      else if (route === '/lives') await renderLives();
-      else if (route === '/eleicoes') await renderEleicoes();
-      else if (route === '/conferencias') await renderConferencias();
-      else if (route === '/conferencias/regionais') await renderConferencias('regionais');
-      else if (route === '/entidades') await renderEntidades();
-      else if (route === '/fiscalizacao') await renderFiscalizacao();
-      else if (route === '/inscricao') await renderInscricao();
-      else if (route === '/legislacao') await renderLegislacao();
-      else if (route === '/legislacao/codigo-etica') await renderLegislacao('codigo-etica');
-      else if (route === '/legislacao/cas-df') await renderLegislacao('cas-df');
-      else if (route === '/legislacao/fas-df') await renderLegislacao('fas-df');
-      else if (route === '/legislacao/federais') await renderLegislacao('federais');
-      else if (route === '/legislacao/resolucoes-cnas') await renderLegislacao('resolucoes-cnas');
-      else if (route === '/contato') await renderContato();
-      else if (route === '/admin' || route.startsWith('/admin/')) {
-        const sub = route === '/admin' ? 'dashboard' : route.slice(7);
-        if (window.__renderAdmin) window.__renderAdmin(app, sub);
-        else render404();
-      }
-      else if (route.startsWith('/busca/')) await renderBusca(decodeURIComponent(route.slice(7)));
-      else if (route.startsWith('/post/')) await renderPost(parseInt(route.slice(6)));
-      else render404();
-    } catch (e) {
-      app.innerHTML = '<div class="page"><div class="no-results"><p class="no-results__icon">⚠️</p><p>Erro ao carregar conteúdo. Tente novamente.</p></div></div>';
-      console.error(e);
-    }
-  }
+    try {
+      if (route === '/') await renderHome();
+      else if (route === '/sobre') await renderSobre();
+      else if (route === '/sobre/presidencia') await renderSobre('presidencia');
+      else if (route === '/sobre/secretaria') await renderSobre('secretaria');
+      else if (route === '/sobre/conselheiros') await renderSobre('conselheiros');
+      else if (route === '/sobre/comissoes') await renderSobre('comissoes');
+      else if (route === '/regimento') await renderRegimento();
+      else if (route === '/planejamento') await renderPlanejamento(); // Rota do PEI
+      else if (route === '/resolucoes') await renderResolucoes();
+      else if (route === '/atas') await renderAtas();
+      else if (route === '/reunioes') await renderReunioes();
+      else if (route === '/lives') await renderLives();
+      else if (route === '/eleicoes') await renderEleicoes();
+      else if (route === '/conferencias') await renderConferencias();
+      else if (route === '/conferencias/regionais') await renderConferencias('regionais');
+      else if (route === '/entidades') await renderEntidades();
+      else if (route === '/fiscalizacao') await renderFiscalizacao(); // Rota de Inovação Digital
+      else if (route === '/inscricao') await renderInscricao();
+      else if (route === '/legislacao') await renderLegislacao();
+      else if (route.startsWith('/legislacao/')) await renderLegislacao(route.split('/')[2]);
+      else if (route === '/contato') await renderContato();
+      else if (route.startsWith('/busca/')) await renderBusca(decodeURIComponent(route.slice(7)));
+      else if (route.startsWith('/post/')) await renderPost(parseInt(route.slice(6)));
+      else render404();
+    } catch (e) {
+      app.innerHTML = '<div class="page"><div class="no-results"><p>⚠️ Erro ao carregar conteúdo institucional. Tente novamente.</p></div></div>';
+      console.error(e);
+    }
+  }
 
   // ===== Menu =====
   function setupMenu() {
@@ -1497,5 +1496,55 @@
         <a href="#/" class="btn btn--primary mt-2">Voltar ao Início</a>
       </div>`;
   }
+// ===== RENDER: Busca Transparente (Inovação Digital CAS/DF) =====
+  async function renderBusca(term) {
+    const q = term.toLowerCase();
+    const results = [];
+    
+    // Lista de fontes baseada na estrutura de dados do CAS/DF
+    const fontes = [
+      { file: 'posts.json', tipo: 'Notícia/Informativo' },
+      { file: 'documentos.json', tipo: 'Resolução ou Ata' },
+      { file: 'legislacao.json', tipo: 'Legislação Distrital/Federal' },
+      { file: 'entidades.json', tipo: 'Entidade Socioassistencial' },
+      { file: 'planejamento.json', tipo: 'Objetivo Estratégico (PEI)' }
+    ];
 
+    // Busca ativa em todos os arquivos JSON do repositório
+    for (const fonte of fontes) {
+      try {
+        const data = await loadJSON(fonte.file);
+        if (data && JSON.stringify(data).toLowerCase().includes(q)) {
+          results.push({ 
+            titulo: `Resultados em: ${fonte.tipo}`, 
+            link: `#/${fonte.file.replace('.json','')}`, 
+            tipo: fonte.tipo 
+          });
+        }
+      } catch(e) { console.error("Erro na busca da fonte:", fonte.file); }
+    }
+
+    app.innerHTML = `
+      <div class="page fade-in container">
+        <header class="page-header" style="border-bottom: 2px solid var(--blue-900); margin-bottom: 2rem; padding-bottom: 1rem;">
+          <h1>Resultado da Pesquisa</h1>
+          <p>Termo buscado: <strong>"${term}"</strong></p>
+        </header>
+        
+        <div class="search-grid" style="display: grid; gap: 15px;">
+          ${results.length > 0 ? results.map(r => `
+            <div class="card" style="padding: 20px; border: 1px solid #eee; border-left: 5px solid var(--blue-900); background: #fff; border-radius: 8px;">
+              <span class="badge" style="background: #f0f4f8; color: var(--blue-900); font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: bold;">${r.tipo}</span>
+              <h3 style="margin: 10px 0;"><a href="${r.link}" style="text-decoration: none; color: var(--blue-900);">${r.titulo}</a></h3>
+              <p style="font-size: 0.9rem; color: #666;">Clique para acessar os documentos e informações desta categoria.</p>
+            </div>
+          `).join('') : `
+            <div style="text-align: center; padding: 3rem; color: #666;">
+              <p style="font-size: 3rem;">🔍</p>
+              <p>Nenhum registro encontrado para "${term}" nos arquivos oficiais.</p>
+            </div>
+          `}
+        </div>
+      </div>`;
+  }
 })();
