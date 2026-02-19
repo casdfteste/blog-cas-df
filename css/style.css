@@ -1929,3 +1929,34 @@ details li {
   text-transform: uppercase;
   font-size: 0.75rem;
 }
+/* Correção de Emergência para o Menu */
+.nav__list {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    background-color: #003366 !important; /* Azul GDF */
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.nav__link {
+    color: white !important;
+    padding: 15px 20px !important;
+    display: block !important;
+    text-decoration: none !important;
+    font-size: 0.9rem !important;
+}
+
+/* Esconde o menu vertical que apareceu na foto */
+.nav__submenu {
+    display: none; /* Só aparece ao passar o mouse */
+    position: absolute;
+    background: #003366;
+}
+
+.nav__dropdown:hover .nav__submenu {
+    display: block;
+}
