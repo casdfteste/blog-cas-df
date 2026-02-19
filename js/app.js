@@ -56,35 +56,51 @@
     };
     document.title = titulos[route] || 'CAS/DF - Conselho de Assistência Social';
 
-    try {
-      if (route === '/') await renderHome();
-      else if (route === '/sobre') await renderSobre();
-      else if (route === '/sobre/presidencia') await renderSobre('presidencia');
-      else if (route === '/sobre/secretaria') await renderSobre('secretaria');
-      else if (route === '/sobre/conselheiros') await renderSobre('conselheiros');
-      else if (route === '/sobre/comissoes') await renderSobre('comissoes');
-      else if (route === '/regimento') await renderRegimento();
-      else if (route === '/planejamento') await renderPlanejamento(); // Rota do PEI
-      else if (route === '/resolucoes') await renderResolucoes();
-      else if (route === '/atas') await renderAtas();
-      else if (route === '/reunioes') await renderReunioes();
-      else if (route === '/lives') await renderLives();
-      else if (route === '/eleicoes') await renderEleicoes();
-      else if (route === '/conferencias') await renderConferencias();
-      else if (route === '/conferencias/regionais') await renderConferencias('regionais');
-      else if (route === '/entidades') await renderEntidades();
-      else if (route === '/fiscalizacao') await renderFiscalizacao(); // Rota de Inovação Digital
-      else if (route === '/inscricao') await renderInscricao();
-      else if (route === '/legislacao') await renderLegislacao();
-      else if (route.startsWith('/legislacao/')) await renderLegislacao(route.split('/')[2]);
-      else if (route === '/contato') await renderContato();
-      else if (route.startsWith('/busca/')) await renderBusca(decodeURIComponent(route.slice(7)));
-      else if (route.startsWith('/post/')) await renderPost(parseInt(route.slice(6)));
-      else render404();
-    } catch (e) {
-      app.innerHTML = '<div class="page"><div class="no-results"><p>⚠️ Erro ao carregar conteúdo institucional. Tente novamente.</p></div></div>';
-      console.error(e);
-    }
+   try {
+      // Rotas Principais e Institucionais
+      if (route === '/') await renderHome();
+      else if (route === '/planejamento') await renderPlanejamento(); // Atende ao OE do PEI [cite: 35, 92]
+      else if (route === '/inscricao') await renderInscricao(); // Inscrição de Entidades [cite: 290, 508]
+      
+      // Seção "Sobre o Conselho"
+      else if (route === '/sobre') await renderSobre();
+      else if (route === '/sobre/presidencia') await renderSobre('presidencia');
+      else if (route === '/sobre/secretaria') await renderSobre('secretaria');
+      else if (route === '/sobre/conselheiros') await renderSobre('conselheiros');
+      else if (route === '/sobre/comissoes') await renderSobre('comissoes');
+      
+      // Documentos e Transparência
+      else if (route === '/regimento') await renderRegimento();
+      else if (route === '/resolucoes') await renderResolucoes();
+      else if (route === '/atas') await renderAtas();
+      
+      // Participação Social e Eventos [cite: 336, 426]
+      else if (route === '/reunioes') await renderReunioes();
+      else if (route === '/lives') await renderLives();
+      else if (route === '/eleicoes') await renderEleicoes();
+      else if (route === '/conferencias') await renderConferencias();
+      else if (route === '/conferencias/regionais') await renderConferencias('regionais');
+      
+      // Controle e Fiscalização (Inovação Digital) [cite: 32, 93, 119]
+      else if (route === '/entidades') await renderEntidades();
+      else if (route === '/fiscalizacao') await renderFiscalizacao();
+      
+      // Legislação e Contato
+      else if (route === '/legislacao') await renderLegislacao();
+      else if (route.startsWith('/legislacao/')) await renderLegislacao(route.split('/')[2]);
+      else if (route === '/contato') await renderContato();
+      
+      // Sistemas Dinâmicos (Busca e Posts)
+      else if (route.startsWith('/busca/')) await renderBusca(decodeURIComponent(route.slice(7)));
+      else if (route.startsWith('/post/')) await renderPost(parseInt(route.slice(6)));
+      
+      // Página não encontrada
+      else render404();
+      
+    } catch (e) {
+      console.error("Erro na navegação:", e);
+      app.innerHTML = '<div class="container" style="padding:50px; text-align:center;"><h3>⚠️ Erro ao carregar conteúdo institucional.</h3><p>Verifique sua conexão ou tente novamente.</p></div>';
+    }
   }
 
   // ===== Menu =====
