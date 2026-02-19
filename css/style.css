@@ -1973,3 +1973,13 @@ details li {
 .nav__dropdown {
     position: relative;
 }
+/* Ajuste de Respiro entre o Menu e o Conteúdo */
+#header {
+    margin-bottom: 40px !important; /* Cria o espaço após o menu */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra leve para dar profundidade */
+}
+
+#app {
+    display: block !important;
+    padding-top: 10px !important;
+}
