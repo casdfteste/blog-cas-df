@@ -933,107 +933,74 @@
     return '<span class="fisc-prazo fisc-prazo--gray">' + (situacao || '-') + '</span>';
   }
 
- async function renderFiscalizacao() {
-  // 1. Carrega as informações fixas (leis, etapas) do arquivo JSON local
+async function renderFiscalizacao() {
   const data = await loadJSON('fiscalizacao.json');
-  
-  // 2. LINK DA SUA PLANILHA (Substitua pelo link CSV que você gerou)
+  // Certifique-se de colar o link CSV abaixo
   const sheetURL = 'COLE_AQUI_O_LINK_DO_CSV_GERADO_NA_PLANILHA';
 
-  // 3. Organiza o conteúdo que vem do JSON (Etapas e Resultados)
   let stepsHtml = data.processo.map(p => `
-    <div class="step">
-      <div class="step__number">${p.passo}</div>
-      <div class="step__content">
-        <p class="step__title">${p.titulo}</p>
-        <p class="step__desc">${p.descricao}</p>
+    <div class="step" style="display: flex; gap: 15px; margin-bottom: 20px;">
+      <div style="background: var(--blue-900); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">${p.passo}</div>
+      <div>
+        <p style="font-weight: bold; color: var(--blue-900); margin: 0;">${p.titulo}</p>
+        <p style="font-size: 0.9rem; color: #666; margin: 5px 0 0;">${p.descricao}</p>
       </div>
     </div>`).join('');
 
-  let resultadosHtml = data.resultados_possiveis.map(r => `
-    <div class="fisc-resultado fisc-resultado--${r.cor}" style="padding:15px; margin-bottom:10px; border-radius:8px; border-left:5px solid var(--blue-900); background:#f8fafc;">
-      <strong>${r.resultado}</strong>
-      <p style="margin-top:5px; font-size:0.9rem;">${r.descricao}</p>
-    </div>`).join('');
-
-  let itensHtml = data.itens_verificados.map(i => `<li>${i}</li>`).join('');
-
-  // 4. Constrói a estrutura visual da página
   app.innerHTML = `
-    <div class="page fade-in container">
-      ${breadcrumb([{href:'#/', label:'Início'}, {label:'Fiscalização de Entidades'}])}
-      
-      <div class="page__header">
-        <h1 class="page__title">${data.titulo}</h1>
-        <p class="page__subtitle">${data.descricao}</p>
+    <div class="page container fade-in" style="max-width: 1100px; margin: 0 auto; padding: 20px;">
+      <header style="border-bottom: 4px solid var(--blue-900); padding-bottom: 10px; margin-bottom: 30px;">
+        <h1 style="color: var(--blue-900);">${data.titulo}</h1>
+        <p style="color: #666;">${data.descricao}</p>
+      </header>
+
+      <div style="background: #fff; border: 1px solid #e2e8f0; border-left: 6px solid var(--blue-900); padding: 25px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h2 style="color: var(--blue-900); font-size: 1.25rem; margin-bottom: 20px;">📊 Monitoramento de Visitas (Tempo Real)</h2>
+        <div id="fiscDashboard"><p>Sincronizando com a base de dados...</p></div>
       </div>
 
-      <div class="info-section" style="border: 2px solid var(--blue-900); padding: 25px; border-radius: 12px; margin: 25px 0; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-        <h2 style="color: var(--blue-900); margin-bottom: 20px; display:flex; align-items:center; gap:10px;">
-          <span>📊</span> Monitoramento de Visitas (Tempo Real)
-        </h2>
-        <div id="fiscDashboard">
-          <p style="text-align:center; padding:20px; color:#666;">Conectando à base de dados oficial do CAS/DF...</p>
-        </div>
-      </div>
-
-      <div class="info-section">
-        <h2 class="info-section__title">Sobre o Processo</h2>
-        <p class="info-section__text">${data.sobre_fiscalizacao}</p>
-        <div style="margin-top:15px; padding:10px; background:#eee; border-radius:5px; font-size:0.9rem;">
-          <p><strong>Base legal:</strong> ${data.base_legal}</p>
-          <p><strong>Prazo padrão:</strong> ${data.prazo_padrao}</p>
-        </div>
-      </div>
-
-      <div class="section-title mt-2"><h2>Etapas do Fluxo de Fiscalização</h2></div>
-      <div class="steps">${stepsHtml}</div>
-
-      <div class="info-section mt-2">
-        <h2 class="info-section__title">Itens Verificados</h2>
-        <ul style="margin-left:20px; line-height:1.6;">${itensHtml}</ul>
-      </div>
-
-      <div class="section-title mt-2"><h2>Resultados e Pareceres</h2></div>
-      <div class="fisc-resultados">${resultadosHtml}</div>
-
-      <div class="info-section mt-2" style="background:#f1f5f9;">
-        <h2 class="info-section__title">Contato</h2>
-        <p><strong>E-mail:</strong> ${data.contato_fiscalizacao.email}</p>
-        <p><strong>Telefone:</strong> ${data.contato_fiscalizacao.telefone}</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <section>
+          <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Etapas do Processo</h2>
+          ${stepsHtml}
+        </section>
+        
+        <section>
+          <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Sobre a Fiscalização</h2>
+          <p style="line-height: 1.6;">${data.sobre_fiscalizacao}</p>
+          <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px solid #e2e8f0;">
+             <p><strong>Base legal:</strong> ${data.base_legal}</p>
+             <p><strong>Prazo padrão:</strong> ${data.prazo_padrao}</p>
+          </div>
+        </section>
       </div>
     </div>`;
 
-  // 5. BUSCA OS DADOS NA PLANILHA GOOGLE (A parte que automatiza a gestão)
   try {
     const response = await fetch(sheetURL);
-    if (!response.ok) throw new Error();
     const csvText = await response.text();
-    
-    // Converte CSV em linhas (Trata as aspas da planilha)
     const rows = csvText.split('\n').map(row => row.split(','));
     
     let tableHtml = `
       <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse: collapse; margin-top:10px;">
+        <table style="width:100%; border-collapse: collapse;">
           <thead>
-            <tr style="background:var(--blue-900); color:white; text-align:left;">
-              <th style="padding:12px; border-radius:8px 0 0 0;">Data da Visita</th>
-              <th style="padding:12px;">Entidade Fiscalizada</th>
-              <th style="padding:12px; border-radius:0 8px 0 0;">Status do Parecer</th>
+            <tr style="background:#f1f5f9; text-align:left; border-bottom: 2px solid #e2e8f0;">
+              <th style="padding:12px;">Data</th>
+              <th style="padding:12px;">Entidade</th>
+              <th style="padding:12px;">Status</th>
             </tr>
           </thead>
           <tbody>`;
 
-    // Preenche a tabela pulando o cabeçalho
     for (let i = 1; i < rows.length; i++) {
       const cols = rows[i];
       if (cols.length >= 3) {
         tableHtml += `
-          <tr style="border-bottom: 1px solid #edf2f7;">
+          <tr style="border-bottom: 1px solid #eee;">
             <td style="padding:12px; font-size:0.85rem; color:#64748b;">${cols[0].replace(/"/g, '')}</td>
-            <td style="padding:12px; font-weight:600; color:var(--blue-900);">${cols[1].replace(/"/g, '')}</td>
-            <td style="padding:12px;"><span class="badge" style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:20px; font-size:0.75rem;">${cols[2].replace(/"/g, '')}</span></td>
+            <td style="padding:12px; font-weight:bold; color:var(--blue-900);">${cols[1].replace(/"/g, '')}</td>
+            <td style="padding:12px;"><span style="background:#dcfce7; color:#166534; padding:4px 10px; border-radius:20px; font-size:0.75rem;">${cols[2].replace(/"/g, '')}</span></td>
           </tr>`;
       }
     }
@@ -1041,14 +1008,9 @@
     document.getElementById('fiscDashboard').innerHTML = tableHtml;
 
   } catch (e) {
-    document.getElementById('fiscDashboard').innerHTML = `
-      <div style="text-align:center; padding:20px; color:#64748b;">
-        <p>Painel em processo de sincronização.</p>
-        <small>As fiscalizações aparecerão aqui automaticamente após o envio do formulário.</small>
-      </div>`;
+    document.getElementById('fiscDashboard').innerHTML = '<p style="text-align:center; color:#666;">Painel aguardando registros do formulário.</p>';
   }
 }
-
     // Load live data if configured
     if (data.sheet_pub_key && data.sheet_gid) {
       try {
