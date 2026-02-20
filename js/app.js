@@ -693,7 +693,7 @@
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Calendário de Reuniões</h2>
-          <p class="info-section__text">As reuniões ordinárias acontecem na ${data.periodicidade.toLowerCase()}, às ${data.horario}.</p>
+          <p class="info-section__text">As reuniões ordinárias acontecem na ${data.periodicidade.toLowerCase()}, das ${data.horario}.</p>
           <p class="mt-1"><a href="#/reunioes" class="btn btn--primary">Ver calendário completo</a></p>
         </div>
       </div>`;
@@ -762,7 +762,7 @@
           <h2 class="info-section__title">Histórico de Conferências</h2>
           <table class="doc-table">
             <thead><tr><th>Edição</th><th>Ano</th><th>Tema</th></tr></thead>
-            <tbody>${data.historico.map(h => '<tr><td>' + h.edicao + 'a</td><td>' + h.ano + '</td><td>' + h.tema + '</td></tr>').join('')}</tbody>
+            <tbody>${data.historico.map(h => '<tr><td>' + h.edicao + 'ª</td><td>' + h.ano + '</td><td>' + h.tema + '</td></tr>').join('')}</tbody>
           </table>
         </div>`;
 
@@ -1342,7 +1342,7 @@
             <div style="padding:.5rem .75rem;font-size:.85rem;color:var(--gray-600);line-height:1.8">
               <p><strong>E-mail</strong><br>cas.df@sedes.df.gov.br</p>
               <p class="mt-1"><strong>Telefone</strong><br>(61) 3223-1532</p>
-              <p class="mt-1"><strong>Endereço</strong><br>SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasília/DF<br>CEP 70770-501</p>
+              <p class="mt-1"><strong>Endereço</strong><br>SEPN 515, Bloco A, Ed. Banco do Brasil, 1º andar, Asa Norte, Brasília/DF<br>CEP 70770-501</p>
               <p class="mt-1"><strong>Horário</strong><br>Seg a Sex, 9h às 17h</p>
             </div>
           </aside>
