@@ -378,7 +378,7 @@
         <div class="info-section">
           <h2 class="info-section__title">Competências</h2>
           <ul class="competências-list">
-            ${data.competências.map(c => '<li>' + c + '</li>').join('')}
+            ${data.competencias.map(c => '<li>' + c + '</li>').join('')}
           </ul>
         </div>`;
     } else if (active === 'presidencia') {
@@ -1190,14 +1190,14 @@
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
               <div>
                 <strong style="display:block;font-size:1rem">${cs.eprotocolo.titulo}</strong>
-                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.eprotocolo.instrução}</span>
+                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.eprotocolo.instrucao}</span>
               </div>
             </a>
-            <a href="${cs.orientações.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--accent);color:var(--white);border-radius:var(--radius-lg);text-decoration:none;transition:var(--transition);font-weight:600" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='var(--accent)'">
+            <a href="${cs.orientacoes.url}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--accent);color:var(--white);border-radius:var(--radius-lg);text-decoration:none;transition:var(--transition);font-weight:600" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background='var(--accent)'">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
               <div>
-                <strong style="display:block;font-size:1rem">${cs.orientações.titulo}</strong>
-                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.orientações.descricao}</span>
+                <strong style="display:block;font-size:1rem">${cs.orientacoes.titulo}</strong>
+                <span style="font-size:.82rem;opacity:.85;font-weight:400">${cs.orientacoes.descricao}</span>
               </div>
             </a>
           </div>
