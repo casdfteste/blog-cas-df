@@ -1929,57 +1929,108 @@ details li {
   text-transform: uppercase;
   font-size: 0.75rem;
 }
-/* Correção de Emergência para o Menu */
-.nav__list {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important; /* ISSO impede que o menu ocupe o site todo */
-    justify-content: center !important;
-    background-color: #003366 !important; 
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100% !important;
-    height: 50px !important; /* Limita a altura para não cobrir o conteúdo */
-    overflow: hidden !important; /* Garante que nada saia da barra */
-}
-
-.nav__link {
-    color: white !important;
-    padding: 0 15px !important;
-    line-height: 50px !important; /* Alinha o texto no centro da barra */
-    display: block !important;
-    text-decoration: none !important;
-    font-size: 0.85rem !important; /* Diminuir um pouco para caber tudo */
-    white-space: nowrap !important; /* Impede o texto de quebrar linha */
-}
-
-/* Esconde o menu vertical que apareceu na foto */
-.nav__submenu {
-    display: none; /* Só aparece ao passar o mouse */
-    position: absolute;
-    background: #003366;
-}
-
-.nav__dropdown:hover .nav__submenu {
-    display: block;
-}
+/* Ajustes do Menu */
 .nav {
     position: relative;
     z-index: 1000;
     width: 100%;
 }
 
+.nav__list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    background-color: #003366;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 50px;
+    overflow: visible; /* Permite que os dropdowns apareçam */
+}
+
+.nav__list > li {
+    position: relative;
+}
+
+.nav__link {
+    color: white !important;
+    padding: 0 15px;
+    line-height: 50px;
+    display: block;
+    text-decoration: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* Dropdown submenu */
+.nav__submenu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background: #003366;
+    list-style: none;
+    min-width: 200px;
+    padding: 0;
+    z-index: 1001;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.nav__submenu li { width: 100%; }
+
+.nav__submenu a {
+    display: block;
+    color: rgba(255,255,255,0.9);
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.nav__submenu a:hover {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+}
+
 .nav__dropdown {
     position: relative;
 }
+
+.nav__dropdown:hover .nav__submenu {
+    display: block;
+}
+
 /* Ajuste de Respiro entre o Menu e o Conteúdo */
 #header {
-    margin-bottom: 40px !important; /* Cria o espaço após o menu */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Sombra leve para dar profundidade */
+    margin-bottom: 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 #app {
-    display: block !important;
-    padding-top: 10px !important;
+    display: block;
+    padding-top: 10px;
+}
+
+/* Mobile: dropdown abre por clique */
+@media (max-width: 768px) {
+    .nav__list {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+    }
+    .nav__link {
+        line-height: normal;
+        padding: 12px 20px;
+    }
+    .nav__submenu {
+        position: static;
+        box-shadow: none;
+        border-radius: 0;
+        background: rgba(0,0,0,0.2);
+    }
+    .nav__dropdown:hover .nav__submenu { display: none; }
+    .nav__dropdown.open .nav__submenu { display: block; }
 }
