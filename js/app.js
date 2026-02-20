@@ -569,7 +569,7 @@
         <div class="accordion__body${i === 0 ? ' open' : ''}">
           <table class="doc-table">
             <thead><tr><th>Número</th><th>Título</th><th>Data</th><th>Link</th></tr></thead>
-            <tbody>${ano.documentos.map(d => `<tr><td>${d.numero}</td><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td><a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a></td></tr>`).join('')}</tbody>
+            <tbody>${ano.documentos.map(d => `<tr><td>${d.numero}</td><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td>${d.link && d.link !== '#' ? `<a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a>` : '<span style="color:var(--gray-400);font-size:.85rem">Pendente</span>'}</td></tr>`).join('')}</tbody>
           </table>
         </div>
       </div>`).join('');
@@ -599,7 +599,7 @@
         <div class="accordion__body${i === 0 ? ' open' : ''}">
           <table class="doc-table">
             <thead><tr><th>Título</th><th>Data</th><th>Link</th></tr></thead>
-            <tbody>${p.documentos.map(d => `<tr><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td><a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a></td></tr>`).join('')}</tbody>
+            <tbody>${p.documentos.map(d => `<tr><td>${d.titulo}</td><td>${shortDate(d.data)}</td><td>${d.link && d.link !== '#' ? `<a href="${d.link}" target="_blank" rel="noopener">Abrir PDF</a>` : '<span style="color:var(--gray-400);font-size:.85rem">Pendente</span>'}</td></tr>`).join('')}</tbody>
           </table>
         </div>
       </div>`).join('');
