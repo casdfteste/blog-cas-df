@@ -8,21 +8,21 @@
       "descricao": "Para entidades que nunca foram inscritas no CAS/DF."
     },
     {
-      "tipo": "Renovacao",
+      "tipo": "Renovação",
       "descricao": "Para entidades com inscrição vigente que desejam renovar."
     },
     {
-      "tipo": "Alteracao",
+      "tipo": "Alteração",
       "descricao": "Para entidades inscritas que precisam atualizar dados."
     }
   ],
   "como_solicitar": {
     "titulo": "Como solicitar a inscrição",
-    "descricao": "Os pedidos de inscrição e demais assuntos relacionados devem ser encaminhados via oficio pelo sistema e-Protocolo do Governo do Distrito Federal.",
+    "descricao": "Os pedidos de inscrição e demais assuntos relacionados devem ser encaminhados via ofício pelo sistema e-Protocolo do Governo do Distrito Federal.",
     "eprotocolo": {
       "titulo": "e-Protocolo GDF",
       "url": "https://sistemas.df.gov.br/Protocolo/Login",
-      "instrucao": "Acesse o sistema e-Protocolo para enviar seu oficio com o pedido de inscrição, renovação ou outros assuntos relacionados a inscrição no CAS/DF."
+      "instrucao": "Acesse o sistema e-Protocolo para enviar seu ofício com o pedido de inscrição, renovação ou outros assuntos relacionados à inscrição no CAS/DF."
     },
     "orientacoes": {
       "titulo": "Orientações e Modelo de Plano de Ação",
@@ -33,12 +33,12 @@
   "documentos_necessarios": [
     "Requerimento de inscrição (modelo disponível na pasta de orientações)",
     "Plano de Ação preenchido (modelo disponível na pasta de orientações)",
-    "Copia do Estatuto Social registrado em cartório",
-    "Copia da ata de eleição e posse da atual diretoria",
-    "Copia do CNPJ atualizado",
-    "Copia do documento de identidade do representante legal",
+    "Cópia do Estatuto Social registrado em cartório",
+    "Cópia da ata de eleição e posse da atual diretoria",
+    "Cópia do CNPJ atualizado",
+    "Cópia do documento de identidade do representante legal",
     "Relatório de atividades do ano anterior (para renovação)",
-    "Comprovante de endereco da sede no DF",
+    "Comprovante de endereço da sede no DF",
     "Declaração de que não remunera dirigentes"
   ],
   "passo_a_passo": [
@@ -50,27 +50,27 @@
     {
       "passo": 2,
       "titulo": "Reunir a documentação",
-      "descricao": "Reuna todos os documentos listados, incluindo o Plano de Ação preenchido. Certifique-se de que estao atualizados."
+      "descricao": "Reúna todos os documentos listados, incluindo o Plano de Ação preenchido. Certifique-se de que estão atualizados."
     },
     {
       "passo": 3,
       "titulo": "Protocolar via e-Protocolo",
-      "descricao": "Acesse o sistema e-Protocolo do GDF e envie o oficio com toda a documentação anexada."
+      "descricao": "Acesse o sistema e-Protocolo do GDF e envie o ofício com toda a documentação anexada."
     },
     {
       "passo": 4,
-      "titulo": "Analise pela CNIE",
-      "descricao": "A Comissão de Normas e Inscrição de Entidades analisara a documentação e podera solicitar complementações."
+      "titulo": "Análise pela CNIE",
+      "descricao": "A Comissão de Normas e Inscrição de Entidades analisará a documentação e poderá solicitar complementações."
     },
     {
       "passo": 5,
       "titulo": "Visita de verificação",
-      "descricao": "A CNIE podera realizar visita in loco para verificar as atividades declaradas."
+      "descricao": "A CNIE poderá realizar visita in loco para verificar as atividades declaradas."
     },
     {
       "passo": 6,
       "titulo": "Deliberação do plenário",
-      "descricao": "O parecer da CNIE é submetido a votação do plenário do CAS/DF."
+      "descricao": "O parecer da CNIE é submetido à votação do plenário do CAS/DF."
     },
     {
       "passo": 7,
@@ -78,7 +78,7 @@
       "descricao": "A resolução de deferimento ou indeferimento é publicada no DODF."
     }
   ],
-  "prazo": "O prazo médio de análise e de 60 dias uteis a partir do protocolo completo.",
+  "prazo": "O prazo médio de análise é de 60 dias úteis a partir do protocolo completo.",
   "contato": {
     "email": "cas.df@sedes.df.gov.br",
     "telefone": "(61) 3223-1532",

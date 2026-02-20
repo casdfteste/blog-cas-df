@@ -1,11 +1,11 @@
 {
   "titulo": "Conferências de Assistência Social",
-  "descricao": "As conferências de assistência social são espaços de debate, avaliação e proposição de diretrizes para a política de assistência social. Ocorrem nos ambitos regional, distrital e nacional.",
+  "descricao": "As conferências de assistência social são espaços de debate, avaliação e proposição de diretrizes para a política de assistência social. Ocorrem nos âmbitos regional, distrital e nacional.",
   "conferencias": [
     {
       "tipo": "Distrital",
       "nome": "XII Conferência Distrital de Assistência Social",
-      "tema": "Assistência Social: Direito do Povo e Dever do Estado, com financiamento público, para enfrentar as desigualdades e garantir protecao social",
+      "tema": "Assistência Social: Direito do Povo e Dever do Estado, com financiamento público, para enfrentar as desigualdades e garantir proteção social",
       "data": "Outubro de 2024",
       "local": "Centro de Convenções Ulysses Guimarães - Brasília/DF",
       "status": "Realizada",
@@ -15,14 +15,14 @@
       "tipo": "Nacional",
       "nome": "XIII Conferência Nacional de Assistência Social",
       "tema": "A definir pelo CNAS",
-      "data": "Previsao: 2025",
+      "data": "Previsão: 2025",
       "local": "Brasília/DF",
       "status": "Aguardando convocação",
       "deliberacoes_link": ""
     }
   ],
   "regionais": {
-    "descricao": "As conferências regionais sao etapas preparatórias da conferência distrital, realizadas nas Regiões Administrativas do DF.",
+    "descricao": "As conferências regionais são etapas preparatórias da conferência distrital, realizadas nas Regiões Administrativas do DF.",
     "etapas_2024": [
       {
         "regiao": "Plano Piloto e Lago Sul",
@@ -30,12 +30,12 @@
         "status": "Realizada"
       },
       {
-        "regiao": "Ceilandia e Samambaia",
+        "regiao": "Ceilândia e Samambaia",
         "data": "Agosto/2024",
         "status": "Realizada"
       },
       {
-        "regiao": "Taguatinga e Aguas Claras",
+        "regiao": "Taguatinga e Águas Claras",
         "data": "Setembro/2024",
         "status": "Realizada"
       },

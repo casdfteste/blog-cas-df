@@ -1,7 +1,7 @@
 {
   "titulo": "Reuniões do CAS/DF",
-  "descricao": "O CAS/DF realiza reuniões ordinárias mensais e extraordinarias quando necessário. As reuniões são abertas ao público.",
-  "local": "Auditorio da SEDES - SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasília/DF",
+  "descricao": "O CAS/DF realiza reuniões ordinárias mensais e extraordinárias quando necessário. As reuniões são abertas ao público.",
+  "local": "Auditório da SEDES - SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasília/DF",
   "horario": "14h às 17h",
   "periodicidade": "Terceira quarta-feira de cada mês",
   "pautas_recentes": [
@@ -20,7 +20,7 @@
       "tipo": "Ordinária",
       "itens": [
         "Aprovação da ata anterior",
-        "Votacao da Resolução sobre inscrição de entidades",
+        "Votação da Resolução sobre inscrição de entidades",
         "Planejamento da capacitação de conselheiros",
         "Informes gerais"
       ]

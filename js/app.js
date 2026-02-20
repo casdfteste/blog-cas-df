@@ -371,7 +371,7 @@
     if (active === 'geral') {
       content = `
         <div class="info-section">
-          <h2 class="info-section__title">O que e o CAS/DF</h2>
+          <h2 class="info-section__title">O que é o CAS/DF</h2>
           <p class="info-section__text">${data.descricao}</p>
           <p class="info-section__text mt-1"><strong>Base legal:</strong> ${data.base_legal}</p>
         </div>
@@ -403,7 +403,7 @@
           <ul class="mt-1">
             <li><strong>E-mail:</strong> ${sec.contato.email}</li>
             <li><strong>Telefone:</strong> ${sec.contato.telefone}</li>
-            <li><strong>Endereco:</strong> ${sec.contato.endereco}</li>
+            <li><strong>Endereço:</strong> ${sec.contato.endereco}</li>
           </ul>
         </div>
         ${membrosHtml}`;
@@ -643,7 +643,7 @@
           <h2 class="info-section__title">Informações Gerais</h2>
           <ul>
             <li><strong>Local:</strong> ${data.local}</li>
-            <li><strong>Horario:</strong> ${data.horario}</li>
+            <li><strong>Horário:</strong> ${data.horario}</li>
             <li><strong>Periodicidade:</strong> ${data.periodicidade}</li>
           </ul>
         </div>
@@ -693,7 +693,7 @@
         </div>
         <div class="info-section">
           <h2 class="info-section__title">Calendário de Reuniões</h2>
-          <p class="info-section__text">As reuniões ordinárias acontecem na ${data.periodicidade.toLowerCase()}, as ${data.horario}.</p>
+          <p class="info-section__text">As reuniões ordinárias acontecem na ${data.periodicidade.toLowerCase()}, às ${data.horario}.</p>
           <p class="mt-1"><a href="#/reunioes" class="btn btn--primary">Ver calendário completo</a></p>
         </div>
       </div>`;
@@ -945,6 +945,26 @@
         </div>
       </div>`).join('');
 
+    let itensHtml = data.itens_verificados ? data.itens_verificados.map(item => `<li>${item}</li>`).join('') : '';
+
+    let resultadosHtml = data.resultados_possiveis ? data.resultados_possiveis.map(r => {
+      const cores = {green:'#16a34a',yellow:'#ca8a04',red:'#dc2626',blue:'#2563eb'};
+      const cor = cores[r.cor] || '#666';
+      return `<div style="display:flex;align-items:flex-start;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--gray-100)">
+        <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${cor};flex-shrink:0;margin-top:4px"></span>
+        <div><strong>${r.resultado}</strong><br><span style="font-size:.85rem;color:var(--gray-500)">${r.descricao}</span></div>
+      </div>`;
+    }).join('') : '';
+
+    let contatoFiscHtml = data.contato_fiscalizacao ? `
+        <div class="info-section">
+          <h2 class="info-section__title">Contato da Fiscalização</h2>
+          <ul>
+            <li><strong>E-mail:</strong> ${data.contato_fiscalizacao.email}</li>
+            <li><strong>Telefone:</strong> ${data.contato_fiscalizacao.telefone}</li>
+          </ul>
+        </div>` : '';
+
     app.innerHTML = `
       <div class="page fade-in">
         ${breadcrumb([{href:'#/', label:'Início'}, {label:'Fiscalização'}])}
@@ -965,6 +985,15 @@
         </div>
         <div class="section-title mt-2"><h2>Etapas do Processo</h2></div>
         <div class="steps">${stepsHtml}</div>
+        ${itensHtml ? `<div class="info-section mt-2">
+          <h2 class="info-section__title">Itens Verificados na Fiscalização</h2>
+          <ul class="competências-list">${itensHtml}</ul>
+        </div>` : ''}
+        ${resultadosHtml ? `<div class="info-section">
+          <h2 class="info-section__title">Resultados Possíveis</h2>
+          ${resultadosHtml}
+        </div>` : ''}
+        ${contatoFiscHtml}
       </div>`;
 
     // Load live data if configured
@@ -1230,7 +1259,7 @@
               <strong>WhatsApp da Secretaria Executiva:</strong>
               <a href="https://wa.me/55${data.contato.whatsapp.replace(/\D/g,'')}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600"> ${data.contato.whatsapp}</a>
             </li>
-            <li><strong>Horario:</strong> ${data.contato.horario}</li>
+            <li><strong>Horário:</strong> ${data.contato.horario}</li>
           </ul>
         </div>
       </div>`;
@@ -1313,8 +1342,8 @@
             <div style="padding:.5rem .75rem;font-size:.85rem;color:var(--gray-600);line-height:1.8">
               <p><strong>E-mail</strong><br>cas.df@sedes.df.gov.br</p>
               <p class="mt-1"><strong>Telefone</strong><br>(61) 3223-1532</p>
-              <p class="mt-1"><strong>Endereco</strong><br>SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasília/DF<br>CEP 70770-501</p>
-              <p class="mt-1"><strong>Horario</strong><br>Seg a Sex, 9h às 17h</p>
+              <p class="mt-1"><strong>Endereço</strong><br>SEPN 515, Bloco A, Ed. Banco do Brasil, 1o andar, Asa Norte, Brasília/DF<br>CEP 70770-501</p>
+              <p class="mt-1"><strong>Horário</strong><br>Seg a Sex, 9h às 17h</p>
             </div>
           </aside>
           <div>

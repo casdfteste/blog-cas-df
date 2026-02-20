@@ -14,7 +14,7 @@
           },
           {
             "numero": "002/2025",
-            "titulo": "Aprova o calendário de reuniões ordinarias 2025",
+            "titulo": "Aprova o calendário de reuniões ordinárias 2025",
             "data": "2025-01-30",
             "link": "#"
           }
@@ -47,7 +47,7 @@
   },
   "atas": {
     "titulo": "Atas de Reuniões",
-    "descricao": "Atas das reuniões ordinárias e extraordinarias do CAS/DF.",
+    "descricao": "Atas das reuniões ordinárias e extraordinárias do CAS/DF.",
     "periodos": [
       {
         "periodo": "2025",
